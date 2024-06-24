@@ -2,31 +2,31 @@
   <div style="width: 640px; display:block; margin:0 auto;">
         <carousel :per-page="1" :center-mode="false" >
             <slide>
-                <img src="/img/smwp-title.jpg" />
+                <img src="/img/smwp-title.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-editor.jpg" />
+                <img src="/img/smwp-editor.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-blocks.jpg" />
+                <img src="/img/smwp-blocks.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-musicselector.jpg" />
+                <img src="/img/smwp-musicselector.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-additional.jpg" />
+                <img src="/img/smwp-additional.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-decade.png" />
+                <img src="/img/smwp-decade.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-nightsand.png" />
+                <img src="/img/smwp-nightsand.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-classicepic.png" />
+                <img src="/img/smwp-classicepic.webp" />
             </slide>
             <slide>
-                <img src="/img/smwp-muitfaceted.png" />
+                <img src="/img/smwp-muitfaceted.webp" />
             </slide>
         </carousel>
     </div>
