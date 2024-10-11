@@ -4,16 +4,16 @@ permalink: /downloads
 article: false
 date: 2022-03-31 00:19:26
 ---
-Super Mario Worker Project 的最新正式版本是 `v1.7.9`。
+Super Mario Worker Project 的最新正式版本是 `v1.7.10`。
 
-**[点击下载最新正式版本](https://file.marioforever.net/smwp/smwp-1.7.9.7z)**
+**[点击下载最新正式版本](https://file.marioforever.net/smwp/smwp-1.7.10.7z)**
 
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
-Super Mario Worker Project 的最新测试版本是 `v1.7.10-beta4`。
+Super Mario Worker Project 的最新测试版本是 `v1.7.10-beta4a`。此版本在窗口失焦时游戏不会暂停，适合有特定需求的用户使用。
 
-**[点击下载最新测试版本](https://file.marioforever.net/smwp/smwp-1.7.10-beta4.7z)**
+**[点击下载最新测试版本](https://file.marioforever.net/smwp/smwp-1.7.10-beta4a.7z)**
 
 ## 其他下载渠道
 - [Mario Forever 社区资源站](https://file.marioforever.net/smwp)
@@ -52,260 +52,249 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.10-beta4`。
         <th>数据包</th>
     </tr>
     <tr>
+        <td>v1.7.10</td>
+        <td>2024-10-12</td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/smwp-1.7.10.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+    </tr>
+    <tr>
         <td>v1.7.9</td>
         <td>2022-07-24</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/smwp-1.7.9.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/smwp-1.7.9.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.8</td>
         <td>2021-07-11</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/smwp-1.7.8.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/smwp-1.7.8.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.7</td>
         <td>2021-05-03</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/smwp-1.7.7.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/smwp-1.7.7.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.6</td>
         <td>2020-07-27</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.6.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.6.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.5</td>
         <td>2020-07-11</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.5.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.5.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.4</td>
         <td>2020-06-26</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.4.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.4.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.3</td>
         <td>2020-06-13</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.3.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.3.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.2_Fix1</td>
         <td>2020-06-03</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.2_Fix.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.2_Fix.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.2</td>
         <td>2020-06-01</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.2.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.2.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.0</td>
         <td>2020-05-24</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.0.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.7.0.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.6.5</td>
         <td>2019-07-15</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.5.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.5.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.6.3</td>
         <td>2019-06-20</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.3.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.3.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.6.2_Fix1</td>
         <td>2019-05-12</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.2_Fix.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.2_Fix.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.6.2</td>
         <td>2019-04-30</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.2.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.2.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.6.1</td>
         <td>2019-03-24</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.1.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.1.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.6.0_Fix1</td>
         <td>2019-02-19</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.0_Fix.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.0_Fix.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.6.0</td>
         <td>2019-02-18</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.0.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.6.0.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.5.2_Fix2</td>
         <td>2018-09-02</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.2_Fix2.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.2_Fix2.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.5.2_Fix1</td>
         <td>2018-08-29</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.2_Fix.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.2_Fix.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.5.2</td>
         <td>2018-08-28</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.2.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.2.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.5.0</td>
         <td>2018-08-19</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.0.7z">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.5.0.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.4.5</td>
         <td>2018-07-13</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.5.zip">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.5.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
     </tr>
     <tr>
         <td>v1.4.4</td>
         <td>2018-07-03</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.4.zip">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.4.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
     </tr>
     <tr>
         <td>v1.4.1</td>
         <td>2018-03-18</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.1.zip">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.1.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
     </tr>
     <tr>
         <td>v1.4.0</td>
         <td>2018-02-28</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.0.zip">下载</a></td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.4.0.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.zip">下载</a></td>
     </tr>
     <tr>
         <td>v1.3.1_Fix2</td>
         <td>2018-02-05</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.3.1_Fix2.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.3.1_Fix2.zip">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.3.1</td>
         <td>2017-10-14</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.3.1.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.3.1.zip">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.3.0</td>
         <td>2017-08-16</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.3.0.zipf">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.3.0.zipf">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.2.7</td>
         <td>2017-08-05</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.7.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.7.zip">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.2.2</td>
         <td>2017-07-28</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.2.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.2.zip">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.2.0_Fix2</td>
         <td>2017-06-28</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.0_Fix2.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.0_Fix2.zip">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.2.0_Fix1</td>
         <td>2017-06-27</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.0_Fix.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.0_Fix.zip">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.2.0</td>
         <td>2017-06-27</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.0.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.2.0.zip">下载</a></td>
         <td>已自带</td>
     </tr>
     <tr>
         <td>v1.1.0</td>
         <td>2017-06-15</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.1.0.zip">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v1.1.0.zip">下载</a></td>
         <td>需原版 MW</td>
     </tr>
     <tr>
         <td>v0.2.4_Fix1</td>
         <td>2016-07-07</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v0.2.4_Fix.rar">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v0.2.4_Fix.rar">下载</a></td>
         <td>需原版 MW</td>
     </tr>
     <tr>
         <td>v0.2.2</td>
         <td>2016-07-02</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v0.2.2.rar">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v0.2.2.rar">下载</a></td>
         <td>需原版 MW</td>
     </tr>
     <tr>
         <td>v0.2.0</td>
         <td>2016-06-27</td>
-        <td><a target="_blank" rel="noreferrer" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v0.2.0.rar">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/SuperMarioWorkerProject_v0.2.0.rar">下载</a></td>
         <td>需原版 MW</td>
     </tr>
 </table>
 
 ## 更新日志
-### v1.7.10-beta4 (2023-01-09)
-#### 问题修复
-- 修复了每次死亡后敌人优化设定都会重置的 Bug。
-- 修复了 v1.7.10 的蔚蓝模式下，阴阳砖判定有误导致马里奥卡住的 Bug。
-
-### v1.7.10-beta3 (2023-01-07)
-#### 关卡功能
-- 现在按住 F1 可以查看是否开启敌人优化了。
-#### 问题修复
-- 修复了爬行类敌人在“敌人优化”关闭时抽风的 Bug。
-
-### v1.7.10-beta2 (2023-01-04)
+### v1.7.10 (2024-10-12)
 #### 编辑器
 - 增加了可选项“MF Style Pipe Exit”，若选择 YES 则出水管时取消无敌时间，默认为 NO。
 - 修改了一些可选项的默认状态：二级功能默认为关闭；蔚蓝模式默认为打开。
 - 若使用 F3/F4 测试关卡，测试结束后，编辑界面自动回到测试前所在镜头位置。
 #### 关卡功能
-- 在运行关卡时，取消掉了原来的“按 F11 进入 Smooth 模式”。取而代之的是，按 F11 能够切换“是否启用敌人优化”。所谓“敌人优化”，是指 1.7.10-beta 版针对敌人过多造成卡顿问题的相关优化，能有效改善大型关卡的卡顿问题。此项优化的副作用是，敌人与实心重叠时的一些行为会与旧版本不一样，若利用了此类特性制作关卡，游玩时需关闭敌人优化。1.7.10 及以上版本默认开启敌人优化，以下版本则默认关闭。
-#### 问题修复
-- 修复了 v1.7.10-beta1 中 Fast Retry 复活时背景音乐抽风的 Bug。
-- 修正了一个小细节：横向出水管的瞬间，马里奥位置过于偏右（偏了 16 像素）。1.7.10 之前版本的关卡不受此改动影响。（但需注意，旧版本关卡使用 1.7.10 修改测试保存后，会自动应用此修正。这可能会影响一些在旧版本中手动修正过此问题的关卡。）
-
-### v1.7.10-beta1 (2022-08-19)
-#### 关卡功能
-- 对 SMWP 的关卡运行效率进行了重大优化：
 - 修复了大型关卡中水管出入口过多会导致卡顿的问题。
 - 减轻了 Celeste 模式下阴阳砖过多导致的额外卡顿。
 - 减轻了大型关卡中活动对象（如板栗、刺猬、乌龟、蘑菇等）造成的额外卡顿。
+- 在运行关卡时，取消掉了原来的“按 F11 进入 Smooth 模式”。取而代之的是，按 F11 能够切换“是否启用敌人优化”。所谓“敌人优化”，是指 1.7.10-beta 版针对敌人过多造成卡顿问题的相关优化，能有效改善大型关卡的卡顿问题。此项优化的副作用是，敌人与实心重叠时的一些行为会与旧版本不一样，若利用了此类特性制作关卡，游玩时需关闭敌人优化。1.7.10 及以上版本默认开启敌人优化，以下版本则默认关闭。按住 F1 可以查看是否开启敌人优化。
 #### 问题修复
 - 修复了水上水下特效背景音乐“SMG BEACHBOWL GALAXY”遇到 Fast Retry 或通关时抽风的 Bug。
+- 修正了一个小细节：横向出水管的瞬间，马里奥位置过于偏右（偏了 16 像素）。1.7.10 之前版本的关卡不受此改动影响。（但需注意，旧版本关卡使用 1.7.10 修改测试保存后，会自动应用此修正。这可能会影响一些在旧版本中手动修正过此问题的关卡。）
 
 ### v1.7.9 (2022-07-24)
 #### 编辑器
