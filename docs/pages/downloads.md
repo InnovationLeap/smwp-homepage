@@ -8,6 +8,11 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.10`。
 
 **[点击下载最新正式版本](https://file.marioforever.net/smwp/smwp-1.7.10.7z)**
 
+## 重要提示
+近期有用户报告启动 SMWP 时卡死，这是因为部分地区无法连接更新服务器。如遇此情况，可采用以下方法临时解决：
+- 打开 SMWP 前临时断网；
+- 暂时关闭检测更新。可以在 SMWP 主界面设置中关闭，SMWP 无法打开时需修改游戏目录下 `GameSettings.ini`，添加一行 `AutoCheckUpdates=0`（如已存在 `AutoCheckUpdates` 则将该项的值改为 `0`）。
+
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
