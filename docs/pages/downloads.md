@@ -8,17 +8,14 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.10`。
 
 **[点击下载最新正式版本](https://file.marioforever.net/smwp/smwp-1.7.10.7z)**
 
-## 重要提示
-近期有用户报告启动 SMWP 时卡死，这是因为部分地区无法连接更新服务器。如遇此情况，可采用以下方法临时解决：
-- 打开 SMWP 前临时断网；
-- 暂时关闭检测更新。可以在 SMWP 主界面设置中关闭，SMWP 无法打开时需修改游戏目录下 `GameSettings.ini`，添加一行 `AutoCheckUpdates=0`（如已存在 `AutoCheckUpdates` 则将该项的值改为 `0`）。
-
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
-Super Mario Worker Project 的最新测试版本是 `v1.7.10-beta4a`。此版本在窗口失焦时游戏不会暂停，适合有特定需求的用户使用。
+Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta1`，支持自定义音乐，新增纯色 Block、新背景、新敌人，并进行了诸多改进优化。
 
-**[点击下载最新测试版本](https://file.marioforever.net/smwp/smwp-1.7.10-beta4a.7z)**
+- **[点击下载 v1.7.11-beta1](https://file.marioforever.net/smwp/smwp-1.7.11-beta1.7z)**
+- **[点击下载 v1.7.11-beta1a](https://file.marioforever.net/smwp/smwp-1.7.11-beta1a.7z)**
+- **[点击下载 v1.7.11-beta1b](https://file.marioforever.net/smwp/smwp-1.7.11-beta1b.7z)**
 
 ## 其他下载渠道
 - [Mario Forever 社区资源站](https://file.marioforever.net/smwp)
@@ -287,6 +284,27 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.10-beta4a`。此版本
 </table>
 
 ## 更新日志
+## v1.7.11-beta1 (2025-07-08)
+### 编辑功能
+- 自定义音乐功能上线，用户可以创建自己作品的音乐包，音乐包可放置在 SMWP 的自定义音乐文件夹，也可放置在 smws/smwp 文件所在位置。
+- 创建 smwp 文件时，现在会询问是否再创建一个 smws 文件。
+- 开关砖、奖励物、景物、敌人现在支持拖动摆放。
+- F5 隐藏实心开启时，如选择任意实心物件，则自动关闭隐藏实心。
+- 虚实阴阳砖可通过按下鼠标中键切换。
+### 关卡功能
+- 新增敌人：蓝食人花（打不死、不害羞）、灰食人花、灰刺猬云。
+- 新增 Block：纯色块、纯色水管。
+- 新增背景：深秘森林、休闲海滩、余晖渐变。
+- 现在，在关卡中按 F1 时，关卡信息会显示在屏幕左下方，标题栏会显示关卡作者和关卡的 SMWP 版本代号。
+### 问题修复
+- 尝试性添加信息插件字体缓存清理。
+- 修复了通关杠得分与分数贴图不符的 Bug。
+- 修复了鱼的尸体 X 坐标向左偏移 16 像素的 Bug。
+- 修复了金币等物品可能会在同一个地方摆放多个的 Bug。
+### 其他
+- 窗口标题添加版本号。
+- 移除了检测更新功能，现在打开游戏会直接显示 INL Logo 并自动进入主界面。
+
 ### v1.7.10 (2024-10-12)
 #### 编辑器
 - 增加了可选项“MF Style Pipe Exit”，若选择 YES 则出水管时取消无敌时间，默认为 NO。
