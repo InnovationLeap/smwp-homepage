@@ -11,11 +11,11 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.10`。
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
-Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta1`，支持自定义音乐，新增纯色 Block、新背景、新敌人，并进行了诸多改进优化。
+Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta2`，支持自定义音乐，新增纯色 Block、新背景、新敌人，并进行了诸多改进优化。
 
-- **[点击下载 v1.7.11-beta1](https://file.marioforever.net/smwp/smwp-1.7.11-beta1.7z)**
-- **[点击下载 v1.7.11-beta1a](https://file.marioforever.net/smwp/smwp-1.7.11-beta1a.7z)**
-- **[点击下载 v1.7.11-beta1b](https://file.marioforever.net/smwp/smwp-1.7.11-beta1b.7z)**
+- **[点击下载 v1.7.11-beta2](https://file.marioforever.net/smwp/smwp-1.7.11-beta2.7z)**
+- **[点击下载 v1.7.11-beta2a](https://file.marioforever.net/smwp/smwp-1.7.11-beta2a.7z)**
+- **[点击下载 v1.7.11-beta2b](https://file.marioforever.net/smwp/smwp-1.7.11-beta2b.7z)**
 
 ## 其他下载渠道
 - [Mario Forever 社区资源站](https://file.marioforever.net/smwp)
@@ -284,6 +284,14 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta1`，支持自�
 </table>
 
 ## 更新日志
+## v1.7.11-beta2 (2025-07-09)
+## 关卡功能
+- 新增了六个纯色块。
+- 调整了蓝食人花、灰食人花与龟壳的交互。
+### 问题修复
+- 修复了运动龟壳撞刺球刷命的 Bug。
+- 修复了白水管素材与纯色白水管不一致的问题。
+
 ## v1.7.11-beta1 (2025-07-08)
 ### 编辑功能
 - 自定义音乐功能上线，用户可以创建自己作品的音乐包，音乐包可放置在 SMWP 的自定义音乐文件夹，也可放置在 smws/smwp 文件所在位置。
@@ -292,7 +300,7 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta1`，支持自�
 - F5 隐藏实心开启时，如选择任意实心物件，则自动关闭隐藏实心。
 - 虚实阴阳砖可通过按下鼠标中键切换。
 ### 关卡功能
-- 新增敌人：蓝食人花（打不死、不害羞）、灰食人花、灰刺猬云。
+- 新增敌人：蓝食人花（打不死、不害羞）、灰食人花（打不死、害羞）、灰刺猬云。
 - 新增 Block：纯色块、纯色水管。
 - 新增背景：深秘森林、休闲海滩、余晖渐变。
 - 现在，在关卡中按 F1 时，关卡信息会显示在屏幕左下方，标题栏会显示关卡作者和关卡的 SMWP 版本代号。
