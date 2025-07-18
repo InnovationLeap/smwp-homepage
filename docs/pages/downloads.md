@@ -4,9 +4,16 @@ permalink: /downloads
 article: false
 date: 2022-03-31 00:19:26
 ---
-Super Mario Worker Project 的最新正式版本是 `v1.7.10`。
+Super Mario Worker Project 的最新正式版本是 `v1.7.11`。
 
-**[点击下载最新正式版本](https://file.marioforever.net/smwp/smwp-1.7.10.7z)**
+- **[点击下载 v1.7.11](https://file.marioforever.net/smwp/smwp-1.7.11.7z)**
+- **[点击下载 v1.7.11a](https://file.marioforever.net/smwp/smwp-1.7.11a.7z)**
+- **[点击下载 v1.7.11b](https://file.marioforever.net/smwp/smwp-1.7.11b.7z)**
+
+三个版本的差异如下：
+- 标准版：SMWP 窗口未激活时游戏会暂停（失焦暂停）
+- a 版：不会失焦暂停
+- b 版：在 a 版基础上，将游玩操作代码中的 `keyboard_check` 替换为 `keyboard_check_direct`，对操作向作品更友好。
 
 ## 重要提示
 近期有用户反馈 SMWP 无法启动。经确认，该问题源于信息插件 FoxWriting 与 Windows 11 24H2 在英特尔第 12 至 14 代酷睿（采用混合架构）及所有酷睿 Ultra 系列处理器上的兼容性冲突。在该问题修复之前，建议使用上述 CPU 的 SMWP 用户避免使用 Windows 11 24H2 系统。对于已预装或已升级至 24H2 的用户，如遇无法启动的情况，可考虑重装较低版本的系统，并暂时不要更新至 24H2。如不便重装系统，也可联系 INNOVATION LEAP 获取移除 FoxWriting 插件的特别版 SMWP。
@@ -55,6 +62,12 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta2`，支持自�
         <th>发布日期</th>
         <th>游戏本体</th>
         <th>数据包</th>
+    </tr>
+    <tr>
+        <td>v1.7.11</td>
+        <td>2025-07-18</td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/smwp-1.7.11.7z">下载</a></td>
+        <td><a target="_blank" href="https://file.marioforever.net/smwp/Data.7z">下载</a></td>
     </tr>
     <tr>
         <td>v1.7.10</td>
@@ -287,15 +300,7 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta2`，支持自�
 </table>
 
 ## 更新日志
-### v1.7.11-beta2 (2025-07-09)
-#### 关卡功能
-- 新增了六个纯色块。
-- 调整了蓝食人花、灰食人花与运动龟壳的交互。
-#### 问题修复
-- 修复了运动龟壳撞刺球刷命的 Bug。
-- 修复了白水管素材与纯色白水管不一致的问题。
-
-### v1.7.11-beta1 (2025-07-08)
+### v1.7.11 (2025-07-18)
 #### 编辑功能
 - 自定义音乐功能上线，用户可以创建自己作品的音乐包，音乐包可放置在 SMWP 的自定义音乐文件夹，也可放置在 smws/smwp 文件所在位置。
 - 创建 smwp 文件时，现在会询问是否再创建一个 smws 文件。
@@ -312,6 +317,8 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta2`，支持自�
 - 修复了通关杠得分与分数贴图不符的 Bug。
 - 修复了鱼的尸体 X 坐标向左偏移 16 像素的 Bug。
 - 修复了金币等物品可能会在同一个地方摆放多个的 Bug。
+- 修复了运动龟壳撞刺球刷命的 Bug。
+- 修复了白水管素材与纯色白水管不一致的问题。
 #### 其他
 - 窗口标题添加版本号。
 - 移除了检测更新功能，现在打开游戏会直接显示 INL Logo 并自动进入主界面。
