@@ -21,11 +21,10 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.11`。
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
-Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta2`，支持自定义音乐，新增纯色 Block、新背景、新敌人，并进行了诸多改进优化。
+Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta1`，新增天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。
 
-- **[点击下载 v1.7.11-beta2](https://file.marioforever.net/smwp/smwp-1.7.11-beta2.7z)**
-- **[点击下载 v1.7.11-beta2a](https://file.marioforever.net/smwp/smwp-1.7.11-beta2a.7z)**
-- **[点击下载 v1.7.11-beta2b](https://file.marioforever.net/smwp/smwp-1.7.11-beta2b.7z)**
+- **[点击下载 v1.7.12-beta1](https://file.marioforever.net/smwp/smwp-1.7.12-beta1.7z)**
+- **[点击下载 v1.7.12-beta1a](https://file.marioforever.net/smwp/smwp-1.7.12-beta1a.7z)**
 
 ## 其他下载渠道
 - [Mario Forever 社区资源站](https://file.marioforever.net/smwp)
@@ -300,6 +299,28 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.11-beta2`，支持自�
 </table>
 
 ## 更新日志
+### v1.7.12-beta1 (2025-07-20)
+#### 编辑功能
+- 关卡标题 WORLD 一行现在可以自定义。
+- 更改敌人选择界面素材。
+- God 模式摄像机模式下，支持显示马里奥坐标。
+- 摆放 Blocks 时，按 Sub Menu 键可以切换是否在摆放 Block 的同时放置实心。
+- 优化了模仿者模式下光标的透明度，以防遮挡视野。
+- 增加了编辑界面中隐藏砖的透明度，以便区分。
+- 编辑界面支持 Ctrl+S 保存。
+- 蓝飞龟现限制在编辑界面第一行摆放，以防出现无法设置跳跃高度，导致无法进行其他操作的问题。
+#### 关卡功能
+- 天气系统：支持雨、流星、雪、闪电、风，黑暗遮罩和与之相对的照明系统；支持照明的物件可以通过选择界面按鼠标右键单独设置；场景控制元件支持控制天气。
+- 增加四方向扎地食人花、MW 刺、MF 刺。
+- 游玩单关时，命数可以自定义，可以在全局设置中更改。
+- 现在支持在关卡开头按死多个按键（同时，第 1 帧禁止空中起跳）。
+- 新增隐藏 HUD 的可选项。
+- 新增快速过关的可选项。
+- 新增石盾可以砸砖的可选项。
+- 自爆键 Q 现可自定义。
+#### 其他
+- 更新了 INL Logo 动画。
+
 ### v1.7.11 (2025-07-18)
 #### 编辑功能
 - 自定义音乐功能上线，用户可以创建自己作品的音乐包，音乐包可放置在 SMWP 的自定义音乐文件夹，也可放置在 smws/smwp 文件所在位置。
