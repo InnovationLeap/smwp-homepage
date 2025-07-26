@@ -21,10 +21,10 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.11`。
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
-Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta1`，新增了天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。
+Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta2`，新增了天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。
 
-- **[点击下载 v1.7.12-beta1](https://file.marioforever.net/smwp/smwp-1.7.12-beta1.7z)**
-- **[点击下载 v1.7.12-beta1a](https://file.marioforever.net/smwp/smwp-1.7.12-beta1a.7z)**
+- **[点击下载 v1.7.12-beta2](https://file.marioforever.net/smwp/smwp-1.7.12-beta2.7z)**
+- **[点击下载 v1.7.12-beta2a](https://file.marioforever.net/smwp/smwp-1.7.12-beta2a.7z)**
 
 ## 其他下载渠道
 - [Mario Forever 社区资源站](https://file.marioforever.net/smwp)
@@ -299,6 +299,22 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta1`，新增了�
 </table>
 
 ## 更新日志
+### v1.7.12-beta2 (2025-07-26)
+#### 编辑功能
+- 现在无需点击鼠标中键，光照设置自动显示。
+#### 问题修复
+- 修复了场景控制元件放置不定个后无法继续放置的问题。
+- 修复了石盾砸两块砖只触发其中一块的问题。
+- 修复了场景控制元件设置发光效果无效的问题。
+- 修复了读取保存后场景的天气系统被重置的问题。
+- 修复了未在摆放 Blocks 也可以按 Sub Menu 键也能听见音效的问题。
+- 修复了场景控制元件询问是否设置天气时选 No 无效的问题。
+- 修复了在设置探照灯参数、金飞龟参数、跳乌龟参数、游鱼路径、镜头区域、水位区域时可以按 Ctrl+S 保存的问题。
+- 调整了大马里奥状态时光圈的位置，调整了摄像机模式下光圈的位置。
+- 修复了 God 模式下先按上键再进入摄像机模式时会上移 8 像素的问题。
+#### 已知问题
+- 旧版关卡在 1.7.12 中设置照明后，照明位置可能偏移。
+
 ### v1.7.12-beta1 (2025-07-20)
 #### 编辑功能
 - 关卡标题 WORLD 一行现在可以自定义。
