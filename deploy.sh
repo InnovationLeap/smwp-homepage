@@ -3,22 +3,25 @@
 # 确保脚本抛出遇到的错误
 set -e
 
-
-push_addr=`git remote get-url --push origin` # git提交地址，也可以手动设置，比如：push_addr=git@github.com:xugaoyi/vuepress-theme-vdoing.git
-commit_info=`git describe --all --always --long`
+# 设置工作目录和分支
+WORK_DIR=/data/smwp-homepage
+BRANCH=master # 根据需要修改分支名
 dist_path=docs/.vuepress/dist # 打包生成的文件夹路径
-push_branch=gh-pages # 推送的分支
 
-# 生成静态文件
+# 进入工作目录
+cd $WORK_DIR || exit
+
+# 拉取最新代码
+git pull origin $BRANCH
+
+# 安装依赖和构建
+npm install
 npm run build
 
-# 进入生成的文件夹
-cd $dist_path
+# 将构建结果复制到目标路径
+echo "**************************** 本地部署 *************************"
+rsync -av --checksum --delete $dist_path /data/wwwroot/smwp.marioforever.net/
+chown -R www-data:www-data /data/wwwroot/smwp.marioforever.net/
+echo "**************************** 部署成功 *************************"
 
-git init
-git add -A
-git commit -m "deploy, $commit_info"
-git push -f $push_addr HEAD:$push_branch
-
-cd -
 rm -rf $dist_path
