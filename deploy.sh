@@ -6,7 +6,7 @@ set -e
 # 设置工作目录和分支
 WORK_DIR=/data/smwp-homepage
 BRANCH=master # 根据需要修改分支名
-dist_path=docs/.vuepress/dist # 打包生成的文件夹路径
+dist_path=docs/.vuepress/dist/ # 打包生成的文件夹路径
 
 # 进入工作目录
 cd $WORK_DIR || exit
@@ -15,7 +15,6 @@ cd $WORK_DIR || exit
 git pull origin $BRANCH
 
 # 安装依赖和构建
-npm install
 npm run build
 
 # 将构建结果复制到目标路径
