@@ -45,7 +45,7 @@ Super Mario Worker Project（SMWP）是由 INNOVATION LEAP 基于 Mario Worker 1
 更多更新日志请查阅：[**下载页**](/downloads/)
 
 ## 特性介绍
-<iframe class="video-iframe" width="100%" v-resize="{ log: true }" src="//player.bilibili.com/player.html?aid=765365808&bvid=BV1Zr4y1m7My&cid=545062068&page=1&high_quality=1" scrolling="no" frameborder="no" seamless="" framespacing="0" allowfullscreen="true"></iframe>
+<iframe class="video-iframe" width="100%" v-resize="{ log: true }" src="//player.bilibili.com/player.html?aid=765365808&bvid=BV1Zr4y1m7My&cid=545062068&page=1&high_quality=1&autoplay=0" scrolling="no" frameborder="no" seamless="" framespacing="0" allowfullscreen="true"></iframe>
 
 ## 图集
 <ClientOnly>
