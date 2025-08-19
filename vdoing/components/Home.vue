@@ -434,6 +434,10 @@ export default {
           height 300px
           width 100%
           text-align center
+          display flex
+          flex-direction column
+          justify-content flex-start
+          padding-top 2rem
           a
             // color lighten($bannerTextColor,10%)
             color inherit
@@ -445,12 +449,14 @@ export default {
               font-weight 500
               border-bottom none
               padding-bottom 0
+              margin-top 1rem
             p
               opacity 0.8
               padding 0 0.8rem
+              margin-top 0.5rem
       .docs-wrapper
         position absolute
-        bottom 25px
+        bottom 10px
         left 50%
         transform translateX(-50%)
         .doc
@@ -519,6 +525,8 @@ export default {
 // 419px以下
 @media (max-width $MQMobileNarrow)
   .home-wrapper
+    .banner
+      min-height 700px !important
     .banner-conent
       padding-left 1.5rem
       padding-right 1.5rem
