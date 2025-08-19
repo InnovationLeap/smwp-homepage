@@ -424,20 +424,22 @@ export default {
       margin-top 2rem
       .banner-wrapper
         position relative
+        height 100%
       .slide-banner-scroll
         min-height 1px
         overflow hidden
+        height 100%
       .slide-banner-wrapper
-        height 300px
+        height 100%
         .slide-item
-          display inline-block
-          height 300px
+          height 100%
           width 100%
           text-align center
           display flex
           flex-direction column
           justify-content flex-start
           padding-top 2rem
+          box-sizing border-box
           a
             // color lighten($bannerTextColor,10%)
             color inherit
@@ -527,25 +529,47 @@ export default {
   .home-wrapper
     .banner
       min-height 700px !important
-    .banner-conent
-      padding-left 1.5rem
-      padding-right 1.5rem
-      .hero
-        img
-          max-height 210px
-          margin 2rem auto 1.2rem
-        h1
-          font-size 2rem
-        h1, .description, .action
-          margin 1.2rem auto
-        .description
-          font-size 1.2rem
-        .action-button
-          font-size 1rem
-          padding 0.6rem 1.2rem
-      .feature
-        h2
-          font-size 1.25rem
+      .banner-conent
+        padding-left 1.5rem
+        padding-right 1.5rem
+        min-height 700px
+        display flex
+        flex-direction column
+        .hero
+          flex-shrink 0
+          img
+            max-height 210px
+            margin 2rem auto 1.2rem
+          h1
+            font-size 2rem
+          h1, .description, .action
+            margin 1.2rem auto
+          .description
+            font-size 1.2rem
+          .action-button
+            font-size 1rem
+            padding 0.6rem 1.2rem
+        .slide-banner
+          flex 1
+          margin-top 1rem
+          height auto !important
+          min-height 350px
+          .slide-item
+            height 100% !important
+            min-height 350px
+            justify-content flex-start !important
+            padding-top 1rem !important
+            a
+              .feature-img
+                width 8rem !important
+                height 8rem !important
+              h2
+                font-size 1.25rem !important
+                margin-top 0.8rem !important
+              p
+                margin-top 0.4rem !important
+          .docs-wrapper
+            bottom 15px !important
 .theme-style-line
   .main-wrapper
     @media (max-width 719px)
