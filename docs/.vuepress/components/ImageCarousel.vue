@@ -1,32 +1,32 @@
 <template>
-  <div style="width: 640px; display:block; margin:0 auto;">
+  <div style="max-width: 640px; display:block; margin:0 auto;">
         <carousel :per-page="1" :center-mode="false" >
             <slide>
-                <img src="/img/smwp-title.webp" />
+                <img src="/img/smwp-title.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-editor.webp" />
+                <img src="/img/smwp-editor.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-blocks.webp" />
+                <img src="/img/smwp-blocks.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-musicselector.webp" />
+                <img src="/img/smwp-musicselector.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-additional.webp" />
+                <img src="/img/smwp-additional.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-decade.webp" />
+                <img src="/img/smwp-decade.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-nightsand.webp" />
+                <img src="/img/smwp-nightsand.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-classicepic.webp" />
+                <img src="/img/smwp-classicepic.webp" class="no-zoom" />
             </slide>
             <slide>
-                <img src="/img/smwp-muitfaceted.webp" />
+                <img src="/img/smwp-muitfaceted.webp" class="no-zoom" />
             </slide>
         </carousel>
     </div>
