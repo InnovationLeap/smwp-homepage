@@ -21,10 +21,10 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.11`。
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
-Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta3`，新增了天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。
+Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta4`，新增了天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。
 
-- **[点击下载 v1.7.12-beta3](https://file.marioforever.net/smwp/smwp-1.7.12-beta3.7z)**
-- **[点击下载 v1.7.12-beta3a](https://file.marioforever.net/smwp/smwp-1.7.12-beta3a.7z)**
+- **[点击下载 v1.7.12-beta4](https://file.marioforever.net/smwp/smwp-1.7.12-beta4.7z)**
+- **[点击下载 v1.7.12-beta4a](https://file.marioforever.net/smwp/smwp-1.7.12-beta4a.7z)**
 
 ## 其他下载渠道
 - [Mario Forever 社区资源站](https://file.marioforever.net/smwp)
@@ -299,6 +299,17 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta3`，新增了�
 </table>
 
 ## 更新日志
+### v1.7.12-beta4 (2025-09-23)
+#### 编辑功能
+- 场景控制元件在 F3/F4 关卡测试后再设置新一组天气参数会记住上一次设置的值。
+- 读取关卡后，场景控制元件的天气参数记忆会清空；在场景控制元件菜单选择 Reset weather 时，支持读取该控件的天气参数。
+#### 问题修复
+- 修复了水管出口不能按 RFDG 微调 16 像素的问题。
+- 修复了部分物件发光开关不工作的问题。
+- 修复了与锁屏/库巴绑定的场景控制元件中的天气设置无效的问题。
+- 修复了在更改音乐、背景、天气界面可以摆放敌人的问题。
+- 修复自定义音乐的界面文字偏移的问题。
+
 ### v1.7.12-beta3 (2025-08-02)
 #### 问题修复
 - 修复了部分电脑运行有照明的关卡时，照明可能偏移、变形的问题。
