@@ -16,7 +16,7 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.11`。
 - b 版：在 a 版基础上，将游玩操作代码中的 `keyboard_check` 替换为 `keyboard_check_direct`，对操作向作品更友好。
 
 ## 重要提示
-近期有用户反馈 SMWP 无法启动。经确认，该问题源于信息插件 FoxWriting 与 Windows 11 24H2 在英特尔第 12 至 14 代酷睿（采用混合架构）及所有酷睿 Ultra 系列处理器上的兼容性冲突。在该问题修复之前，建议使用上述 CPU 的 SMWP 用户避免使用 Windows 11 24H2 系统。对于已预装或已升级至 24H2 的用户，如遇无法启动的情况，可考虑重装较低版本的系统，并暂时不要更新至 24H2。如不便重装系统，也可联系 INNOVATION LEAP 获取移除 FoxWriting 插件的特别版 SMWP。
+近期有用户反馈 SMWP 无法启动。经确认，该问题源于信息插件 FoxWriting 与 Windows 11 24H2 在英特尔第 12 至 14 代酷睿（采用混合架构）及所有酷睿 Ultra 系列处理器上的兼容性冲突（部分台式机用户报告无此问题）。在该问题修复之前，建议使用上述 CPU 的 SMWP 用户避免使用 Windows 11 24H2 系统。对于已预装或已升级至 24H2 的用户，如遇无法启动的情况，可考虑重装较低版本的系统，并暂时不要更新至 24H2。如不便重装系统，也可联系 INNOVATION LEAP 获取移除 FoxWriting 插件的特别版 SMWP。
 
 ## 测试版
 自 v1.7.9 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
@@ -44,7 +44,7 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta4`，新增了�
 
 ## 常见问题
 - **Q: Super Mario Worker Project 是什么？是 Mario Worker 作者发布的新版 Mario Worker 吗？**
-- **A:** 我们曾无限期待 Mario Worker 作者更新 MW，但所有希望皆已落空。在 MW 的发展过程中，虽然有过类如 Mario Worker 1.0、Mario Worker 2 等「Mario Worker」，它们要么是 Mario Forever 关卡编辑器，要么是玩家重制的 Mario Worker，都不尽人意，无法取代现有的 Mario Worker 4.4 在百度 Marioworker 贴吧的地位。鉴于此，由百度 Marioworker 吧吧友组织成立的同人游戏创作工作室 INNOVATION LEAP（INL）早在 2015 年就基于 Mario Worker 1.1 (4.1) 开展了开发新 Mario Worker 的工作，并将其命名为 Super Mario Worker Project，旨在推出名为 Super Mario Worker 的新版 Mario Worker，满足大家对 MW 的功能需求与问题修复需求。
+- **A:** 我们曾无限期待 Mario Worker 作者更新 MW，但所有希望皆已落空。在 MW 的发展过程中，虽然有过类如 Mario Worker 1.0、Mario Worker 2、Mario Worker Remake 等「Mario Worker」，它们要么是 Mario Forever 关卡编辑器，要么是玩家重制的 Mario Worker，都不尽人意，无法取代现有的 Mario Worker 4.4 在百度 Marioworker 贴吧的地位。鉴于此，由百度 Marioworker 吧吧友组织成立的同人游戏创作工作室 INNOVATION LEAP（INL）早在 2015 年就基于 Mario Worker 1.1 (4.1) 开展了开发新 Mario Worker 的工作，并将其命名为 Super Mario Worker Project，旨在推出名为 Super Mario Worker 的新版 Mario Worker，满足大家对 MW 的功能需求与问题修复需求。
 - **Q: 这个新版 Mario Worker 是从头开发的吗？**
 - **A:** 不是。我们获得了 Mario Worker 4.1（和 4.4 基本一致）的源文件，在此基础上进行问题修正和新功能开发，并取得了一定的成果。
 - **Q: Super Mario Worker Project 的一期工程与二期工程有什么区别吗？**
