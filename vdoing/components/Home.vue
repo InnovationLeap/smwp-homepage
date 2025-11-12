@@ -585,7 +585,7 @@ export default {
   height 100%
   background-size auto 100%
   background-repeat repeat-x
-  animation scroll-left-single 180s linear infinite
+  animation scroll-left-single 200s linear infinite
 
 // 单张图片循环滚动 - 第二行向右滚动
 .scrolling-row-2 .scrolling-bg-image-single
@@ -596,7 +596,7 @@ export default {
   height 100%
   background-size auto 100%
   background-repeat repeat-x
-  animation scroll-right-single 180s linear infinite
+  animation scroll-right-single 200s linear infinite
 
 // 单张图片向左滚动动画
 @keyframes scroll-left-single
