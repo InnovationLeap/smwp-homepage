@@ -6,6 +6,20 @@
       :class="{ 'hide-banner': !showBanner }"
       :style="bannerBgStyle"
     >
+      <!-- 滚动背景图片 s -->
+      <div v-if="homeData.bannerBg === 'scrolling'" class="scrolling-bg-container">
+        <div class="scrolling-bg-row scrolling-row-1">
+          <div class="scrolling-bg-image-single" style="background-image: url('/img/bg1.webp')"></div>
+        </div>
+        <div class="scrolling-bg-row scrolling-row-2">
+          <div class="scrolling-bg-image-single" style="background-image: url('/img/bg2.webp')"></div>
+        </div>
+        <div class="scrolling-bg-row scrolling-row-3">
+          <div class="scrolling-bg-image-single" style="background-image: url('/img/bg3.webp')"></div>
+        </div>
+        <div class="scrolling-bg-overlay"></div>
+      </div>
+      <!-- 滚动背景图片 e -->
       <div
         class="banner-conent"
         :style="
@@ -46,7 +60,7 @@
               <h2>{{ feature.title }}</h2>
               <p>{{ feature.details }}</p>
             </router-link>
-            <a v-else href="javascript:;">
+            <div v-else>
               <img
                 class="feature-img"
                 v-if="feature.imgUrl"
@@ -55,7 +69,7 @@
               />
               <h2>{{ feature.title }}</h2>
               <p>{{ feature.details }}</p>
-            </a>
+            </div>
           </div>
         </div>
         <!-- PC端features块 e -->
@@ -82,7 +96,7 @@
                   <h2>{{ feature.title }}</h2>
                   <p>{{ feature.details }}</p>
                 </router-link>
-                <a v-else href="javascript:;">
+                <div v-else>
                   <img
                     class="feature-img"
                     v-if="feature.imgUrl"
@@ -91,7 +105,7 @@
                   />
                   <h2>{{ feature.title }}</h2>
                   <p>{{ feature.details }}</p>
-                </a>
+                </div>
               </div>
             </div>
           </div>
@@ -227,6 +241,8 @@ export default {
         } else {
           return 'background: var(--mainBg);color: var(--textColor)'
         }
+      } else if (bannerBg === 'scrolling') { // 滚动背景
+        return 'position: relative; overflow: hidden;'
       } else if (bannerBg.indexOf('background:') > -1) { // 自定义背景样式
         return bannerBg
       } else if (bannerBg.indexOf('.') > -1) { // 大图
@@ -398,7 +414,7 @@ export default {
         flex-basis 30%
         max-width 30%
         text-align center
-        a
+        div
           // color lighten($bannerTextColor,10%)
           color inherit
           .feature-img
@@ -411,9 +427,11 @@ export default {
             font-size 1.3rem
             border-bottom none
             padding-bottom 0
+            cursor text
           p
             opacity 0.8
             padding 0 0.8rem
+            cursor text
       .feature:hover
         .feature-img
           animation-play-state running
@@ -421,32 +439,32 @@ export default {
           color $accentColor
     // 移动端滑动图标
     .slide-banner
-      .banner-wrapper
-        position relative
-      .slide-banner-scroll
-        min-height 1px
-        overflow hidden
-      .slide-banner-wrapper
-        margin-bottom 2rem
-        .slide-item
-          display inline-block
-          width 100%
-          vertical-align middle
-          text-align center
-          a
-            // color lighten($bannerTextColor,10%)
-            color inherit
-            .feature-img
-              width 10rem
-              height 10rem
-            h2
-              font-size 1.1rem
-              font-weight 500
-              border-bottom none
-              padding-bottom 0
-            p
-              opacity 0.8
-              padding 0 0.8rem
+        .banner-wrapper
+          position relative
+        .slide-banner-scroll
+          min-height 1px
+          overflow hidden
+        .slide-banner-wrapper
+          margin-bottom 2rem
+          .slide-item
+            display inline-block
+            width 100%
+            vertical-align middle
+            text-align center
+            div
+              // color lighten($bannerTextColor,10%)
+              color inherit
+              .feature-img
+                width 10rem
+                height 10rem
+              h2
+                font-size 1.1rem
+                font-weight 500
+                border-bottom none
+                padding-bottom 0
+              p
+                opacity 0.8
+                padding 0 0.8rem
       .docs-wrapper
         position absolute
         bottom 25px
@@ -541,4 +559,66 @@ export default {
   .main-wrapper
     @media (max-width 719px)
       margin-top -1px
+
+// 滚动背景样式
+.scrolling-bg-container
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  z-index 0
+
+.scrolling-bg-row
+  position relative
+  width 100%
+  height 33.333%
+  overflow hidden
+
+// 单张图片循环滚动 - 第一行和第三行向左滚动
+.scrolling-row-1 .scrolling-bg-image-single,
+.scrolling-row-3 .scrolling-bg-image-single
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  background-size auto 100%
+  background-repeat repeat-x
+  animation scroll-left-single 180s linear infinite
+
+// 单张图片循环滚动 - 第二行向右滚动
+.scrolling-row-2 .scrolling-bg-image-single
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  background-size auto 100%
+  background-repeat repeat-x
+  animation scroll-right-single 180s linear infinite
+
+// 单张图片向左滚动动画
+@keyframes scroll-left-single
+  0%
+    background-position 0 0
+  100%
+    background-position -3200px 0
+
+// 单张图片向右滚动动画
+@keyframes scroll-right-single
+  0%
+    background-position 0 0
+  100%
+    background-position 3200px 0
+
+// 压暗遮罩层
+.scrolling-bg-overlay
+  position absolute
+  top 0
+  left 0
+  width 100%
+  height 100%
+  background-color rgba(0, 0, 0, 0.5) // 50%透明度黑色遮罩
+  z-index 1
 </style>
