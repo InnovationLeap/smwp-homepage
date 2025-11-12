@@ -421,18 +421,17 @@ export default {
           color $accentColor
     // 移动端滑动图标
     .slide-banner
-      margin-top 2rem
       .banner-wrapper
         position relative
       .slide-banner-scroll
         min-height 1px
         overflow hidden
       .slide-banner-wrapper
-        height 300px
+        margin-bottom 2rem
         .slide-item
           display inline-block
-          height 300px
           width 100%
+          vertical-align middle
           text-align center
           a
             // color lighten($bannerTextColor,10%)
