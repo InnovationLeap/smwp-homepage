@@ -9,7 +9,8 @@ module.exports = [
     ]
   },
   { text: '下载', link: '/downloads/', },
-  { text: 'Wiki', link: 'https://zh.wiki.marioforever.net/' },
+  { text: '获取作品', link: 'https://download.marioforever.net/mw-levels.html', },
+  { text: 'Wiki', link: 'https://zh.wiki.marioforever.net/wiki/Super_Mario_Worker_Project' },
   { text: '社区', link: 'https://www.marioforever.net/' },
   { text: 'INL 官网', link: 'https://inleap.marioforever.net/cn/' },
 ]
