@@ -47,6 +47,6 @@ module.exports = {
   footer: {
     // 页脚信息
     createYear: 2016, // 博客创建年份
-    copyrightInfo: '<a href="https://inleap.marioforever.net/" target="_blank">INNOVATION LEAP</a>. Mario and all relatives belong to Nintendo.', // 博客版权信息，支持a标签
+    copyrightInfo: '<a href="https://inleap.marioforever.net/" target="_blank">INNOVATION LEAP</a>. Mario and its related copyrights belong to Nintendo.', // 博客版权信息，支持a标签
   },
 }
