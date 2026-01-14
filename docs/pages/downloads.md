@@ -21,10 +21,10 @@ Super Mario Worker Project 的最新正式版本是 `v1.7.11`。
 ## 测试版
 自 v1.7.7 开始，Super Mario Worker Project 每个版本正式发布前都会发布若干个测试版。测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
 
-Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta4`，新增了天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。
+Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta5`，新增了天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。
 
-- **[点击下载 v1.7.12-beta4](https://file.marioforever.net/smwp/smwp-1.7.12-beta4.7z)**
-- **[点击下载 v1.7.12-beta4a](https://file.marioforever.net/smwp/smwp-1.7.12-beta4a.7z)**
+- **[点击下载 v1.7.12-beta5](https://file.marioforever.net/smwp/smwp-1.7.12-beta5.7z)**
+- **[点击下载 v1.7.12-beta5a](https://file.marioforever.net/smwp/smwp-1.7.12-beta5a.7z)**
 
 ## 其他下载渠道
 - [Mario Forever 社区资源站](https://file.marioforever.net/smwp)
@@ -299,6 +299,24 @@ Super Mario Worker Project 的最新测试版本是 `v1.7.12-beta4`，新增了�
 </table>
 
 ## 更新日志
+### v1.7.12-beta5 (2026-01-14)
+#### 编辑功能
+- 编辑界面支持 Ctrl+L 加载关卡。
+- 添加全局流体岩浆的发光选项。
+- 阴阳砖发光选项与其他机关砖分离。
+#### 关卡功能
+- 黑暗度为 0 时不渲染光源。
+#### 问题修复
+- 修复了出水管时有概率自动小跳的 Bug。
+- 修复了顶隐藏问号砖会额外播放一遍音效的问题。
+- 修复了过关回到标题界面后过一段时间会响过关音效的问题。
+- 修复了板栗仔启用光照后大部分敌人等运动物体也一定会启用光照的问题。
+- 修复了关卡音乐为 No Music 时无敌星音乐只要开始就不会停止播放的问题。
+- 修复了场景控制元件无视无敌星状态音乐的问题。
+#### 其他
+- 将主界面的 Home 改为 SMWP 官网，Help 改为 SMWP 的 MF Wiki 页面，Upload Download 改为作品汇总。
+- 更换了标题界面背景，去掉了 Softendo Logo。
+
 ### v1.7.12-beta4 (2025-09-23)
 #### 编辑功能
 - 场景控制元件在 F3/F4 关卡测试后再设置新一组天气参数会记住上一次设置的值。
