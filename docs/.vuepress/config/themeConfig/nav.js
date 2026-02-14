@@ -6,6 +6,7 @@ module.exports = [
       { text: 'v1.7', link: '/1.7/' },
       { text: 'v1.6', link: '/1.6/' },
       { text: 'v1.5', link: '/1.5/' },
+      { text: 'v2.0', link: 'https://smwp2.marioforever.net/' },
     ]
   },
   { text: '下载', link: '/downloads/', },
