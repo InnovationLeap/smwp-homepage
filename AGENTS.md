@@ -114,7 +114,7 @@ bun run deploy     # 通过 deploy.sh 部署 (Linux 服务器, rsync)
 
 ## 主要依赖
 
-- `astro` ^6.4.6 - 静态网站框架
+- `astro` ^6.4.8 - 静态网站框架
 - `@astrojs/mdx` ^6.0.3 - MDX 集成
 - `tailwindcss` ^4.3.1 - CSS 框架
 - `@tailwindcss/vite` ^4.3.1 - Tailwind Vite 插件
