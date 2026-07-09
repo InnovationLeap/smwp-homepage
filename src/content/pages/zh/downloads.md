@@ -9,4 +9,4 @@ description: "下载 SMWP 2 开发版本"
 
 预计将在 2026 年发布第一个 alpha 版本，该版本预计可运行 SMWP 1 的关卡作品。
 
-请关注 [GitHub 仓库](https://github.com/InnovationLeap/super-mario-worker-project-2) 获取最新开发进度。
+请关注 [GitHub 仓库](https://github.com/InnovationLeap/Super-Mario-Worker-Project-2) 获取最新开发进度。
