@@ -107,7 +107,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
             <span data-lang="zh">最新版本：</span>
             <span data-lang="en">Latest version: </span>
             {latestRelease && (
-              <span class="font-semibold text-blue-600 dark:text-blue-400">{latestRelease.version}</span>
+              <span class="font-semibold text-[#006eff] dark:text-[#30acff]">{latestRelease.version}</span>
             )}
             {latestRelease?.date && (
               <span class="text-gray-500 dark:text-gray-500 ml-2">({latestRelease.date})</span>
