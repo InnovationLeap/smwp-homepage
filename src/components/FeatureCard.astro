@@ -10,7 +10,7 @@ interface Props {
 const { titleZh, titleEn, descriptionZh, descriptionEn, icon } = Astro.props;
 ---
 
-<div class="rounded-2xl p-6 border border-white/70 bg-white/90 backdrop-blur-md shadow-xl shadow-gray-900/10 transition-transform duration-300 md:hover:-translate-y-1 dark:border-white/10 dark:bg-gray-900/80 dark:shadow-black/40">
+<div class="rounded-2xl p-6 border border-gray-100 bg-white/90 shadow-xl shadow-gray-900/5 dark:border-gray-700 dark:bg-gray-900/70 dark:shadow-black/30">
   <h3 class="mb-3 font-semibold text-gray-900 dark:text-gray-100">
     <span data-lang="zh">{icon} {titleZh}</span>
     <span data-lang="en">{icon} {titleEn}</span>
