@@ -34,10 +34,27 @@ const navItems: NavItem[] = [
     href: '/smwp2/',
   },
   {
-    labelZh: '社区',
-    href: 'https://www.marioforever.net/',
-    target: '_blank',
-    rel: 'noopener noreferrer',
+    labelZh: '链接',
+    children: [
+      {
+        labelZh: '获取作品',
+        href: 'https://download.marioforever.net/mw-levels.html',
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+      {
+        labelZh: '社区',
+        href: 'https://www.marioforever.net/',
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+      {
+        labelZh: 'Wiki',
+        href: 'https://zh.wiki.marioforever.net/wiki/Super_Mario_Worker_Project',
+        target: '_blank',
+        rel: 'noopener noreferrer',
+      },
+    ],
   },
   {
     labelZh: 'INL 官网',
@@ -60,6 +77,16 @@ interface Props {
 }
 
 const { transparentHero = false, isSmwp2 = false } = Astro.props;
+
+const currentPath = Astro.url.pathname;
+
+const isNavItemActive = (item: NavItem): boolean => {
+  if (item.href && item.href === currentPath) return true;
+  if (item.children) {
+    return item.children.some((child) => child.href === currentPath);
+  }
+  return false;
+};
 ---
 
 <header class:list={["site-header fixed top-0 left-0 right-0 z-50 border-b", { "has-hero": transparentHero }]}>
@@ -67,7 +94,7 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
     <!-- Col 1: Logo -->
     <a href="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
       <img src={isSmwp2 ? "/images/smwp2-logo.png" : "/images/mworker.png"} alt="SMWP Logo" class="h-8 w-8" />
-      <span class="brand-text text-lg font-semibold whitespace-nowrap">Super Mario Worker Project</span>
+      <span class="brand-text text-lg font-semibold whitespace-nowrap">{isSmwp2 ? 'SMWP 2' : 'Super Mario Worker Project'}</span>
     </a>
 
     <!-- Col 2: Desktop nav links -->
@@ -75,7 +102,7 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
       {navItems.map((item) => (
         item.children ? (
           <div class="relative group" data-nav-item data-lang-zh={item.labelZh ? 'true' : undefined} data-lang-en={item.labelEn ? 'true' : undefined}>
-            <button class="nav-link transition-colors flex items-center gap-1">
+            <button class:list={["nav-link transition-colors flex items-center gap-1", { "is-active": isNavItemActive(item) }]}>
               {item.labelZh && <span data-lang="zh">{item.labelZh}</span>}
               {item.labelEn && <span data-lang="en">{item.labelEn}</span>}
               <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,13 +110,14 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
               </svg>
             </button>
             <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-              <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[100px]">
+              <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[120px]">
                 {item.children.map((child) => (
                   <a
                     href={child.href}
                     target={child.target}
                     rel={child.rel}
-                    class="desktop-dropdown-link flex items-center gap-1 px-4 py-2 transition-colors"
+                    class:list={["desktop-dropdown-link flex items-center gap-1 px-4 py-2 transition-colors", { "is-active": child.href === currentPath }]}
+                    aria-current={child.href === currentPath ? "page" : undefined}
                     data-nav-item
                     data-lang-zh={child.labelZh ? 'true' : undefined}
                     data-lang-en={child.labelEn ? 'true' : undefined}
@@ -107,7 +135,8 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
             href={item.href}
             target={item.target}
             rel={item.rel}
-            class="nav-link inline-flex items-center gap-1 transition-colors"
+            class:list={["nav-link inline-flex items-center gap-1 transition-colors", { "is-active": isNavItemActive(item) }]}
+            aria-current={isNavItemActive(item) ? "page" : undefined}
             data-nav-item
             data-lang-zh={item.labelZh ? 'true' : undefined}
             data-lang-en={item.labelEn ? 'true' : undefined}
@@ -145,7 +174,7 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
             <i class="fa-solid fa-language text-lg"></i>
           </button>
           <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-            <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[100px]">
+            <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[120px]">
               <button
                 data-lang-switch="zh"
                 class="desktop-dropdown-link flex items-center gap-2 px-4 py-2 transition-colors w-full text-left"
@@ -565,6 +594,16 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
     opacity: 0.8;
   }
 
+  .nav-link:hover,
+  .desktop-dropdown-link:hover,
+  .mobile-menu-link:hover,
+  .mobile-menu-child:hover,
+  .icon-link:hover,
+  .mobile-menu-btn:hover,
+  .mobile-lang-btn:hover {
+    color: #006eff;
+  }
+
   .desktop-dropdown-link:hover,
   .mobile-menu-link:hover,
   .mobile-menu-child:hover,
@@ -572,13 +611,16 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
   .mobile-menu-btn:hover,
   .mobile-lang-btn:hover {
     background-color: #f3f4f6;
-    color: #006eff;
+  }
+
+  .nav-link.is-active {
+    font-weight: 700;
   }
 
   .desktop-dropdown-link.is-active,
   .mobile-lang-btn.is-active {
-    background-color: #e0e7ff;
-    color: #3730a3;
+    background-color: #dbeafe;
+    color: #1d4ed8;
   }
 
   .mobile-menu {
@@ -744,6 +786,16 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
     color: #d1d5db;
   }
 
+  html.dark .nav-link:hover,
+  html.dark .desktop-dropdown-link:hover,
+  html.dark .mobile-menu-link:hover,
+  html.dark .mobile-menu-child:hover,
+  html.dark .icon-link:hover,
+  html.dark .mobile-menu-btn:hover,
+  html.dark .mobile-lang-btn:hover {
+    color: #30acff;
+  }
+
   html.dark .desktop-dropdown-link:hover,
   html.dark .mobile-menu-link:hover,
   html.dark .mobile-menu-child:hover,
@@ -751,13 +803,16 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
   html.dark .mobile-menu-btn:hover,
   html.dark .mobile-lang-btn:hover {
     background-color: #1f2937;
-    color: #30acff;
+  }
+
+  html.dark .nav-link.is-active {
+    font-weight: 700;
   }
 
   html.dark .desktop-dropdown-link.is-active,
   html.dark .mobile-lang-btn.is-active {
-    background-color: #312e81;
-    color: #a5b4fc;
+    background-color: #1e3a5f;
+    color: #93c5fd;
   }
 
   html.dark .mobile-menu {
@@ -824,6 +879,11 @@ const { transparentHero = false, isSmwp2 = false } = Astro.props;
 
   .site-header.has-hero.is-transparent:not(.menu-open) .nav-link:hover {
     color: rgba(255, 255, 255, 0.78);
+  }
+
+  .site-header.has-hero.is-transparent:not(.menu-open) .nav-link.is-active {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
   }
 
   .site-header.has-hero.is-transparent:not(.menu-open) .icon-link:hover,
