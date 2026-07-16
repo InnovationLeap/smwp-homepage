@@ -1,0 +1,170 @@
+---
+interface Props {
+  images: { src: string; alt?: string }[];
+}
+
+const { images } = Astro.props;
+---
+
+<div class="image-carousel relative w-full group">
+  <!-- Swiper Main Container -->
+  <div class="swiper gallery-swiper w-full overflow-hidden">
+    <div class="swiper-wrapper py-6">
+      {images.map((image) => (
+        <div class="swiper-slide !w-auto px-2">
+          <div class="carousel-item-wrapper w-[85vw] sm:w-[55vw] md:w-[40vw] lg:w-[35vw]">
+            <img
+              src={image.src}
+              alt={image.alt || ""}
+              class="w-full h-auto rounded-xl object-cover shadow-md select-none"
+              loading="lazy"
+              draggable="false"
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <button
+    type="button"
+    class="carousel-btn swiper-button-prev-custom absolute left-2 top-1/2 z-10 h-10 w-10 inline-flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    aria-label="Previous image"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+    </svg>
+  </button>
+
+  <button
+    type="button"
+    class="carousel-btn swiper-button-next-custom absolute right-2 top-1/2 z-10 h-10 w-10 inline-flex items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    aria-label="Next image"
+  >
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  </button>
+
+  <!-- Pagination -->
+  <div class="swiper-pagination-custom flex justify-center gap-2 mt-2"></div>
+</div>
+
+<style is:global>
+  /* Import Swiper styles */
+  @import 'swiper/css';
+  @import 'swiper/css/navigation';
+  @import 'swiper/css/pagination';
+  @import 'swiper/css/free-mode';
+
+  .gallery-swiper {
+    padding: 0 1rem;
+  }
+
+  .carousel-btn {
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #1f2937;
+    box-shadow: 0 4px 14px rgba(17, 24, 39, 0.18);
+    backdrop-filter: blur(4px);
+    transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .carousel-btn:hover:not(.swiper-button-disabled) {
+    background-color: #ffffff;
+    transform: translateY(-50%) scale(1.05);
+  }
+
+  .carousel-btn.swiper-button-disabled {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  html.dark .carousel-btn {
+    background-color: rgba(17, 24, 39, 0.8);
+    color: #e5e7eb;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+  }
+
+  html.dark .carousel-btn:hover:not(.swiper-button-disabled) {
+    background-color: rgba(17, 24, 39, 0.95);
+  }
+
+  /* Custom Pagination Styling */
+  .swiper-pagination-custom .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    background: #d1d5db;
+    opacity: 1;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .swiper-pagination-custom .swiper-pagination-bullet-active {
+    width: 24px;
+    background: #3b82f6;
+  }
+
+  html.dark .swiper-pagination-custom .swiper-pagination-bullet {
+    background: #4b5563;
+  }
+
+  html.dark .swiper-pagination-custom .swiper-pagination-bullet-active {
+    background: #60a5fa;
+  }
+</style>
+
+<script>
+  import Swiper from 'swiper';
+  import { Navigation, Pagination, FreeMode, Mousewheel } from 'swiper/modules';
+
+  const initCarousel = (container: HTMLElement) => {
+    if (container.dataset.swiperReady === 'true') return;
+    container.dataset.swiperReady = 'true';
+
+    const swiperEl = container.querySelector('.gallery-swiper');
+    if (!swiperEl) return;
+
+    new Swiper(swiperEl as HTMLElement, {
+      modules: [Navigation, Pagination, FreeMode, Mousewheel],
+      slidesPerView: 'auto',
+      centeredSlides: true,
+      loop: true,
+      spaceBetween: 0, // Using padding in slide instead
+      freeMode: {
+        enabled: true,
+        sticky: true,
+      },
+      grabCursor: true,
+      mousewheel: {
+        forceToAxis: true,
+      },
+      navigation: {
+        nextEl: container.querySelector('.swiper-button-next-custom') as HTMLElement,
+        prevEl: container.querySelector('.swiper-button-prev-custom') as HTMLElement,
+      },
+      pagination: {
+        el: container.querySelector('.swiper-pagination-custom') as HTMLElement,
+        clickable: true,
+        bulletClass: 'swiper-pagination-bullet',
+        bulletActiveClass: 'swiper-pagination-bullet-active',
+      },
+      breakpoints: {
+        // Match original design breakpoints if needed,
+        // but 'auto' + CSS widths handles it well
+      }
+    });
+  };
+
+  const initAll = () => {
+    document.querySelectorAll<HTMLElement>('.image-carousel').forEach(initCarousel);
+  };
+
+  // Initial load
+  initAll();
+
+  // Handle Astro view transitions
+  document.addEventListener('astro:page-load', initAll);
+</script>

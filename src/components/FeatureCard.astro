@@ -1,0 +1,22 @@
+---
+interface Props {
+  titleZh: string;
+  titleEn: string;
+  descriptionZh: string;
+  descriptionEn: string;
+  icon: string;
+}
+
+const { titleZh, titleEn, descriptionZh, descriptionEn, icon } = Astro.props;
+---
+
+<div class="rounded-2xl p-6 border border-white/70 bg-white/90 backdrop-blur-md shadow-xl shadow-gray-900/10 transition-transform duration-300 md:hover:-translate-y-1 dark:border-white/10 dark:bg-gray-900/80 dark:shadow-black/40">
+  <h3 class="mb-3 font-semibold text-gray-900 dark:text-gray-100">
+    <span data-lang="zh">{icon} {titleZh}</span>
+    <span data-lang="en">{icon} {titleEn}</span>
+  </h3>
+  <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
+    <span data-lang="zh">{descriptionZh}</span>
+    <span data-lang="en">{descriptionEn}</span>
+  </p>
+</div>

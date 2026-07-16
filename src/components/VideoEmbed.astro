@@ -1,0 +1,30 @@
+---
+interface Props {
+  srcZh: string;
+  srcEn: string;
+  title?: string;
+}
+
+const { srcZh, srcEn, title = "" } = Astro.props;
+---
+
+<div class="w-full">
+  <div class="relative aspect-video w-full overflow-hidden rounded-xl shadow-lg">
+    <iframe
+      data-lang="zh"
+      src={srcZh}
+      title={title || "视频"}
+      class="absolute inset-0 h-full w-full border-0"
+      loading="lazy"
+      allowfullscreen
+    ></iframe>
+    <iframe
+      data-lang="en"
+      src={srcEn}
+      title={title || "Video"}
+      class="absolute inset-0 h-full w-full border-0"
+      loading="lazy"
+      allowfullscreen
+    ></iframe>
+  </div>
+</div>

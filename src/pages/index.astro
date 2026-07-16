@@ -3,6 +3,10 @@ import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import ScrollingBanner from '../components/ScrollingBanner.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import VideoEmbed from '../components/VideoEmbed.astro';
+import ImageCarousel from '../components/ImageCarousel.astro';
 
 const entryZh = await getEntry('zh', 'index');
 const entryEn = await getEntry('en', 'index');
@@ -13,114 +17,474 @@ if (!entryZh || !entryEn) {
 
 const { Content: ContentZh } = await render(entryZh);
 const { Content: ContentEn } = await render(entryEn);
+
+const features = [
+  {
+    icon: '🧱',
+    titleZh: '新物品',
+    titleEn: 'New Objects',
+    descriptionZh: '新增大量地面、砖块、景物与背景，覆盖 Mario Forever 常见素材，并加入多种敌人、设施砖、流体系统、镜头与场景控制元件，极大扩展了关卡的可玩性和发挥空间。',
+    descriptionEn: 'Adds a wealth of tiles, scenery and backgrounds covering common Mario Forever assets, plus new enemies, facilities, fluid systems, and view/scene controllers that greatly expand level design possibilities.',
+  },
+  {
+    icon: '⚙️',
+    titleZh: '新功能',
+    titleEn: 'New Features',
+    descriptionZh: '内置强大的微调、自动配对、探照灯编辑、吸取键等工具；上帝模式让测试更随心自由；取消关卡尺寸、时间、引力等限制；支持物品偏移修正，所见即所得。',
+    descriptionEn: 'Built-in accurate move, auto-pairing and Roto-Disc editing tools, removed limits on level size, time and gravity, offset correction and a God Mode for testing, making the editing experience WYSIWYG and easier to use.',
+  },
+  {
+    icon: '🛡️',
+    titleZh: '更稳定',
+    titleEn: 'More Stable',
+    descriptionZh: '修复原版 Mario Worker 的大量 Bug，向下兼容 .mfl / .mfs 等旧关卡文件，并通过版本检测机制让旧版 SMWP 关卡在新版本更好地运行，关卡还可加密防止「拆关」。',
+    descriptionEn: 'Fixes numerous Mario Worker 1.1 bugs, keeps backward compatibility with legacy .mfl/.mfs files, uses version detection so old SMWP levels run faithfully, and supports level encryption to prevent tampering.',
+  },
+];
+
+const galleryImages = [
+  { src: '/images/smwp-title.webp', alt: 'SMWP Title' },
+  { src: '/images/smwp-editor.webp', alt: 'SMWP Editor' },
+  { src: '/images/smwp-blocks.webp', alt: 'SMWP Blocks' },
+  { src: '/images/smwp-musicselector.webp', alt: 'SMWP Music Selector' },
+  { src: '/images/smwp-additional.webp', alt: 'SMWP Additional Settings' },
+  { src: '/images/smwp-decade.webp', alt: 'SMWP Decade' },
+  { src: '/images/smwp-nightsand.webp', alt: 'SMWP Night Sand' },
+  { src: '/images/smwp-classicepic.webp', alt: 'SMWP Classic Epic' },
+  { src: '/images/smwp-muitfaceted.webp', alt: 'SMWP Multifaceted' },
+];
 ---
 
 <BaseLayout titleZh={entryZh.data.title} titleEn={entryEn.data.title} descriptionZh={entryZh.data.description} descriptionEn={entryEn.data.description}>
-  <Navbar />
+  <Navbar transparentHero />
 
-  <main class="flex-1">
-    <!-- Hero Section -->
-    <section class="relative pt-32 pb-12">
-      <div class="max-w-7xl mx-auto px-8 lg:px-16">
-        <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
-          <!-- Text Content (Left on large screens) -->
-          <div class="flex-1 text-center lg:text-left">
-            <!-- Title with Gradient -->
-            <h1 class="text-5xl lg:text-6xl font-bold mb-4 inline-block" style="color: transparent; background: -webkit-linear-gradient(120deg, #3fbbfe 30%, #a541ff); background-clip: text; -webkit-background-clip: text;">
-              SMWP 2
-            </h1>
+  <main class="flex-1 bg-gray-100 dark:bg-gray-950">
+    <!-- Hero: Scrolling Banner -->
+    <ScrollingBanner class="min-h-[700px] flex items-center">
+      <div class="w-full">
+        <!-- Hero Content -->
+        <div class="max-w-4xl mx-auto px-8 lg:px-16 pt-24 pb-6 md:pt-28 md:pb-8 w-full flex flex-col items-center text-center">
+          <h1 class="text-4xl lg:text-5xl font-bold text-white mb-8 drop-shadow-lg">
+            Super Mario Worker Project
+          </h1>
+          <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a
+              href="/downloads/"
+              class="inline-flex items-center justify-center px-8 py-3 text-base font-semibold !text-white hover:!text-white bg-gradient-to-l from-blue-500 to-purple-600 rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+            >
+              <span data-lang="zh">下载 SMWP</span>
+              <span data-lang="en">Download SMWP</span>
+            </a>
+            <a
+              href="/v1.7/"
+              class="inline-flex items-center justify-center px-8 py-3 text-base font-semibold !text-white hover:!text-white border border-white/60 rounded-full hover:bg-white/10 transition-all duration-200"
+            >
+              <span data-lang="zh">v1.7 新特性</span>
+              <span data-lang="en">What's New in v1.7</span>
+            </a>
+          </div>
+        </div>
 
-            <p class="text-xl lg:text-2xl font-medium text-gray-600 dark:text-gray-300 mb-8 max-w-2xl leading-normal">
-              <span data-lang="zh">下一代 Super Mario Worker Project，由 INNOVATION LEAP 开发</span>
-              <span data-lang="en">Next gen Super Mario Worker Project, developed by INNOVATION LEAP</span>
-            </p>
+        <!-- Feature Cards (contained within banner) -->
+        <div class="relative z-20 w-full mt-4 pb-12 md:pb-16">
+          <div class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-16">
+            <div class="feature-cards-carousel relative">
+              <!-- Horizontal scroll track (mobile: carousel, desktop: grid) -->
+              <div class="feature-cards-track">
+                {features.map((feature, index) => (
+                  <div class="feature-card-item">
+                    <FeatureCard
+                      icon={feature.icon}
+                      titleZh={feature.titleZh}
+                      titleEn={feature.titleEn}
+                      descriptionZh={feature.descriptionZh}
+                      descriptionEn={feature.descriptionEn}
+                    />
+                  </div>
+                ))}
+              </div>
 
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+              <!-- Edge gradient overlays (mobile only) -->
+              <div class="feature-carousel-edge feature-carousel-edge-left" aria-hidden="true"></div>
+              <div class="feature-carousel-edge feature-carousel-edge-right" aria-hidden="true"></div>
+
+              <!-- Navigation dots (mobile only) -->
+              <div class="feature-carousel-dots">
+                {features.map((_, index) => (
+                  <button
+                    type="button"
+                    class={`feature-carousel-dot${index === 0 ? ' is-active' : ''}`}
+                    data-index={index}
+                    aria-label={`Go to feature ${index + 1}`}
+                  ></button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ScrollingBanner>
+
+    <!-- Introduction & Recent Updates -->
+    <section class="pt-12 pb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-2xl border border-gray-200 bg-white px-5 py-7 sm:px-9 sm:py-9 shadow-md dark:border-gray-800 dark:bg-gray-900">
+          <article class="prose max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 prose-a:text-blue-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300 dark:prose-a:text-blue-400">
+            <div data-lang="zh">
+              <ContentZh />
+            </div>
+            <div data-lang="en">
+              <ContentEn />
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="pb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-2xl border border-gray-200 bg-white px-5 py-7 sm:px-9 sm:py-9 shadow-md dark:border-gray-800 dark:bg-gray-900">
+          <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-gray-100 mb-6">
+            <span data-lang="zh">特性介绍</span>
+            <span data-lang="en">Feature Showcase</span>
+          </h2>
+          <VideoEmbed
+            srcZh="//player.bilibili.com/player.html?isOutside=true&aid=765365808&bvid=BV1Zr4y1m7My&cid=1178754483&p=1&autoplay=0"
+            srcEn="https://www.youtube.com/embed/kvPpxhS2mKg"
+            title="Super Mario Worker Project"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="pb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white px-2 py-7 sm:px-4 sm:py-8 shadow-md dark:border-gray-800 dark:bg-gray-900">
+          <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-gray-100 mb-2">
+            <span data-lang="zh">图集</span>
+            <span data-lang="en">Gallery</span>
+          </h2>
+          <ImageCarousel images={galleryImages} />
+        </div>
+      </div>
+    </section>
+
+    <!-- SMWP 2 Preview Section -->
+    <section class="pb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="relative overflow-hidden rounded-2xl border border-gray-200 bg-white p-12 lg:pl-16 shadow-md dark:border-gray-800 dark:bg-gray-900">
+          <div class="relative flex flex-col lg:flex-row items-center gap-8">
+            <div class="relative w-32 h-32 flex-shrink-0">
+              <div class="absolute -inset-2" style="background-image: linear-gradient(-45deg, #3fbbfe 50%, #a541ff 50%); filter: blur(24px); border-radius: 9999px;"></div>
+              <img src="/images/mwhammer.png" alt="SMWP 2" class="w-full h-full object-contain relative z-10" />
+            </div>
+            <div class="flex-1 text-center lg:text-left">
+              <span class="inline-block mb-3 px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+                <span data-lang="zh">开发中</span>
+                <span data-lang="en">In Development</span>
+              </span>
+              <h2 class="text-3xl font-bold mb-3 w-fit mx-auto lg:mx-0" style="color: transparent; background: -webkit-linear-gradient(120deg, #3fbbfe 30%, #a541ff); background-clip: text; -webkit-background-clip: text;">
+                SMWP 2
+              </h2>
+              <p class="text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                <span data-lang="zh">下一代 Super Mario Worker Project，采用全新引擎，兼容 SMWP 1 关卡生态，并将全面开源。</span>
+                <span data-lang="en">Next gen Super Mario Worker Project - modern engine, SMWP 1 Compatibility, and fully open source.</span>
+              </p>
               <a
-                href="https://github.com/InnovationLeap/Super-Mario-Worker-Project-2"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold !text-white hover:!text-white active:!text-white visited:!text-white bg-gradient-to-l from-blue-500 to-purple-600 rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+                href="/smwp2/"
+                class="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold !text-white hover:!text-white bg-gradient-to-l from-blue-500 to-purple-600 rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
               >
-                <span data-lang="zh">GitHub 仓库</span>
-                <span data-lang="en">GitHub Repository</span>
+                <span data-lang="zh">了解 SMWP 2</span>
+                <span data-lang="en">Learn about SMWP 2</span>
               </a>
             </div>
           </div>
-
-          <!-- Logo (Right on large screens, top on mobile) -->
-          <div class="flex-1 flex justify-center items-center order-first lg:order-last lg:-mt-8">
-            <div class="relative w-56 h-56">
-              <div class="absolute -inset-8" style="background-image: linear-gradient(-45deg, #3fbbfe 50%, #a541ff 50%); filter: blur(64px); border-radius: 9999px;"></div>
-              <img
-                src="/images/mwhammer.png"
-                alt="SMWP 2 Logo"
-                class="w-full h-full object-contain relative z-10"
-              />
-            </div>
-          </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section class="pb-12">
-      <div class="max-w-7xl mx-auto px-8 lg:px-16">
-        <div class="grid md:grid-cols-3 gap-4">
-          <!-- Feature 1 -->
-          <div class="rounded-2xl p-6 border border-gray-100 bg-white/90 shadow-lg shadow-gray-900/5 transition-transform duration-300 dark:border-gray-700 dark:bg-gray-900/70 dark:shadow-black/30">
-            <h3 class="mb-3 font-bold text-gray-900 dark:text-gray-100">
-              <span data-lang="zh">🚀 新引擎</span>
-              <span data-lang="en">🚀 New Engine</span>
-            </h3>
-            <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-              <span data-lang="zh">全面转向 Godot Engine 4，带来更多的功能和性能优化。</span>
-              <span data-lang="en">Game Engine migrated to Godot Engine 4, bringing more features and better performance.</span>
-            </p>
-          </div>
-
-          <!-- Feature 2 -->
-          <div class="rounded-2xl p-6 border border-gray-100 bg-white/90 shadow-lg shadow-gray-900/5 transition-transform duration-300 dark:border-gray-700 dark:bg-gray-900/70 dark:shadow-black/30">
-            <h3 class="mb-3 font-bold text-gray-900 dark:text-gray-100">
-              <span data-lang="zh">🔗 兼容 SMWP 1 生态</span>
-              <span data-lang="en">🔗 SMWP 1 Compatibility</span>
-            </h3>
-            <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-              <span data-lang="zh">保持与 SMWP 1 相同的关卡格式和游戏机制，并基于其进行扩展。</span>
-              <span data-lang="en">Keep the same level format and game mechanics as SMWP 1, with extensions built on top.</span>
-            </p>
-          </div>
-
-          <!-- Feature 3 -->
-          <div class="rounded-2xl p-6 border border-gray-100 bg-white/90 shadow-lg shadow-gray-900/5 transition-transform duration-300 dark:border-gray-700 dark:bg-gray-900/70 dark:shadow-black/30">
-            <h3 class="mb-3 font-bold text-gray-900 dark:text-gray-100">
-              <span data-lang="zh">👐 开源</span>
-              <span data-lang="en">👐 Open Source</span>
-            </h3>
-            <p class="text-sm leading-relaxed text-gray-600 dark:text-gray-300">
-              <span data-lang="zh">SMWP 2 将全面开源，允许玩家和关卡创作者自由修改定制。</span>
-              <span data-lang="en">SMWP 2 will be open-source, allowing players and level creators to freely modify and customize.</span>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Introduction Section -->
-    <section class="pb-12 border-t border-gray-200 dark:border-gray-800">
-      <div class="max-w-7xl mx-auto px-8 lg:px-16">
-        <article class="prose mx-auto max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-h2:mb-4 prose-h2:mt-8 prose-h2:text-2xl prose-p:leading-relaxed prose-p:text-gray-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300">
-          <div data-lang="zh">
-            <ContentZh />
-          </div>
-          <div data-lang="en">
-            <ContentEn />
-          </div>
-        </article>
       </div>
     </section>
   </main>
 
   <Footer />
 </BaseLayout>
+
+<style is:global>
+  /* Feature Cards Carousel */
+  .feature-cards-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    gap: 1.25rem;
+    padding: 0 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .feature-cards-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .feature-cards-track.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  .feature-card-item {
+    flex-shrink: 0;
+    width: 82vw;
+    scroll-snap-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .feature-cards-track {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      overflow-x: visible;
+      scroll-snap-type: none;
+      scroll-behavior: auto;
+      gap: 1.25rem;
+      padding: 0;
+      overscroll-behavior-x: auto;
+      cursor: auto;
+      user-select: auto;
+    }
+
+    .feature-card-item {
+      flex-shrink: 1;
+      width: auto;
+      scroll-snap-align: none;
+    }
+  }
+
+  /* Edge gradient overlays */
+  .feature-carousel-edge {
+    position: absolute;
+    top: 0;
+    bottom: 2.5rem;
+    width: 2rem;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+  }
+
+  .feature-carousel-edge-left {
+    left: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.12), transparent);
+    border-radius: 1rem 0 0 1rem;
+  }
+
+  .feature-carousel-edge-right {
+    right: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.12), transparent);
+    border-radius: 0 1rem 1rem 0;
+  }
+
+  .feature-carousel-edge.is-hidden {
+    opacity: 0;
+  }
+
+  .feature-carousel-edge.is-pulse {
+    animation: feature-edge-pulse 0.4s ease;
+  }
+
+  @keyframes feature-edge-pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+  }
+
+  @media (min-width: 768px) {
+    .feature-carousel-edge {
+      display: none;
+    }
+  }
+
+  /* Navigation dots */
+  .feature-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .feature-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+
+  .feature-carousel-dot.is-active {
+    background-color: rgba(255, 255, 255, 0.9);
+    transform: scale(1.3);
+  }
+
+  @media (min-width: 768px) {
+    .feature-carousel-dots {
+      display: none;
+    }
+  }
+
+  html.dark .feature-carousel-dot {
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+
+  html.dark .feature-carousel-dot.is-active {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+</style>
+
+<script>
+  const initFeatureCarousel = (carousel: HTMLElement) => {
+    if (carousel.dataset.carouselReady === 'true') return;
+    carousel.dataset.carouselReady = 'true';
+
+    const track = carousel.querySelector<HTMLElement>('.feature-cards-track');
+    const dots = carousel.querySelectorAll<HTMLElement>('.feature-carousel-dot');
+    const edgeLeft = carousel.querySelector<HTMLElement>('.feature-carousel-edge-left');
+    const edgeRight = carousel.querySelector<HTMLElement>('.feature-carousel-edge-right');
+
+    if (!track || dots.length === 0) return;
+
+    const isMobile = () => window.innerWidth < 768;
+
+    const updateIndicators = () => {
+      if (!isMobile()) return;
+
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const atStart = track.scrollLeft <= 2;
+      const atEnd = track.scrollLeft >= maxScroll - 2;
+
+      // Edge gradients
+      edgeLeft?.classList.toggle('is-hidden', atStart);
+      edgeRight?.classList.toggle('is-hidden', atEnd);
+
+      // Active dot — find the card closest to the track center
+      const items = track.querySelectorAll<HTMLElement>('.feature-card-item');
+      const trackRect = track.getBoundingClientRect();
+      const trackCenter = trackRect.left + trackRect.width / 2;
+      let closestIndex = 0;
+      let closestDist = Infinity;
+
+      items.forEach((item, i) => {
+        const rect = item.getBoundingClientRect();
+        const center = rect.left + rect.width / 2;
+        const dist = Math.abs(center - trackCenter);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closestIndex = i;
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('is-active', i === closestIndex);
+      });
+    };
+
+    // Dot clicks → scroll to corresponding card
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        if (!isMobile()) return;
+        const index = parseInt(dot.dataset.index || '0', 10);
+        const items = track.querySelectorAll<HTMLElement>('.feature-card-item');
+        const targetItem = items[index];
+        if (targetItem) {
+          targetItem.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest',
+            inline: 'center',
+          });
+        }
+      });
+    });
+
+    // Pointer drag-to-scroll (desktop mouse)
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+
+    track.addEventListener('pointerdown', (e: PointerEvent) => {
+      if (!isMobile()) return;
+      isDown = true;
+      moved = false;
+      startX = e.clientX;
+      startScroll = track.scrollLeft;
+      track.classList.add('is-dragging');
+    });
+
+    track.addEventListener('pointermove', (e: PointerEvent) => {
+      if (!isDown || !isMobile()) return;
+      const dx = e.clientX - startX;
+      if (Math.abs(dx) > 4) moved = true;
+      track.scrollLeft = startScroll - dx;
+    });
+
+    const endDrag = () => {
+      if (!isDown) return;
+      isDown = false;
+      track.classList.remove('is-dragging');
+    };
+
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+    track.addEventListener('pointerleave', endDrag);
+
+    // Suppress accidental clicks triggered by a drag
+    track.addEventListener(
+      'click',
+      (e: MouseEvent) => {
+        if (moved) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    // Scroll listener — update indicators and provide edge bounce feedback
+    let prevScrollLeft = 0;
+
+    track.addEventListener('scroll', () => {
+      if (!isMobile()) return;
+
+      const maxScroll = track.scrollWidth - track.clientWidth;
+      const atStart = track.scrollLeft <= 2;
+      const atEnd = track.scrollLeft >= maxScroll - 2;
+
+      // Edge pulse feedback when first reaching a boundary
+      if (atStart && prevScrollLeft > 2) {
+        edgeLeft?.classList.add('is-pulse');
+        window.setTimeout(() => edgeLeft?.classList.remove('is-pulse'), 400);
+      }
+      if (atEnd && prevScrollLeft < maxScroll - 2) {
+        edgeRight?.classList.add('is-pulse');
+        window.setTimeout(() => edgeRight?.classList.remove('is-pulse'), 400);
+      }
+
+      prevScrollLeft = track.scrollLeft;
+      updateIndicators();
+    }, { passive: true });
+
+    // Update on resize
+    window.addEventListener('resize', updateIndicators);
+    updateIndicators();
+  };
+
+  const initAllFeatureCarousels = () => {
+    document.querySelectorAll<HTMLElement>('.feature-cards-carousel').forEach(initFeatureCarousel);
+  };
+
+  initAllFeatureCarousels();
+  document.addEventListener('astro:page-load', initAllFeatureCarousels);
+</script>

@@ -1,0 +1,224 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headingsZh: Heading[];
+  headingsEn: Heading[];
+  minDepth?: number;
+  maxDepth?: number;
+}
+
+const { headingsZh, headingsEn, minDepth = 2, maxDepth = 3 } = Astro.props;
+
+const filterHeadings = (hs: Heading[]) =>
+  (hs ?? []).filter((h) => h.depth >= minDepth && h.depth <= maxDepth);
+
+const zh = filterHeadings(headingsZh);
+const en = filterHeadings(headingsEn);
+const hasToc = zh.length > 0 || en.length > 0;
+---
+
+{hasToc && (
+  <aside class="toc js-toc hidden lg:block lg:w-60 lg:flex-shrink-0 lg:self-start lg:sticky lg:top-24">
+    <div class="toc-header">
+      <span data-lang="zh">目录</span>
+      <span data-lang="en">Contents</span>
+    </div>
+    <nav class="toc-nav" aria-label="Table of contents">
+      <ul class="toc-list" data-lang="zh">
+        {zh.map((h) => (
+          <li class={`toc-item toc-depth-${h.depth}`}>
+            <a href={`#${h.slug}`} data-slug={h.slug} title={h.text}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+      <ul class="toc-list" data-lang="en">
+        {en.map((h) => (
+          <li class={`toc-item toc-depth-${h.depth}`}>
+            <a href={`#${h.slug}`} data-slug={h.slug} title={h.text}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </aside>
+)}
+
+<style is:global>
+  /* Give headings room below the fixed navbar when navigated to */
+  .js-toc-content :is(h1, h2, h3, h4, h5, h6) {
+    scroll-margin-top: 6rem;
+  }
+
+  /* --- Card wrapper (desktop only, hidden below lg) --- */
+  .toc {
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    padding: 0.25rem 0;
+    border: 1px solid #e5e7eb;
+    border-radius: 1rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  .toc-header {
+    padding: 0.4rem 0.8rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: #111827;
+    user-select: none;
+  }
+
+  .toc-nav {
+    padding: 0;
+  }
+
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .toc-item a {
+    display: block;
+    padding: 0.28rem 0.6rem;
+    border-left: 2px solid transparent;
+    color: #6b7280;
+    font-size: 0.86rem;
+    line-height: 1.45;
+    text-decoration: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .toc-depth-3 a {
+    padding-left: 1.4rem;
+    font-size: 0.8rem;
+  }
+
+  .toc-item a:hover {
+    color: #006eff;
+  }
+
+  .toc-item a.is-active {
+    color: #008cff;
+    border-left-color: #008cff;
+    font-weight: 600;
+  }
+
+  /* --- Dark mode --- */
+  html.dark .toc {
+    border-color: #1f2937;
+    background-color: #111827;
+    box-shadow: none;
+  }
+
+  html.dark .toc-header {
+    color: #f3f4f6;
+  }
+
+  html.dark .toc-item a {
+    color: #9ca3af;
+  }
+
+  html.dark .toc-item a:hover {
+    color: #30acff;
+  }
+
+  html.dark .toc-item a.is-active {
+    color: #4da3ff;
+    border-left-color: #4da3ff;
+  }
+
+  /* Thin scrollbar for the sticky list */
+  .toc::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .toc::-webkit-scrollbar-thumb {
+    background-color: rgba(107, 114, 128, 0.35);
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+  const initToc = () => {
+    const toc = document.querySelector<HTMLElement>('.js-toc');
+    const content = document.querySelector<HTMLElement>('.js-toc-content');
+    if (!toc || !content) return;
+    if (toc.dataset.tocReady === 'true') return;
+    toc.dataset.tocReady = 'true';
+
+    const getVisibleContainer = () => {
+      const lang = document.documentElement.getAttribute('data-lang') || 'zh';
+      return content.querySelector<HTMLElement>(`[data-lang="${lang}"]`) || content;
+    };
+
+    const allLinks = () => Array.from(toc.querySelectorAll<HTMLAnchorElement>('a[data-slug]'));
+
+    const setActive = (slug: string | null) => {
+      allLinks().forEach((a) => {
+        a.classList.toggle('is-active', !!slug && a.getAttribute('data-slug') === slug);
+      });
+    };
+
+    let observer: IntersectionObserver | null = null;
+    let visible = new Set<Element>();
+
+    const buildObserver = () => {
+      if (observer) observer.disconnect();
+      visible = new Set();
+      const container = getVisibleContainer();
+      const heads = Array.from(container.querySelectorAll<HTMLElement>('h2, h3'));
+      if (!heads.length) return;
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) visible.add(entry.target);
+            else visible.delete(entry.target);
+          }
+          // Pick the first visible heading in document order
+          const current = heads.find((h) => visible.has(h));
+          if (current && current.id) setActive(current.id);
+        },
+        { rootMargin: '-88px 0px -66% 0px', threshold: 0 }
+      );
+      heads.forEach((h) => observer!.observe(h));
+    };
+
+    toc.addEventListener('click', (e) => {
+      const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[data-slug]');
+      if (!link) return;
+      e.preventDefault();
+      const slug = link.getAttribute('data-slug');
+      if (!slug) return;
+      const container = getVisibleContainer();
+      let target: HTMLElement | null = null;
+      try {
+        target = container.querySelector<HTMLElement>('#' + CSS.escape(slug));
+      } catch {
+        target = null;
+      }
+      if (!target) target = document.getElementById(slug);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + slug);
+        setActive(slug);
+      }
+    });
+
+    buildObserver();
+    requestAnimationFrame(buildObserver);
+    window.addEventListener('language-change', () => {
+      buildObserver();
+    });
+  };
+
+  initToc();
+  document.addEventListener('astro:page-load', initToc);
+</script>

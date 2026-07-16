@@ -8,32 +8,54 @@ interface Props {
 
 const { titleZh, titleEn, descriptionZh, descriptionEn } = Astro.props;
 
+const SITE_NAME = 'Super Mario Worker Project';
+const TITLE_SUFFIX = ` | ${SITE_NAME}`;
+const fullTitleZh = titleZh === SITE_NAME ? titleZh : `${titleZh}${TITLE_SUFFIX}`;
+const fullTitleEn = titleEn === SITE_NAME ? titleEn : `${titleEn}${TITLE_SUFFIX}`;
+
 import '../styles/global.css';
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-title-zh={titleZh} data-title-en={titleEn} data-desc-zh={descriptionZh} data-desc-en={descriptionEn}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={descriptionZh} />
-    <link rel="icon" type="image/png" href="/images/smwp2-logo.png" />
+    <link rel="icon" type="image/png" href="/images/mworker.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <script is:inline>
       (() => {
+        const docEl = document.documentElement;
+
+        // Theme
         const savedTheme = localStorage.getItem('theme');
         const isDark = savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.classList.toggle('dark', isDark);
+        docEl.classList.toggle('dark', isDark);
 
+        // Language
         const savedLang = localStorage.getItem('lang') || (navigator.language.startsWith('zh') ? 'zh' : 'en');
-        document.documentElement.setAttribute('data-lang', savedLang);
+        docEl.setAttribute('data-lang', savedLang);
+        docEl.setAttribute('lang', savedLang === 'zh' ? 'zh-CN' : 'en');
+
+        // Immediate Title/Description update to prevent flash
+        const title = savedLang === 'en' ? docEl.getAttribute('data-title-en') : docEl.getAttribute('data-title-zh');
+        if (title) {
+          const siteName = 'Super Mario Worker Project';
+          document.title = title === siteName ? title : `${title} | ${siteName}`;
+        }
+        const desc = savedLang === 'en' ? docEl.getAttribute('data-desc-en') : docEl.getAttribute('data-desc-zh');
+        if (desc) {
+          const metaDesc = document.querySelector('meta[name="description"]');
+          if (metaDesc) metaDesc.setAttribute('content', desc);
+        }
       })();
     </script>
-    <title>{titleZh}</title>
+    <title>{fullTitleZh}</title>
   </head>
-  <body class="min-h-screen font-sans flex flex-col" data-title-zh={titleZh} data-title-en={titleEn} data-desc-zh={descriptionZh} data-desc-en={descriptionEn}>
+  <body class="min-h-screen font-sans flex flex-col">
     <slot />
   </body>
 </html>
@@ -41,19 +63,21 @@ import '../styles/global.css';
 <script>
   const getDefaultLang = () => navigator.language.startsWith('zh') ? 'zh' : 'en';
 
+  const SITE_NAME = 'Super Mario Worker Project';
+
   const updatePageTitleAndDesc = (lang: string) => {
-    const body = document.body;
-    const titleZh = body.getAttribute('data-title-zh');
-    const titleEn = body.getAttribute('data-title-en');
-    const descZh = body.getAttribute('data-desc-zh');
-    const descEn = body.getAttribute('data-desc-en');
+    const root = document.documentElement;
+    const titleZh = root.getAttribute('data-title-zh');
+    const titleEn = root.getAttribute('data-title-en');
+    const descZh = root.getAttribute('data-desc-zh');
+    const descEn = root.getAttribute('data-desc-en');
 
     if (lang === 'en') {
-      if (titleEn) document.title = titleEn;
+      if (titleEn) document.title = titleEn === SITE_NAME ? titleEn : `${titleEn} | ${SITE_NAME}`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc && descEn) metaDesc.setAttribute('content', descEn);
     } else {
-      if (titleZh) document.title = titleZh;
+      if (titleZh) document.title = titleZh === SITE_NAME ? titleZh : `${titleZh} | ${SITE_NAME}`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc && descZh) metaDesc.setAttribute('content', descZh);
     }
@@ -70,4 +94,38 @@ import '../styles/global.css';
     const currentLang = localStorage.getItem('lang') || getDefaultLang();
     updatePageTitleAndDesc(currentLang);
   });
+
+  /* Mark external text links with .ext-link class */
+  const markExternalLinks = () => {
+    document.querySelectorAll('a[href^="http"]').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (!href) return;
+
+      /* Skip navbar links */
+      if (a.closest('.site-header')) return;
+
+      /* Skip button-styled links */
+      const cls = a.className;
+      if (/\brounded-full\b/.test(cls) || /!text-white/.test(cls) || /\bbg-gradient\b/.test(cls)) return;
+
+      /* Skip icon-only links (contain <i> or <svg> but no text content) */
+      const hasIcon = a.querySelector('i, svg');
+      const hasText = Array.from(a.childNodes).some(
+        (n) => n.nodeType === Node.TEXT_NODE && n.textContent?.trim()
+      );
+      if (hasIcon && !hasText) return;
+
+      try {
+        const url = new URL(href);
+        if (!url.hostname.endsWith('marioforever.net')) {
+          a.classList.add('ext-link');
+        }
+      } catch {
+        /* invalid URL, skip */
+      }
+    });
+  };
+
+  markExternalLinks();
+  document.addEventListener('astro:page-load', markExternalLinks);
 </script>

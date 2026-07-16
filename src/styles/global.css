@@ -6,21 +6,31 @@
 @theme {
   --font-family-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --font-family-mono: ui-monospace, "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
+  --breakpoint-md: 980px;
 }
 
 body {
   font-family: var(--font-family-sans);
-  background-color: #ffffff;
+  background-color: #f9fafb;
   color: #111827;
 }
 
 a {
-  color: inherit;
+  color: #008cff;
+  text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a:hover {
-  color: #2563eb;
+  color: #006eff;
+}
+
+html.dark a {
+  color: #4da3ff;
+}
+
+html.dark a:hover {
+  color: #30acff;
 }
 
 html.dark body {
@@ -28,6 +38,203 @@ html.dark body {
   color: #e5e7eb;
 }
 
-html.dark a:hover {
-  color: #60a5fa;
+/* i18n visibility control - prevents content flash on load */
+html[data-lang="zh"] [data-lang="en"],
+html[data-lang="en"] [data-lang="zh"] {
+  display: none !important;
+}
+
+/* Scrolling Banner */
+.scrolling-row {
+  position: absolute;
+  width: 100%;
+  height: 33.333%;
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  will-change: background-position;
+}
+
+.scrolling-row-1 {
+  top: 0;
+  background-image: url('/images/bg1.webp');
+  animation: scroll-left 1000s linear infinite;
+}
+
+.scrolling-row-2 {
+  top: 33.333%;
+  background-image: url('/images/bg2.webp');
+  animation: scroll-right 1000s linear infinite;
+}
+
+.scrolling-row-3 {
+  top: 66.666%;
+  background-image: url('/images/bg3.webp');
+  animation: scroll-left 1000s linear infinite;
+}
+
+@keyframes scroll-left {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 0; }
+}
+
+@keyframes scroll-right {
+  from { background-position: 0 0; }
+  to { background-position: 10000px 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolling-row {
+    animation: none !important;
+  }
+}
+
+/* External text links — differentiated by arrow icon only */
+a.ext-link::after {
+  content: "\00a0↗";
+  font-size: 0.75rem;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+/* Remove underline from prose links */
+.prose a {
+  text-decoration: none;
+}
+
+/* ============================================================
+   Markdown typography (aligned with smwp-homepage / vdoing)
+   Metrics only (font-size / line-height / spacing / borders).
+   Colors stay owned by the per-article prose-* utilities.
+   ============================================================ */
+
+/* Base */
+.prose {
+  font-size: 16px;
+}
+
+/* Headings: size + weight 600 + line-height 1.25 (colors from utilities) */
+.prose :is(h1, h2, h3, h4, h5, h6) {
+  font-weight: 600;
+  line-height: 1.25;
+  scroll-margin-top: 6rem;
+}
+.prose h1 {
+  font-size: 2rem;
+}
+.prose h2 {
+  font-size: 1.5rem;
+}
+.prose :is(div[data-lang="zh"], div[data-lang="en"]) > h2:first-child {
+  margin-top: 1em;
+}
+.prose h3 {
+  font-size: 1.35rem;
+  margin-bottom: 1em;
+}
+.prose h4 {
+  font-size: 1.2rem;
+}
+.prose h5 {
+  font-size: 1.1rem;
+}
+.prose h6 {
+  font-size: 1rem;
+}
+
+/* Body line-height */
+.prose p,
+.prose ul,
+.prose ol {
+  line-height: 1.7;
+}
+
+/* Lists: aligned with smwp-homepage (vdoing) — 1.2em indent, text-color markers,
+   line-height-driven item spacing, browser-default nested marker shapes */
+.prose ul,
+.prose ol {
+  padding-left: 1.2em;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.prose li {
+  margin-top: 0;
+  margin-bottom: 0;
+  padding-inline-start: 0;
+}
+.prose li::marker {
+  color: inherit;
+}
+/* Restore browser-default nested marker shapes (prose forces disc otherwise) */
+.prose ul ul {
+  list-style-type: circle;
+}
+.prose ul ul ul {
+  list-style-type: square;
+}
+.prose li > ul,
+.prose li > ol {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* Inline code: size/padding/radius/subtle bg (color from prose-code util) */
+.prose :not(pre) > code {
+  font-size: 0.9em;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
+  background-color: rgba(100, 100, 100, 0.08);
+  font-weight: 400;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+
+/* Code blocks: line-height/padding/margin/radius */
+.prose pre {
+  line-height: 1.4;
+  padding: 1.25rem 1.5rem;
+  margin: 0.85rem 0;
+  border-radius: 6px;
+}
+
+/* Blockquote: size/opacity/left border, strip prose quote marks */
+.prose blockquote {
+  font-size: 1rem;
+  opacity: 0.75;
+  margin: 1rem 0;
+  padding: 0.25rem 0 0.25rem 1rem;
+  border-left: 0.2rem solid rgba(100, 100, 100, 0.3);
+  font-style: normal;
+  font-weight: 400;
+}
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: none;
+}
+
+/* Tables: margin/collapsed borders/cell padding/zebra rows */
+.prose table {
+  margin: 0 !important;
+  width: 100%;
+  border-collapse: collapse;
+}
+.prose :is(th, td) {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  padding: 0.6em 1em;
+}
+.prose tbody tr:nth-child(2n) {
+  background-color: rgba(150, 150, 150, 0.1);
+}
+html.dark .prose :is(th, td) {
+  border-color: #30363d;
+}
+
+/* Horizontal rule */
+.prose hr {
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 1.5rem 0;
+}
+html.dark .prose hr {
+  border-top-color: #30363d;
 }

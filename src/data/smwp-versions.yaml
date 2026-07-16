@@ -1,0 +1,297 @@
+---
+release:
+- v0.2.0:
+  - date: 2016-06-27
+  - zip_name: SuperMarioWorkerProject_v0.2.0.rar
+- v0.2.2:
+  - date: 2016-07-02
+  - zip_name: SuperMarioWorkerProject_v0.2.2.rar
+- v0.2.4_Fix:
+  - date: 2016-07-07
+  - zip_name: SuperMarioWorkerProject_v0.2.4_Fix.rar
+- v1.1.0:
+  - date: 2017-06-15
+  - zip_name: SuperMarioWorkerProject_v1.1.0.zip
+- v1.2.0:
+  - date: 2017-06-27
+  - zip_name: SuperMarioWorkerProject_v1.2.0.zip
+  - ver_code: 1200
+- v1.2.0_Fix:
+  - date: 2017-06-27
+  - zip_name: SuperMarioWorkerProject_v1.2.0_Fix.zip
+  - ver_code: 1200
+- v1.2.0_Fix2:
+  - date: 2017-06-28
+  - zip_name: SuperMarioWorkerProject_v1.2.0_Fix2.zip
+  - ver_code: 1200
+- v1.2.2:
+  - date: 2017-07-28
+  - zip_name: SuperMarioWorkerProject_v1.2.2.zip
+  - ver_code: 1220
+- v1.2.7:
+  - date: 2017-08-05
+  - zip_name: SuperMarioWorkerProject_v1.2.7.zip
+  - ver_code: 1260
+- v1.3.0:
+  - date: 2017-08-16
+  - zip_name: SuperMarioWorkerProject_v1.3.0.zip
+  - ver_code: 1300
+- v1.3.1:
+  - date: 2017-10-14
+  - zip_name: SuperMarioWorkerProject_v1.3.1.zip
+  - ver_code: 1300
+- v1.3.1_Fix2:
+  - date: 2018-02-05
+  - zip_name: SuperMarioWorkerProject_v1.3.1_Fix2.zip
+  - ver_code: 1300
+- v1.4.0:
+  - date: 2018-02-28
+  - zip_name: SuperMarioWorkerProject_v1.4.0.zip
+  - ver_code: 1400
+- v1.4.1:
+  - date: 2018-03-18
+  - zip_name: SuperMarioWorkerProject_v1.4.1.zip
+  - ver_code: 1400
+- v1.4.4:
+  - date: 2018-07-03
+  - zip_name: SuperMarioWorkerProject_v1.4.4.zip
+  - ver_code: 1400
+- v1.4.5:
+  - date: 2018-07-13
+  - zip_name: SuperMarioWorkerProject_v1.4.5.zip
+  - ver_code: 1450
+- v1.5.0:
+  - date: 2018-08-19
+  - zip_name: SuperMarioWorkerProject_v1.5.0.7z
+  - ver_code: 1500
+- v1.5.2:
+  - date: 2018-08-28
+  - zip_name: SuperMarioWorkerProject_v1.5.2.7z
+  - ver_code: 1502
+- v1.5.2_Fix:
+  - date: 2018-08-29
+  - zip_name: SuperMarioWorkerProject_v1.5.2_Fix.7z
+  - ver_code: 1502
+- v1.5.2_Fix2:
+  - date: 2018-09-02
+  - zip_name: SuperMarioWorkerProject_v1.5.2_Fix2.7z
+  - ver_code: 1502
+- v1.6.0:
+  - date: 2019-02-18
+  - zip_name: SuperMarioWorkerProject_v1.6.0.7z
+  - ver_code: 1600
+- v1.6.0_Fix:
+  - date: 2019-02-19
+  - zip_name: SuperMarioWorkerProject_v1.6.0_Fix.7z
+  - ver_code: 1600
+- v1.6.1:
+  - date: 2019-03-24
+  - zip_name: SuperMarioWorkerProject_v1.6.1.7z
+  - ver_code: 1600
+- v1.6.2:
+  - date: 2019-04-30
+  - zip_name: SuperMarioWorkerProject_v1.6.2.7z
+  - ver_code: 1600
+- v1.6.2_Fix:
+  - date: 2019-05-12
+  - zip_name: SuperMarioWorkerProject_v1.6.2_Fix.7z
+  - ver_code: 1600
+- v1.6.3:
+  - date: 2019-06-20
+  - zip_name: SuperMarioWorkerProject_v1.6.3.7z
+  - ver_code: 1600
+- v1.6.5:
+  - date: 2019-07-15
+  - zip_name: SuperMarioWorkerProject_v1.6.5.7z
+  - ver_code: 1600
+- v1.7.0:
+  - date: 2020-05-24
+  - zip_name: SuperMarioWorkerProject_v1.7.0.7z
+  - ver_code: 1700
+- v1.7.2:
+  - date: 2020-06-01
+  - zip_name: SuperMarioWorkerProject_v1.7.2.7z
+  - ver_code: 1701
+- v1.7.2_Fix:
+  - date: 2020-06-03
+  - zip_name: SuperMarioWorkerProject_v1.7.2_Fix.7z
+  - ver_code: 1701
+- v1.7.3:
+  - date: 2020-06-13
+  - zip_name: SuperMarioWorkerProject_v1.7.3.7z
+  - ver_code: 1703
+- v1.7.4:
+  - date: 2020-06-26
+  - zip_name: SuperMarioWorkerProject_v1.7.4.7z
+  - ver_code: 1704
+- v1.7.5:
+  - date: 2020-07-11
+  - zip_name: SuperMarioWorkerProject_v1.7.5.7z
+  - ver_code: 1705
+- v1.7.6:
+  - date: 2020-07-27
+  - zip_name: SuperMarioWorkerProject_v1.7.6.7z
+  - ver_code: 1706
+- v1.7.7:
+  - date: 2021-05-03
+  - zip_name: smwp-1.7.7.7z
+  - ver_code: 1707
+- v1.7.8:
+  - date: 2021-07-11
+  - zip_name: smwp-1.7.8.7z
+  - ver_code: 1708
+- v1.7.9:
+  - date: 2022-07-24
+  - zip_name: smwp-1.7.9.7z
+  - ver_code: 1709
+- v1.7.10:
+  - date: 2024-10-12
+  - zip_name: smwp-1.7.10.7z
+  - ver_code: 1710
+- v1.7.11:
+  - date: 2025-07-18
+  - zip_name: smwp-1.7.11.7z
+  - ver_code: 1711
+- v1.7.11a:
+  - date: 2025-07-18
+  - zip_name: smwp-1.7.11a.7z
+  - ver_code: 1711
+- v1.7.11b:
+  - date: 2025-07-18
+  - zip_name: smwp-1.7.11b.7z
+  - ver_code: 1711
+- v1.7.12:
+  - date: 2026-05-24
+  - zip_name: smwp-1.7.12.7z
+  - ver_code: 1712
+
+pre_release:
+- v0.1.0_Alpha:
+  - date: 2015-07-18
+  - zip_name: SuperMarioWorkerProject_v0.1.0_Alpha.rar
+- v0.3.2_Alpha:
+  - date: 2017-02-09
+  - zip_name: SuperMarioWorkerProject_v0.3.2_Alpha.rar
+- v1.0.1_Alpha:
+  - date: 2016-08-24
+  - zip_name: SuperMarioWorkerProject_v1.0.1_Alpha.rar
+- v1.4.0a:
+  - date: 2018-02-02
+  - zip_name: SuperMarioWorkerProject_v1.4.0a.zip
+  - ver_code: 1400
+- v1.4.0b:
+  - date: 2018-02-02
+  - zip_name: SuperMarioWorkerProject_v1.4.0b.zip
+  - ver_code: 1400
+- v1.7.7-beta:
+  - date: 2021-04-02
+  - zip_name: smwp-1.7.7-beta.7z
+  - ver_code: 1707
+- v1.7.7-beta2:
+  - date: 2021-04-03
+  - zip_name: smwp-1.7.7-beta2.7z
+  - ver_code: 1707
+- v1.7.9-beta1:
+  - date: 2022-07-12
+  - zip_name: smwp-1.7.9-beta1.7z
+  - ver_code: 1709
+- v1.7.9-beta2:
+  - date: 2022-07-14
+  - zip_name: smwp-1.7.9-beta2.7z
+  - ver_code: 1709
+- v1.7.9-beta3:
+  - date: 2022-07-15
+  - zip_name: smwp-1.7.9-beta3.7z
+  - ver_code: 1709
+- v1.7.10-beta1:
+  - date: 2022-08-19
+  - zip_name: smwp-1.7.10-beta1.7z
+  - ver_code: 1710
+- v1.7.10-beta2:
+  - date: 2023-01-04
+  - zip_name: smwp-1.7.10-beta2.7z
+  - ver_code: 1710
+- v1.7.10-beta3:
+  - date: 2023-01-07
+  - zip_name: smwp-1.7.10-beta3.7z
+  - ver_code: 1710
+- v1.7.10-beta4:
+  - date: 2023-01-09
+  - zip_name: smwp-1.7.10-beta4.7z
+  - ver_code: 1710
+- v1.7.10-beta4a:
+  - date: 2023-07-04
+  - zip_name: smwp-1.7.10-beta4a.7z
+  - ver_code: 1710
+- v1.7.11-beta1:
+  - date: 2025-07-08
+  - zip_name: smwp-1.7.11-beta1.7z
+  - ver_code: 1711
+- v1.7.11-beta1a:
+  - date: 2025-07-08
+  - zip_name: smwp-1.7.11-beta1a.7z
+  - ver_code: 1711
+- v1.7.11-beta1b:
+  - date: 2025-07-08
+  - zip_name: smwp-1.7.11-beta1b.7z
+  - ver_code: 1711
+- v1.7.11-beta2:
+  - date: 2025-07-09
+  - zip_name: smwp-1.7.11-beta2.7z
+  - ver_code: 1711
+- v1.7.11-beta2a:
+  - date: 2025-07-09
+  - zip_name: smwp-1.7.11-beta2a.7z
+  - ver_code: 1711
+- v1.7.11-beta2b:
+  - date: 2025-07-09
+  - zip_name: smwp-1.7.11-beta2b.7z
+  - ver_code: 1711
+- v1.7.12-beta1:
+  - date: 2025-07-20
+  - zip_name: smwp-1.7.12-beta1.7z
+  - ver_code: 1712
+- v1.7.12-beta1a:
+  - date: 2025-07-20
+  - zip_name: smwp-1.7.12-beta1a.7z
+  - ver_code: 1712
+- v1.7.12-beta2:
+  - date: 2025-07-26
+  - zip_name: smwp-1.7.12-beta2.7z
+  - ver_code: 1712
+- v1.7.12-beta2a:
+  - date: 2025-07-26
+  - zip_name: smwp-1.7.12-beta2a.7z
+  - ver_code: 1712
+- v1.7.12-beta3:
+  - date: 2025-08-02
+  - zip_name: smwp-1.7.12-beta3.7z
+  - ver_code: 1712
+- v1.7.12-beta3a:
+  - date: 2025-08-02
+  - zip_name: smwp-1.7.12-beta3a.7z
+  - ver_code: 1712
+- v1.7.12-beta4:
+  - date: 2025-09-23
+  - zip_name: smwp-1.7.12-beta4.7z
+  - ver_code: 1712
+- v1.7.12-beta4a:
+  - date: 2025-09-23
+  - zip_name: smwp-1.7.12-beta4a.7z
+  - ver_code: 1712
+- v1.7.12-beta5:
+  - date: 2026-01-14
+  - zip_name: smwp-1.7.12-beta5.7z
+  - ver_code: 1712
+- v1.7.12-beta5a:
+  - date: 2026-01-14
+  - zip_name: smwp-1.7.12-beta5a.7z
+  - ver_code: 1712
+- v1.7.12f:
+  - date: 2026-06-05
+  - zip_name: smwp-1.7.12f.7z
+  - ver_code: 1712
+- v1.7.12f2:
+  - date: 2026-07-08
+  - zip_name: smwp-1.7.12f2.7z
+  - ver_code: 1712

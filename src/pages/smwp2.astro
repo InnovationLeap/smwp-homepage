@@ -1,0 +1,125 @@
+---
+import { getEntry, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+
+const entryZh = await getEntry('zh', 'smwp2');
+const entryEn = await getEntry('en', 'smwp2');
+
+if (!entryZh || !entryEn) {
+  throw new Error('SMWP 2 page not found');
+}
+
+const { Content: ContentZh } = await render(entryZh);
+const { Content: ContentEn } = await render(entryEn);
+
+const features = [
+  {
+    icon: '🚀',
+    titleZh: '新引擎',
+    titleEn: 'New Engine',
+    descriptionZh: '全面转向 Godot Engine 4，带来更多的功能和性能优化。',
+    descriptionEn: 'Game Engine migrated to Godot Engine 4, bringing more features and better performance.',
+  },
+  {
+    icon: '🔗',
+    titleZh: '兼容 SMWP 1 生态',
+    titleEn: 'SMWP 1 Compatibility',
+    descriptionZh: '保持与 SMWP 1 相同的关卡格式和游戏机制，并基于其进行扩展。',
+    descriptionEn: 'Keep the same level format and game mechanics as SMWP 1, with extensions built on top.',
+  },
+  {
+    icon: '👐',
+    titleZh: '开源',
+    titleEn: 'Open Source',
+    descriptionZh: 'SMWP 2 将全面开源，允许玩家和关卡创作者自由修改定制。',
+    descriptionEn: 'SMWP 2 will be open-source, allowing players and level creators to freely modify and customize.',
+  },
+];
+---
+
+<BaseLayout titleZh={entryZh.data.title} titleEn={entryEn.data.title} descriptionZh={entryZh.data.description} descriptionEn={entryEn.data.description}>
+  <Navbar isSmwp2={true} />
+
+  <main class="flex-1">
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-12">
+      <div class="max-w-7xl mx-auto px-8 lg:px-16">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-8">
+          <!-- Text Content (Left on large screens) -->
+          <div class="flex-1 text-center lg:text-left">
+            <!-- Title with Gradient -->
+            <h1 class="text-5xl lg:text-6xl font-bold mb-4 inline-block" style="color: transparent; background: -webkit-linear-gradient(120deg, #3fbbfe 30%, #a541ff); background-clip: text; -webkit-background-clip: text;">
+              SMWP 2
+            </h1>
+
+            <p class="text-xl lg:text-2xl font-medium text-gray-600 dark:text-gray-300 mb-8 max-w-2xl leading-normal">
+              <span data-lang="zh">下一代 Super Mario Worker Project，由 INNOVATION LEAP 开发</span>
+              <span data-lang="en">Next gen Super Mario Worker Project, developed by INNOVATION LEAP</span>
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+              <a
+                href="https://github.com/InnovationLeap/Super-Mario-Worker-Project-2"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center px-6 py-3 text-sm font-semibold !text-white hover:!text-white active:!text-white visited:!text-white bg-gradient-to-l from-blue-500 to-purple-600 rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
+              >
+                <span data-lang="zh">GitHub 仓库</span>
+                <span data-lang="en">GitHub Repository</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Logo (Right on large screens, top on mobile) -->
+          <div class="flex-1 flex justify-center items-center order-first lg:order-last lg:-mt-8">
+            <div class="relative w-56 h-56">
+              <div class="absolute -inset-8" style="background-image: linear-gradient(-45deg, #3fbbfe 50%, #a541ff 50%); filter: blur(64px); border-radius: 9999px;"></div>
+              <img
+                src="/images/mwhammer.png"
+                alt="SMWP 2 Logo"
+                class="w-full h-full object-contain relative z-10"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="pb-12">
+      <div class="max-w-7xl mx-auto px-8 lg:px-16">
+        <div class="grid md:grid-cols-3 gap-4">
+          {features.map((feature) => (
+            <FeatureCard
+              icon={feature.icon}
+              titleZh={feature.titleZh}
+              titleEn={feature.titleEn}
+              descriptionZh={feature.descriptionZh}
+              descriptionEn={feature.descriptionEn}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Introduction Section -->
+    <section class="pb-20 border-t border-gray-200 dark:border-gray-800">
+      <div class="max-w-7xl mx-auto px-8 lg:px-16 pt-4">
+        <article class="prose mx-auto max-w-none prose-headings:text-gray-900 prose-p:text-gray-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300">
+          <div data-lang="zh">
+            <ContentZh />
+          </div>
+          <div data-lang="en">
+            <ContentEn />
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

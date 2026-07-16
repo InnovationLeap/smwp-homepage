@@ -1,7 +1,7 @@
 ---
 interface NavItem {
-  labelZh: string;
-  labelEn: string;
+  labelZh?: string;
+  labelEn?: string;
   href?: string;
   target?: string;
   rel?: string;
@@ -15,16 +15,26 @@ const navItems: NavItem[] = [
     href: '/',
   },
   {
-    labelZh: '2.0.0-alpha.0',
-    labelEn: '2.0.0-alpha.0',
+    labelZh: '版本',
+    labelEn: 'Versions',
     children: [
-      { labelZh: '1.7 (LTS)', labelEn: '1.7 (LTS)', href: 'https://smwp.marioforever.net/1.7/', target: '_blank', rel: 'noopener noreferrer' },
-      { labelZh: '历史版本', labelEn: 'Version History', href: 'https://smwp.marioforever.net/downloads/', target: '_blank', rel: 'noopener noreferrer' },
+      { labelZh: 'v1.7', labelEn: 'v1.7', href: '/v1.7/' },
+      { labelZh: 'v1.6', href: '/v1.6/' },
+      { labelZh: 'v1.5', href: '/v1.5/' },
     ],
   },
   {
+    labelZh: '下载',
+    labelEn: 'Downloads',
+    href: '/downloads/',
+  },
+  {
+    labelZh: 'SMWP 2',
+    labelEn: 'SMWP 2',
+    href: '/smwp2/',
+  },
+  {
     labelZh: '社区',
-    labelEn: 'Community',
     href: 'https://www.marioforever.net/',
     target: '_blank',
     rel: 'noopener noreferrer',
@@ -39,54 +49,53 @@ const navItems: NavItem[] = [
 ];
 
 const githubLink = {
-  href: 'https://github.com/InnovationLeap/Super-Mario-Worker-Project-2',
+  href: 'https://github.com/InnovationLeap',
   target: '_blank',
   rel: 'noopener noreferrer',
 };
+
+interface Props {
+  transparentHero?: boolean;
+  isSmwp2?: boolean;
+}
+
+const { transparentHero = false, isSmwp2 = false } = Astro.props;
 ---
 
-<header class="site-header fixed top-0 left-0 right-0 z-50 border-b">
-  <nav class="max-w-7xl mx-auto h-16 px-4 md:px-8 flex items-center justify-between">
+<header class:list={["site-header fixed top-0 left-0 right-0 z-50 border-b", { "has-hero": transparentHero }]}>
+  <nav class="nav-grid mx-auto h-16 px-4 md:px-8">
+    <!-- Col 1: Logo -->
     <a href="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-      <img src="/images/smwp2-logo.png" alt="SMWP 2 Logo" class="h-8 w-8" />
-      <span class="brand-text text-lg font-semibold">SMWP 2</span>
+      <img src={isSmwp2 ? "/images/smwp2-logo.png" : "/images/mworker.png"} alt="SMWP Logo" class="h-8 w-8" />
+      <span class="brand-text text-lg font-semibold whitespace-nowrap">Super Mario Worker Project</span>
     </a>
 
-    <button
-      id="mobile-menu-btn"
-      class="mobile-menu-btn md:hidden h-9 w-9 inline-flex items-center justify-center rounded-md"
-      aria-label="Toggle menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <svg class="mobile-menu-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path class="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-        <path class="close-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-
-    <div class="hidden md:flex text-sm items-center gap-6">
+    <!-- Col 2: Desktop nav links -->
+    <div class="nav-links hidden md:flex text-sm items-center gap-6">
       {navItems.map((item) => (
         item.children ? (
-          <div class="relative group">
+          <div class="relative group" data-nav-item data-lang-zh={item.labelZh ? 'true' : undefined} data-lang-en={item.labelEn ? 'true' : undefined}>
             <button class="nav-link transition-colors flex items-center gap-1">
-              <span data-lang="zh">{item.labelZh}</span>
-              <span data-lang="en">{item.labelEn}</span>
+              {item.labelZh && <span data-lang="zh">{item.labelZh}</span>}
+              {item.labelEn && <span data-lang="en">{item.labelEn}</span>}
               <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            <div class="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-              <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[140px]">
+            <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[100px]">
                 {item.children.map((child) => (
                   <a
                     href={child.href}
                     target={child.target}
                     rel={child.rel}
                     class="desktop-dropdown-link flex items-center gap-1 px-4 py-2 transition-colors"
+                    data-nav-item
+                    data-lang-zh={child.labelZh ? 'true' : undefined}
+                    data-lang-en={child.labelEn ? 'true' : undefined}
                   >
-                    <span data-lang="zh">{child.labelZh}</span>
-                    <span data-lang="en">{child.labelEn}</span>
+                    {child.labelZh && <span data-lang="zh">{child.labelZh}</span>}
+                    {child.labelEn && <span data-lang="en">{child.labelEn}</span>}
                     {child.target === '_blank' && <span class="external-link-indicator" aria-hidden="true">↗</span>}
                   </a>
                 ))}
@@ -99,63 +108,82 @@ const githubLink = {
             target={item.target}
             rel={item.rel}
             class="nav-link inline-flex items-center gap-1 transition-colors"
+            data-nav-item
+            data-lang-zh={item.labelZh ? 'true' : undefined}
+            data-lang-en={item.labelEn ? 'true' : undefined}
           >
-            <span data-lang="zh">{item.labelZh}</span>
-            <span data-lang="en">{item.labelEn}</span>
+            {item.labelZh && <span data-lang="zh">{item.labelZh}</span>}
+            {item.labelEn && <span data-lang="en">{item.labelEn}</span>}
             {item.target === '_blank' && <span class="external-link-indicator" aria-hidden="true">↗</span>}
           </a>
         )
       ))}
     </div>
 
-    <div class="hidden md:flex text-sm items-center gap-3">
-      <button
-        type="button"
-        data-appearance-toggle
-        class="appearance-toggle-btn appearance-switch h-6 w-11 rounded-full inline-flex items-center transition-colors"
-      >
-        <span class="appearance-switch-thumb inline-flex items-center justify-center rounded-full">
-          <svg class="sun-icon w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2.2M12 18.8V21M5.64 5.64l1.56 1.56M16.8 16.8l1.56 1.56M3 12h2.2M18.8 12H21M5.64 18.36l1.56-1.56M16.8 7.2l1.56-1.56M12 16a4 4 0 100-8 4 4 0 000 8z" />
-          </svg>
-          <svg class="moon-icon w-3 h-3 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.35 13.04A8.5 8.5 0 0110.96 3.65a8.5 8.5 0 1010.39 9.39z" />
-          </svg>
-        </span>
-      </button>
-      <div class="relative group">
+    <!-- Col 3: Desktop tools + Mobile hamburger -->
+    <div class="nav-tools-wrapper flex items-center gap-3">
+      <div class="nav-tools hidden md:flex text-sm items-center gap-3">
         <button
-          class="icon-link h-9 w-9 inline-flex items-center justify-center rounded-lg transition-colors"
-          aria-label="Switch language"
+          type="button"
+          data-appearance-toggle
+          class="appearance-toggle-btn appearance-switch h-6 w-11 rounded-full inline-flex items-center"
         >
-          <i class="fa-solid fa-language text-lg"></i>
+          <span class="appearance-switch-thumb inline-flex items-center justify-center rounded-full">
+            <svg class="sun-icon w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3v2.2M12 18.8V21M5.64 5.64l1.56 1.56M16.8 16.8l1.56 1.56M3 12h2.2M18.8 12H21M5.64 18.36l1.56-1.56M16.8 7.2l1.56-1.56M12 16a4 4 0 100-8 4 4 0 000 8z" />
+            </svg>
+            <svg class="moon-icon w-3 h-3 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.35 13.04A8.5 8.5 0 0110.96 3.65a8.5 8.5 0 1010.39 9.39z" />
+            </svg>
+          </span>
         </button>
-        <div class="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-          <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[140px]">
-            <button
-              data-lang-switch="zh"
-              class="desktop-dropdown-link flex items-center gap-2 px-4 py-2 transition-colors w-full text-left"
-            >
-              <span>简体中文</span>
-            </button>
-            <button
-              data-lang-switch="en"
-              class="desktop-dropdown-link flex items-center gap-2 px-4 py-2 transition-colors w-full text-left"
-            >
-              <span>English</span>
-            </button>
+        <div class="relative group">
+          <button
+            class="icon-link h-9 w-9 inline-flex items-center justify-center rounded-lg transition-colors"
+            aria-label="Switch language"
+          >
+            <i class="fa-solid fa-language text-lg"></i>
+          </button>
+          <div class="absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+            <div class="desktop-dropdown rounded-lg shadow-lg border py-2 min-w-[100px]">
+              <button
+                data-lang-switch="zh"
+                class="desktop-dropdown-link flex items-center gap-2 px-4 py-2 transition-colors w-full text-left"
+              >
+                <span>简体中文</span>
+              </button>
+              <button
+                data-lang-switch="en"
+                class="desktop-dropdown-link flex items-center gap-2 px-4 py-2 transition-colors w-full text-left"
+              >
+                <span>English</span>
+              </button>
+            </div>
           </div>
         </div>
+        <a
+          href={githubLink.href}
+          target={githubLink.target}
+          rel={githubLink.rel}
+          class="icon-link h-9 w-9 inline-flex items-center justify-center rounded-lg transition-colors"
+          aria-label="GitHub"
+        >
+          <i class="fa-brands fa-github text-lg"></i>
+        </a>
       </div>
-      <a
-        href={githubLink.href}
-        target={githubLink.target}
-        rel={githubLink.rel}
-        class="icon-link h-9 w-9 inline-flex items-center justify-center rounded-lg transition-colors"
-        aria-label="GitHub"
+
+      <button
+        id="mobile-menu-btn"
+        class="mobile-menu-btn md:hidden h-9 w-9 inline-flex items-center justify-center rounded-md"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
       >
-        <i class="fa-brands fa-github text-lg"></i>
-      </a>
+        <svg class="mobile-menu-icon w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path class="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path class="close-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
   </nav>
 
@@ -164,14 +192,14 @@ const githubLink = {
       <div class="space-y-1.5">
         {navItems.map((item) => (
           item.children ? (
-            <div class="mobile-dropdown">
+            <div class="mobile-dropdown" data-nav-item data-lang-zh={item.labelZh ? 'true' : undefined} data-lang-en={item.labelEn ? 'true' : undefined}>
               <button
                 class="mobile-dropdown-btn mobile-menu-link w-full text-left transition-colors py-3 px-4 flex items-center justify-between text-sm rounded-lg"
                 aria-expanded="false"
               >
                 <span>
-                  <span data-lang="zh">{item.labelZh}</span>
-                  <span data-lang="en">{item.labelEn}</span>
+                  {item.labelZh && <span data-lang="zh">{item.labelZh}</span>}
+                  {item.labelEn && <span data-lang="en">{item.labelEn}</span>}
                 </span>
                 <svg class="mobile-dropdown-chevron w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -184,9 +212,12 @@ const githubLink = {
                     target={child.target}
                     rel={child.rel}
                     class="mobile-menu-child flex items-center gap-1 py-2.5 px-4 text-sm rounded-md transition-colors"
+                    data-nav-item
+                    data-lang-zh={child.labelZh ? 'true' : undefined}
+                    data-lang-en={child.labelEn ? 'true' : undefined}
                   >
-                    <span data-lang="zh">{child.labelZh}</span>
-                    <span data-lang="en">{child.labelEn}</span>
+                    {child.labelZh && <span data-lang="zh">{child.labelZh}</span>}
+                    {child.labelEn && <span data-lang="en">{child.labelEn}</span>}
                     {child.target === '_blank' && <span class="external-link-indicator" aria-hidden="true">↗</span>}
                   </a>
                 ))}
@@ -198,9 +229,12 @@ const githubLink = {
               target={item.target}
               rel={item.rel}
               class="mobile-menu-link flex items-center gap-1 py-3 px-4 text-sm transition-colors rounded-lg"
+              data-nav-item
+              data-lang-zh={item.labelZh ? 'true' : undefined}
+              data-lang-en={item.labelEn ? 'true' : undefined}
             >
-              <span data-lang="zh">{item.labelZh}</span>
-              <span data-lang="en">{item.labelEn}</span>
+              {item.labelZh && <span data-lang="zh">{item.labelZh}</span>}
+              {item.labelEn && <span data-lang="en">{item.labelEn}</span>}
               {item.target === '_blank' && <span class="external-link-indicator" aria-hidden="true">↗</span>}
             </a>
           )
@@ -215,7 +249,7 @@ const githubLink = {
           <button
             type="button"
             data-appearance-toggle
-            class="appearance-toggle-btn appearance-switch mobile-appearance-switch h-6 w-11 rounded-full inline-flex items-center transition-colors"
+            class="appearance-toggle-btn appearance-switch mobile-appearance-switch h-6 w-11 rounded-full inline-flex items-center"
           >
             <span class="appearance-switch-thumb inline-flex items-center justify-center rounded-full">
               <svg class="sun-icon w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -261,6 +295,29 @@ const githubLink = {
       </div>
     </div>
   </div>
+
+  <script is:inline>
+    (() => {
+      const savedTheme = localStorage.getItem('theme');
+      const isDark = savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const toggles = document.querySelectorAll('[data-appearance-toggle]');
+
+      toggles.forEach(toggle => {
+         const sunIcon = toggle.querySelector('.sun-icon');
+         const moonIcon = toggle.querySelector('.moon-icon');
+         if (isDark) {
+           toggle.classList.add('is-dark');
+           sunIcon?.classList.add('hidden');
+           moonIcon?.classList.remove('hidden');
+         } else {
+           toggle.classList.remove('is-dark');
+           sunIcon?.classList.remove('hidden');
+           moonIcon?.classList.add('hidden');
+         }
+         toggle.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} mode`);
+       });
+    })();
+  </script>
 </header>
 
 <script>
@@ -298,18 +355,18 @@ const githubLink = {
     document.documentElement.setAttribute('data-lang', lang);
     localStorage.setItem('lang', lang);
 
-    document.querySelectorAll('[data-lang]').forEach((el) => {
-      const elementLang = el.getAttribute('data-lang');
-      if (elementLang === lang) {
-        el.classList.remove('hidden');
-      } else {
-        el.classList.add('hidden');
-      }
-    });
-
     langSwitches.forEach((btn) => {
       const btnLang = btn.getAttribute('data-lang-switch');
       btn.classList.toggle('is-active', btnLang === lang);
+    });
+
+    // Hide nav items that don't have label for current language
+    document.querySelectorAll('[data-nav-item]').forEach((item) => {
+      const el = item as HTMLElement;
+      const hasZhLabel = el.hasAttribute('data-lang-zh');
+      const hasEnLabel = el.hasAttribute('data-lang-en');
+      const shouldShow = (lang === 'zh' && hasZhLabel) || (lang === 'en' && hasEnLabel);
+      el.style.display = shouldShow ? '' : 'none';
     });
 
     window.dispatchEvent(new CustomEvent('language-change', { detail: { lang } }));
@@ -399,7 +456,7 @@ const githubLink = {
   });
 
   window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 980) {
       closeMobileMenu();
     }
   });
@@ -412,6 +469,11 @@ const githubLink = {
   const savedLang = localStorage.getItem('lang') || getDefaultLang();
   updateLanguage(savedLang);
   updateHeaderTransparency();
+
+  // Enable transitions after initial state is set
+  requestAnimationFrame(() => {
+    siteHeader?.classList.add('is-ready');
+  });
 
   document.addEventListener('astro:page-load', () => {
     const currentLang = localStorage.getItem('lang') || getDefaultLang();
@@ -438,6 +500,36 @@ const githubLink = {
     backdrop-filter: none;
     border-color: #e5e7eb;
     transition: none;
+  }
+
+  /* --- Nav grid: responsive centering --- */
+  .nav-grid {
+    display: grid;
+    align-items: center;
+    /* Mobile: logo | tools (hamburger) */
+    grid-template-columns: auto 1fr;
+  }
+
+  .nav-links {
+    justify-self: center;
+  }
+
+  .nav-tools-wrapper {
+    justify-self: end;
+  }
+
+  /* Tablet: nav centered within available space between logo and tools */
+  @media (min-width: 980px) {
+    .nav-grid {
+      grid-template-columns: auto 1fr auto;
+    }
+  }
+
+  /* Desktop: nav centered relative to the full page width */
+  @media (min-width: 1100px) {
+    .nav-grid {
+      grid-template-columns: 1fr auto 1fr;
+    }
   }
 
   .brand-text,
@@ -480,7 +572,7 @@ const githubLink = {
   .mobile-menu-btn:hover,
   .mobile-lang-btn:hover {
     background-color: #f3f4f6;
-    color: #111827;
+    color: #006eff;
   }
 
   .desktop-dropdown-link.is-active,
@@ -570,12 +662,6 @@ const githubLink = {
 
   .mobile-appearance-switch {
     border: 0;
-    transition-property: none;
-    transition-duration: 0s;
-  }
-
-  .mobile-appearance-switch .appearance-switch-thumb {
-    transition: transform 0.22s ease;
   }
 
   .appearance-switch {
@@ -591,8 +677,13 @@ const githubLink = {
     background-color: #ffffff;
     color: #6b7280;
     transform: translateX(0);
-    transition: transform 0.22s ease, color 0.22s ease, background-color 0.22s ease;
     box-shadow: 0 1px 3px rgba(17, 24, 39, 0.24);
+  }
+
+  /* Only enable transitions after initial load */
+  .site-header.is-ready .appearance-switch,
+  .site-header.is-ready .appearance-switch-thumb {
+    transition: all 0.22s ease;
   }
 
   .appearance-switch.is-dark {
@@ -660,7 +751,7 @@ const githubLink = {
   html.dark .mobile-menu-btn:hover,
   html.dark .mobile-lang-btn:hover {
     background-color: #1f2937;
-    color: #f9fafb;
+    color: #30acff;
   }
 
   html.dark .desktop-dropdown-link.is-active,
@@ -719,5 +810,40 @@ const githubLink = {
 
   html.dark .mobile-menu-btn.is-active {
     background-color: #1f2937;
+  }
+
+  /* Homepage hero: the header sits over a dark scrolling banner.
+     Use light content + subtle shadow for legibility in both themes. */
+  .site-header.has-hero.is-transparent:not(.menu-open) .brand-text,
+  .site-header.has-hero.is-transparent:not(.menu-open) .nav-link,
+  .site-header.has-hero.is-transparent:not(.menu-open) .icon-link,
+  .site-header.has-hero.is-transparent:not(.menu-open) .mobile-menu-btn {
+    color: #ffffff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  }
+
+  .site-header.has-hero.is-transparent:not(.menu-open) .nav-link:hover {
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  .site-header.has-hero.is-transparent:not(.menu-open) .icon-link:hover,
+  .site-header.has-hero.is-transparent:not(.menu-open) .mobile-menu-btn:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+  }
+
+  .site-header.has-hero.is-transparent:not(.menu-open) .appearance-switch {
+    background-color: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .site-header.has-hero.is-transparent:not(.menu-open) .appearance-switch:hover {
+    background-color: rgba(255, 255, 255, 0.32);
+  }
+
+  .site-header.has-hero.is-transparent:not(.menu-open) .appearance-switch.is-dark {
+    background-color: rgba(15, 23, 42, 0.55);
+    border-color: rgba(255, 255, 255, 0.28);
   }
 </style>

@@ -2,14 +2,30 @@
 interface Props {
   marginTop?: string;
 }
-
-const { marginTop = "mt-12" } = Astro.props;
 ---
 
-<footer class={`border-t border-gray-200 py-6 dark:border-gray-800 ${marginTop}`}>
-  <div class="max-w-6xl mx-auto px-4 text-center">
+<footer class={`border-t border-gray-200 py-6 dark:border-gray-800`}>
+  <div class="max-w-6xl mx-auto px-4 text-center space-y-2">
     <p class="text-gray-600 text-sm dark:text-gray-400">
       Copyright &copy; 2026 <a href="https://inleap.marioforever.net/" target="_blank" rel="noopener noreferrer">INNOVATION LEAP</a>. Mario and its related copyrights belong to Nintendo.
     </p>
+    <p class="text-gray-500 text-xs dark:text-gray-500">
+      <span data-lang="zh">抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。</span>
+      <span data-lang="en">Mario Worker, Super Mario Worker Project and INNOVATION LEAP are not affiliated with Nintendo. This is a non-profit fan project.</span>
+    </p>
   </div>
 </footer>
+
+<style>
+  a, html.dark a {
+    color: inherit;
+  }
+
+  a:hover {
+    color: #006eff;
+  }
+
+  html.dark a:hover {
+    color: #30acff;
+  }
+</style>

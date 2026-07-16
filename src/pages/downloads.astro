@@ -1,5 +1,8 @@
 ---
 import { getEntry, render } from 'astro:content';
+import { readFileSync } from 'fs';
+import { join } from 'path';
+import * as yaml from 'js-yaml';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
@@ -13,23 +16,1329 @@ if (!entryZh || !entryEn) {
 
 const { Content: ContentZh } = await render(entryZh);
 const { Content: ContentEn } = await render(entryEn);
+
+// ============================================================
+// 从 YAML 动态读取版本信息
+// ============================================================
+interface VersionData {
+  version: string;
+  date: string;
+  zipName: string;
+  verCode?: number;
+  type: 'release' | 'pre_release';
+}
+
+const yamlPath = join(process.cwd(), 'src/data/smwp-versions.yaml');
+const yamlContent = readFileSync(yamlPath, 'utf-8');
+const yamlData = yaml.load(yamlContent) as {
+  release?: Array<{ [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number }> }>;
+  pre_release?: Array<{ [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number }> }>;
+};
+
+// 解析版本信息
+const parseVersionEntry = (item: { [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number }> }, type: 'release' | 'pre_release'): VersionData | null => {
+  const versionKey = Object.keys(item)[0];
+  const dataArray = item[versionKey];
+  if (!dataArray) return null;
+
+  let date = '';
+  let zipName = '';
+  let verCode: number | undefined;
+
+  dataArray.forEach((dataItem: any) => {
+    if (dataItem.date) date = dataItem.date;
+    if (dataItem.zip_name) zipName = dataItem.zip_name;
+    if (dataItem.ver_code) verCode = dataItem.ver_code;
+  });
+
+  return { version: versionKey, date, zipName, verCode, type };
+};
+
+// 按日期排序
+const sortByDate = (a: VersionData, b: VersionData): number => {
+  const dateA = a.date ? new Date(a.date).getTime() : 0;
+  const dateB = b.date ? new Date(b.date).getTime() : 0;
+  return dateB - dateA;
+};
+
+// 获取所有版本
+const releases: VersionData[] = (yamlData.release || []).map(item => parseVersionEntry(item, 'release')).filter(Boolean) as VersionData[];
+const preReleases: VersionData[] = (yamlData.pre_release || []).map(item => parseVersionEntry(item, 'pre_release')).filter(Boolean) as VersionData[];
+
+releases.sort(sortByDate);
+preReleases.sort(sortByDate);
+
+// 合并所有版本用于客户端渲染
+const allVersions = [...releases, ...preReleases];
+
+const latestRelease = releases[0];
+const latestPreRelease = preReleases[0];
+
+// 构建下载链接
+const DOWNLOAD_BASE = 'https://file.marioforever.net/smwp';
+const latestReleaseUrl = latestRelease ? `${DOWNLOAD_BASE}/${latestRelease.zipName}` : '';
+const latestPreReleaseUrl = latestPreRelease ? `${DOWNLOAD_BASE}/${latestPreRelease.zipName}` : '';
+const DATA_PACKET_URL = `${DOWNLOAD_BASE}/Data.7z`;
+
+// 将版本数据传递给客户端
+const versionsJson = JSON.stringify(allVersions.map(v => ({
+  version: v.version,
+  date: v.date,
+  zipName: v.zipName,
+  verCode: v.verCode,
+  type: v.type,
+  downloadUrl: `${DOWNLOAD_BASE}/${v.zipName}`
+})));
 ---
 
 <BaseLayout titleZh={entryZh.data.title} titleEn={entryEn.data.title} descriptionZh={entryZh.data.description} descriptionEn={entryEn.data.description}>
   <Navbar />
 
-  <main class="pt-28 pb-20 flex-1">
-    <div class="max-w-7xl mx-auto px-8 lg:px-16">
-      <article class="prose mx-auto max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-h1:mb-6 prose-h1:text-4xl prose-h2:mb-4 prose-h2:mt-8 prose-h2:text-2xl prose-p:leading-relaxed prose-p:text-gray-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300">
-        <div data-lang="zh">
-          <ContentZh />
+  <main class="pt-24 sm:pt-28 pb-12 flex-1 bg-gray-50 dark:bg-gray-950">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Hero 下载区域 */}
+      <section class="download-hero rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-6 py-10 sm:px-10 sm:py-12 shadow-md mb-8 animate-fade-in">
+        <div class="text-center mb-8">
+          <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
+            <span data-lang="zh">下载 SMWP</span>
+            <span data-lang="en">Download SMWP</span>
+          </h1>
+          <p class="text-gray-600 dark:text-gray-400">
+            <span data-lang="zh">最新版本：</span>
+            <span data-lang="en">Latest version: </span>
+            {latestRelease && (
+              <span class="font-semibold text-blue-600 dark:text-blue-400">{latestRelease.version}</span>
+            )}
+            {latestRelease?.date && (
+              <span class="text-gray-500 dark:text-gray-500 ml-2">({latestRelease.date})</span>
+            )}
+          </p>
         </div>
-        <div data-lang="en">
-          <ContentEn />
+
+        <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          {/* 程序本体下载按钮 */}
+          {latestRelease && (
+            <a
+              href={latestReleaseUrl}
+              class="download-btn group relative flex flex-col items-center justify-center p-6 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border-2 border-blue-500/50 dark:border-blue-400/50 shadow-sm hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-400 hover:scale-[1.02]"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="download-btn-icon w-14 h-14 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+                <i class="fas fa-download text-2xl"></i>
+              </div>
+              <div class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+                <span data-lang="zh">程序本体</span>
+                <span data-lang="en">Program</span>
+              </div>
+              <div class="file-size text-sm text-gray-500 dark:text-gray-500 opacity-0 transition-opacity duration-300" data-file-url={latestReleaseUrl}></div>
+            </a>
+          )}
+
+          {/* 数据包下载按钮 */}
+          <a
+            href={DATA_PACKET_URL}
+            class="download-btn group relative flex flex-col items-center justify-center p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border-2 border-emerald-500/50 dark:border-emerald-400/50 shadow-sm hover:shadow-lg hover:border-emerald-500 dark:hover:border-emerald-400 hover:scale-[1.02]"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="download-btn-icon w-14 h-14 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+              <i class="fas fa-database text-2xl"></i>
+            </div>
+            <div class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+              <span data-lang="zh">数据包</span>
+              <span data-lang="en">Music Data</span>
+            </div>
+            <div class="file-size text-sm text-gray-500 dark:text-gray-500 opacity-0 transition-opacity duration-300" data-file-url={DATA_PACKET_URL}></div>
+          </a>
         </div>
+
+        {/* 测试版下载 */}
+        {latestPreRelease && (
+          <div class="mt-8 text-center animate-slide-up" style="animation-delay: 0.1s;">
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
+              <span data-lang="zh">需要测试版？</span>
+              <span data-lang="en">Need pre-release?</span>
+            </p>
+            <a
+              href={latestPreReleaseUrl}
+              class="download-btn inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:scale-[1.02] hover:border-amber-300 dark:hover:border-amber-700 transition-all duration-300 ease-in-out"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fas fa-flask"></i>
+              <span>{latestPreRelease.version}</span>
+              {latestPreRelease.date && (
+                <span class="text-xs text-gray-500 dark:text-gray-500">({latestPreRelease.date})</span>
+              )}
+            </a>
+          </div>
+        )}
+
+        {/* 其他下载渠道（仅中文版） */}
+        <div data-lang="zh" class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">其他下载渠道</p>
+          <div class="flex flex-wrap justify-center gap-x-4 gap-y-2">
+            <a
+              href="https://inleap.lanzouw.com/b08rcm1of"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors underline underline-offset-2 decoration-gray-300 dark:decoration-gray-600 hover:decoration-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              蓝奏云 (最新版本)
+            </a>
+            <span class="text-gray-300 dark:text-gray-600">|</span>
+            <a
+              href="https://inleap.lanzouw.com/b0ygccuj"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors underline underline-offset-2 decoration-gray-300 dark:decoration-gray-600 hover:decoration-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              蓝奏云 (旧版本)
+            </a>
+            <span class="text-gray-300 dark:text-gray-600">|</span>
+            <a
+              href="https://inleap.lanzouw.com/b0yf4d3e"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors underline underline-offset-2 decoration-gray-300 dark:decoration-gray-600 hover:decoration-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              蓝奏云 (测试版)
+            </a>
+            <span class="text-gray-300 dark:text-gray-600">|</span>
+            <a
+              href="https://pan.baidu.com/s/1o8yn5Js"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors underline underline-offset-2 decoration-gray-300 dark:decoration-gray-600 hover:decoration-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              百度网盘
+            </a>
+            <span class="text-gray-300 dark:text-gray-600">|</span>
+            <a
+              href="https://1812011858.share.123pan.cn/123pan/U3vrVv-INKf?pwd=SMWP"
+              class="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors underline underline-offset-2 decoration-gray-300 dark:decoration-gray-600 hover:decoration-blue-500"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              123 云盘 (提取码：SMWP)
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* 版本切换按钮区域 */}
+      <section class="version-toggle-section mb-6 animate-fade-in" style="animation-delay: 0.1s;">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {/* 全部正式版按钮 */}
+          <button
+            type="button"
+            class="version-toggle-btn group flex flex-col items-center justify-center px-6 py-8 text-base rounded-2xl border-2 transition-all duration-300"
+            data-version-type="release"
+            data-active="false"
+          >
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-10 h-10 flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform">
+                <i class="fas fa-box text-xl"></i>
+              </div>
+              <span class="text-xl font-bold" data-lang="zh">全部正式版</span>
+              <span class="text-xl font-bold" data-lang="en">All Releases</span>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
+              <span data-lang="zh">需要下载 SMWP 的其他正式版本？点击查看正式版本详情。</span>
+              <span data-lang="en">View all stable release versions</span>
+            </p>
+          </button>
+
+          {/* 全部测试版按钮 */}
+          <button
+            type="button"
+            class="version-toggle-btn group flex flex-col items-center justify-center px-6 py-8 text-base rounded-2xl border-2 transition-all duration-300"
+            data-version-type="pre_release"
+            data-active="false"
+          >
+            <div class="flex items-center gap-2 mb-3">
+              <div class="w-10 h-10 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
+                <i class="fas fa-flask text-xl"></i>
+              </div>
+              <span class="text-xl font-bold" data-lang="zh">全部测试版</span>
+              <span class="text-xl font-bold" data-lang="en">All Pre-releases</span>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
+              <span data-lang="zh">需要下载 SMWP 的测试版本？点击查看全部测试版本详情。</span>
+              <span data-lang="en">View all pre-release versions</span>
+            </p>
+          </button>
+        </div>
+      </section>
+
+      {/* 动态版本表格区域 */}
+      <section id="versionTableSection" class="hidden mb-6 animate-fade-in">
+        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 shadow-md overflow-hidden">
+          <div class="px-4 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
+            <h2 id="versionTableTitle" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              <span data-lang="zh">版本列表</span>
+              <span data-lang="en">Version List</span>
+            </h2>
+          </div>
+          <div id="dynamicVersionTable" class="overflow-x-auto"></div>
+        </div>
+      </section>
+
+      {/* 信息面板区域 */}
+      <article class="content-card prose max-w-none rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-5 py-7 sm:px-9 sm:py-9 shadow-md prose-headings:text-gray-900 prose-p:text-gray-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300 animate-fade-in" style="animation-delay: 0.15s;">
+
+        {/* 用户须知 */}
+        <details class="info-panel mb-6 border border-blue-200 dark:border-blue-800/50 rounded-xl overflow-hidden group" open>
+          <summary class="info-summary cursor-pointer bg-blue-50 dark:bg-blue-900/15 px-5 py-3.5 font-bold text-blue-800 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/25 transition-colors flex items-center justify-between">
+            <div class="flex items-center gap-2 text-lg">
+              <i class="fas fa-info-circle text-blue-500 dark:text-blue-400"></i>
+              <span data-lang="zh">用户须知</span>
+              <span data-lang="en">User Guide</span>
+            </div>
+            <svg class="info-chevron w-5 h-5 text-blue-400 dark:text-blue-500 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div class="info-content px-6 py-4 bg-white dark:bg-gray-900 prose-sm border-t border-blue-100 dark:border-blue-800/30">
+            <div data-lang="zh">
+              <h3>运行程序前</h3>
+              <ol>
+                <li>Windows 7 用户，请下载 <a href="https://file.marioforever.net/smwp/dotNetFx40_Full_x86_x64.exe" target="_blank" rel="noopener noreferrer">dotNetFx40_Full_x86_x64.exe</a> 以安装 .NET Framework 4。Windows 8/8.1/10/11 系统自带高版本的 .NET Framework，无需额外操作。</li>
+                <li>下载音乐包 <a href={DATA_PACKET_URL} target="_blank" rel="noopener noreferrer">Data.7z</a>，将其解压缩并把其中的 <code>Data</code> 文件夹存放至 SMWP 主程序所在的目录。</li>
+              </ol>
+              <h3>其他说明</h3>
+              <ol class="mb-0">
+                <li>这一系列的更新都基于 Mario Worker 4.1 版本。</li>
+                <li>SMWP 的默认保存格式为 .smwl，该格式不兼容 Mario Worker 4.4 与一期版本的 SMWP。使用此版本的 SMWP 可以读取 .mfl 格式的关卡，但无法保存为 .mfl 格式。</li>
+              </ol>
+            </div>
+            <div data-lang="en">
+              <h3>Before running the program</h3>
+              <ol>
+                <li>Make sure .NET Framework 4.0 or newer is installed on your system. If you're using Windows 7, you will need to manually download and install it. Windows 8 and newer already include newer versions of .NET Framework by default, so no additional action is required.</li>
+                <li>Download <a href={DATA_PACKET_URL} target="_blank" rel="noopener noreferrer">Data.7z</a>, extract it, and place the <code>Data</code> folder into the same directory as the SMWP executable (for example, <code>SuperMarioWorkerProject_v1.x.x.exe</code>). If you already have the Data folder, please ensure it is located in the same directory as the SMWP executable.</li>
+              </ol>
+              <h3>Additional Notes</h3>
+              <ol class="mb-0">
+                <li>All current updates of Super Mario Worker Project v1.x are based on Mario Worker 1.1.</li>
+                <li>SMWP saves levels in the <code>.smwl</code> format by default. This format is not compatible with Mario Worker 1.1 or SMWP v0.x. <br>
+                    Levels saved in this format can be loaded by the current or any newer version of SMWP v1.x. However, if you try to load them with an older version of SMWP v1.x, a warning will appear, and some level elements may be lost. <br>
+                    You can also open <code>.mfl</code> levels created in Mario Worker 1.1, but SMWP cannot save levels in the <code>.mfl</code> format.
+                </li>
+                <li>SMWP is still under active development. If you encounter any issues, please contact INNOVATION LEAP.</li>
+              </ol>
+            </div>
+          </div>
+        </details>
+
+        {/* 常见问题 */}
+        <details class="info-panel border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden group" open>
+          <summary class="info-summary cursor-pointer bg-gray-50 dark:bg-gray-800/50 px-5 py-3.5 font-bold text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center justify-between">
+            <div class="flex items-center gap-2 text-lg">
+              <i class="fas fa-question-circle text-gray-500 dark:text-gray-400"></i>
+              <span data-lang="zh">常见问题</span>
+              <span data-lang="en">FAQ</span>
+            </div>
+            <svg class="info-chevron w-5 h-5 text-gray-400 dark:text-gray-500 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div class="info-content px-6 py-4 bg-white dark:bg-gray-900 prose-sm border-t border-gray-100 dark:border-gray-800" id="faqContent"></div>
+        </details>
+
+        {/* 隐藏的 Markdown 内容源 */}
+        <div id="markdownSource" class="hidden">
+          <div data-lang="zh">
+            <ContentZh />
+          </div>
+          <div data-lang="en">
+            <ContentEn />
+          </div>
+        </div>
+
+        {/* 版本数据 */}
+        <script type="application/json" id="versionsData" set:html={versionsJson} />
       </article>
     </div>
   </main>
 
   <Footer marginTop="mt-16" />
 </BaseLayout>
+
+<style is:global>
+  /* ============================================================
+     动画定义
+     ============================================================ */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.4s ease-out forwards;
+  }
+
+  .animate-slide-up {
+    animation: slide-up 0.3s ease-out forwards;
+  }
+
+  /* ============================================================
+     下载按钮样式
+     ============================================================ */
+  .download-btn {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .download-btn .file-size:not(:empty) {
+    opacity: 1;
+  }
+
+  /* ============================================================
+     信息面板样式
+     ============================================================ */
+  .info-panel summary {
+    list-style: none;
+  }
+
+  .info-panel summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .info-content h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 0.75rem;
+    margin-bottom: 0.375rem;
+    color: #374151;
+  }
+
+  html.dark .info-content h3 {
+    color: #d1d5db;
+  }
+
+  .info-content ol,
+  .info-content ul {
+    margin-top: 0.375rem;
+    margin-bottom: 0.375rem;
+    padding-left: 1.25rem;
+  }
+
+  .info-content li {
+    margin-top: 0.125rem;
+    margin-bottom: 0.125rem;
+  }
+
+  .info-content p {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ============================================================
+     更新日志样式（已移除独立展示，保留用于表格内显示）
+     ============================================================ */
+
+  /* ============================================================
+     版本切换按钮样式
+     ============================================================ */
+  .version-toggle-btn {
+    border-color: #e5e7eb;
+    background: white;
+    color: #374151;
+    cursor: pointer;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .version-toggle-btn:hover:not([data-active="true"]) {
+    background: #f9fafb;
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .version-toggle-btn[data-active="true"] {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    color: #1e40af;
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
+  }
+
+  html.dark .version-toggle-btn {
+    border-color: #374151;
+    background: #111827;
+    color: #d1d5db;
+  }
+
+  html.dark .version-toggle-btn:hover:not([data-active="true"]) {
+    background: #1f2937;
+    border-color: #3b82f6;
+  }
+
+  html.dark .version-toggle-btn[data-active="true"] {
+    border-color: #3b82f6;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+    color: #eff6ff;
+  }
+
+  /* ============================================================
+     动态版本表格样式
+     ============================================================ */
+  #dynamicVersionTable table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  #dynamicVersionTable thead {
+    background: #f9fafb;
+  }
+
+  html.dark #dynamicVersionTable thead {
+    background: #1f2937;
+  }
+
+  #dynamicVersionTable th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  html.dark #dynamicVersionTable th {
+    color: #d1d5db;
+    border-bottom-color: #374151;
+  }
+
+  #dynamicVersionTable td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    vertical-align: middle;
+  }
+
+  html.dark #dynamicVersionTable td {
+    border-bottom-color: #374151;
+  }
+
+  #dynamicVersionTable tbody tr:hover {
+    background: #f9fafb;
+  }
+
+  html.dark #dynamicVersionTable tbody tr:hover {
+    background: #1f2937;
+  }
+
+  #dynamicVersionTable .version-code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.875em;
+    background: #f3f4f6;
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    border: 1px solid #e5e7eb;
+  }
+
+  html.dark #dynamicVersionTable .version-code {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  #dynamicVersionTable .type-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  #dynamicVersionTable .type-badge.release {
+    background: #dcfce7;
+    color: #166534;
+  }
+
+  html.dark #dynamicVersionTable .type-badge.release {
+    background: rgba(22, 101, 52, 0.2);
+    color: #86efac;
+  }
+
+  #dynamicVersionTable .type-badge.pre_release {
+    background: #fef3c7;
+    color: #92400e;
+  }
+
+  html.dark #dynamicVersionTable .type-badge.pre_release {
+    background: rgba(146, 64, 14, 0.2);
+    color: #fcd34d;
+  }
+
+  /* 表格按钮样式 */
+  #dynamicVersionTable .table-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    border-radius: 0.375rem;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  #dynamicVersionTable .table-btn-primary {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+  }
+
+  #dynamicVersionTable .table-btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-primary {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-primary:hover {
+    background: #2563eb;
+    border-color: #2563eb;
+  }
+
+  #dynamicVersionTable .table-btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border-color: #e5e7eb;
+  }
+
+  #dynamicVersionTable .table-btn-secondary:hover {
+    background: #e5e7eb;
+    border-color: #d1d5db;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-secondary {
+    background: #374151;
+    color: #d1d5db;
+    border-color: #4b5563;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-secondary:hover {
+    background: #4b5563;
+    border-color: #6b7280;
+  }
+
+  #dynamicVersionTable .table-btn-success {
+    background: #22c55e;
+    color: white;
+    border-color: #22c55e;
+  }
+
+  #dynamicVersionTable .table-btn-success:hover {
+    background: #16a34a;
+    border-color: #16a34a;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-success {
+    background: #22c55e;
+    color: white;
+    border-color: #22c55e;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-success:hover {
+    background: #16a34a;
+    border-color: #16a34a;
+  }
+
+  /* ============================================================
+     更新日志弹框样式（全局，因为弹框插入到 body）
+     ============================================================ */
+  .changelog-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+
+  .changelog-modal.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .changelog-modal-content {
+    background: white;
+    border-radius: 1rem;
+    width: 100%;
+    max-width: 52rem;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 1.5rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+    transform: scale(0.95);
+    transition: transform 0.25s ease;
+  }
+
+  .changelog-modal.is-visible .changelog-modal-content {
+    transform: scale(1);
+  }
+
+  html.dark .changelog-modal-content {
+    background: #1f2937;
+  }
+
+  .changelog-modal-content h4 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  html.dark .changelog-modal-content h4 {
+    color: #d1d5db;
+  }
+
+  .changelog-modal-content ul,
+  .changelog-modal-content ol {
+    margin-top: 0.25rem;
+    margin-bottom: 0.5rem;
+    padding-left: 1.25rem;
+  }
+
+  .changelog-modal-content ul {
+    list-style-type: disc;
+    list-style-position: outside;
+  }
+
+  .changelog-modal-content ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+  }
+
+  .changelog-modal-content li {
+    margin-top: 0.125rem;
+    margin-bottom: 0.125rem;
+    line-height: 1.5;
+    font-size: 0.875rem;
+    color: #4b5563;
+    display: list-item;
+  }
+
+  html.dark .changelog-modal-content li {
+    color: #9ca3af;
+  }
+
+  /* ============================================================
+     响应式调整
+     ============================================================ */
+  @media (max-width: 640px) {
+    .download-hero {
+      padding: 1.5rem;
+    }
+
+    .download-hero h1 {
+      font-size: 1.75rem;
+    }
+
+    .download-btn {
+      padding: 1.25rem;
+    }
+
+    .download-btn-icon {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .download-btn-icon i {
+      font-size: 1.125rem;
+    }
+
+    .info-panel summary {
+      padding: 0.75rem 1rem;
+    }
+
+    .info-content {
+      padding: 0.75rem 1rem;
+    }
+  }
+
+  /* ============================================================
+     减少动画 (无障碍)
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+
+    .download-btn::before {
+      display: none;
+    }
+
+    .download-btn-icon {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // ============================================================
+  // 版本数据类型定义
+  // ============================================================
+  interface VersionInfo {
+    version: string;
+    date: string;
+    zipName: string;
+    verCode?: number;
+    type: 'release' | 'pre_release';
+    downloadUrl: string;
+  }
+
+  interface ChangelogEntry {
+    version: string;
+    date: string;
+    content: string;
+  }
+
+  // ============================================================
+  // 全局状态
+  // ============================================================
+  let versionsData: VersionInfo[] = [];
+  let changelogEntries: ChangelogEntry[] = [];
+  let currentFilter: 'release' | 'pre_release' | null = null;
+
+  // ============================================================
+  // OpenList API 配置（参考 mfdownload-next 项目）
+  // ============================================================
+  const OPENLIST_BASE_URL = 'https://file.marioforever.net';
+  const fileInfoCache = new Map<string, { data: any; timestamp: number }>();
+  const CACHE_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
+
+  /**
+   * 格式化文件大小（与 mfdownload-next 一致）
+   */
+  const formatFileSize = (bytes: number | null): string => {
+    if (!bytes || bytes === 0) return '';
+
+    const units = [
+      { name: 'GB', threshold: 1024 * 1024 * 1024 },
+      { name: 'MB', threshold: 1024 * 1024 },
+      { name: 'KB', threshold: 1024 },
+      { name: 'B', threshold: 1 }
+    ];
+
+    for (const unit of units) {
+      if (bytes >= unit.threshold) {
+        const value = bytes / unit.threshold;
+        const decimals = unit.name === 'GB' || unit.name === 'MB' ? 2 : (unit.name === 'KB' ? 1 : 0);
+        return `${value.toFixed(decimals)} ${unit.name}`;
+      }
+    }
+
+    return `${bytes} B`;
+  };
+
+  /**
+   * 从 URL 提取文件路径（与 mfdownload-next 一致）
+   */
+  const extractPathFromUrl = (url: string): string | null => {
+    if (!url) return null;
+    if (!url.includes('file.marioforever.net')) return null;
+
+    try {
+      const urlObj = new URL(url);
+      return decodeURIComponent(urlObj.pathname);
+    } catch {
+      return null;
+    }
+  };
+
+  /**
+   * 从 OpenList API 获取文件信息（与 mfdownload-next 一致）
+   */
+  const getFileInfo = async (path: string): Promise<any | null> => {
+    if (!path) return null;
+
+    // 检查缓存
+    const cachedInfo = fileInfoCache.get(path);
+    if (cachedInfo && Date.now() - cachedInfo.timestamp < CACHE_EXPIRY_MS) {
+      return cachedInfo.data;
+    }
+
+    try {
+      // 使用 POST /api/fs/get 获取文件信息
+      const response = await fetch(`${OPENLIST_BASE_URL}/api/fs/get`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ path, password: '' }),
+        signal: AbortSignal.timeout(5000) // 5 seconds timeout
+      });
+
+      if (!response.ok) return null;
+
+      const data = await response.json();
+
+      if (data && data.code === 200 && data.data) {
+        const fileInfo = data.data;
+
+        // 缓存结果
+        fileInfoCache.set(path, {
+          data: fileInfo,
+          timestamp: Date.now()
+        });
+
+        return fileInfo;
+      }
+
+      return null;
+    } catch (e) {
+      // 静默失败 - 不阻塞 UI
+      console.warn('OpenList API request failed:', e);
+      return null;
+    }
+  };
+
+  /**
+   * 从 URL 获取文件大小（字节）
+   */
+  const getFileSizeFromUrl = async (url: string): Promise<number | null> => {
+    const path = extractPathFromUrl(url);
+    if (!path) return null;
+
+    const fileInfo = await getFileInfo(path);
+    if (fileInfo && fileInfo.size) {
+      return fileInfo.size;
+    }
+
+    return null;
+  };
+
+  /**
+   * 获取格式化的文件大小
+   */
+  const getFormattedFileSize = async (url: string): Promise<string> => {
+    const size = await getFileSizeFromUrl(url);
+    return formatFileSize(size);
+  };
+
+  /**
+   * 初始化文件大小显示
+   */
+  const initFileSizes = async () => {
+    const elements = document.querySelectorAll<HTMLDivElement>('.file-size');
+    const promises = Array.from(elements).map(async (el) => {
+      const fileUrl = el.dataset.fileUrl;
+      if (!fileUrl) return;
+
+      const size = await getFormattedFileSize(fileUrl);
+      if (size) {
+        el.textContent = size;
+        el.classList.remove('opacity-0');
+        el.classList.add('opacity-100');
+      }
+    });
+    await Promise.all(promises);
+  };
+
+  // ============================================================
+  // 从 Markdown 提取更新日志
+  // ============================================================
+  const parseChangelogFromMarkdown = () => {
+    const source = document.getElementById('markdownSource');
+    if (!source) return;
+
+    const lang = document.documentElement.getAttribute('data-lang') || 'zh';
+    const langContainer = source.querySelector(`[data-lang="${lang}"]`);
+    if (!langContainer) return;
+
+    const allElements = Array.from(langContainer.children);
+    let inChangelogSection = false;
+    const entries: ChangelogEntry[] = [];
+    let currentEntry: ChangelogEntry | null = null;
+
+    allElements.forEach(el => {
+      const elHtml = el as HTMLElement;
+      if (elHtml.tagName === 'H2') {
+        const text = elHtml.textContent?.trim() || '';
+        inChangelogSection = text.includes('更新日志') || text.includes('Changelog');
+        return;
+      }
+
+      if (!inChangelogSection) return;
+
+      if (elHtml.tagName === 'H3') {
+        if (currentEntry) entries.push(currentEntry);
+        const text = elHtml.textContent?.trim() || '';
+        const match = text.match(/(v[\d.]+[a-z0-9]*)\s*(?:\(([\d-]+)\))?/);
+        if (match) {
+          currentEntry = { version: match[1], date: match[2] || '', content: '' };
+        }
+      } else if (currentEntry) {
+        currentEntry.content += elHtml.outerHTML;
+      }
+    });
+
+    if (currentEntry) entries.push(currentEntry);
+    changelogEntries = entries;
+  };
+
+  // ============================================================
+  // 版本号匹配逻辑
+  // ============================================================
+  const getBaseVersion = (version: string): string => {
+    // 移除 v 前缀
+    let v = version.replace(/^v/i, '');
+    // 提取主版本号 (如 1.7.11)
+    const match = v.match(/^(\d+(?:\.\d+)*)/);
+    return match ? match[1] : v;
+  };
+
+  const findChangelogForVersion = (version: string): ChangelogEntry | null => {
+    const baseVersion = getBaseVersion(version);
+    // 查找版本号以 baseVersion 开头的更新日志
+    return changelogEntries.find(entry => {
+      const entryBase = getBaseVersion(entry.version);
+      return entryBase === baseVersion;
+    }) || null;
+  };
+
+  // ============================================================
+  // 数据包下载链接逻辑
+  // ============================================================
+  const getDataPacketInfo = (version: string): { text: string; url?: string } => {
+    const versionNum = version.replace(/^v/i, '');
+    const mainVersionMatch = versionNum.match(/^(\d+)\.(\d+)/);
+    if (!mainVersionMatch) {
+      return { text: '-' };
+    }
+
+    const major = parseInt(mainVersionMatch[1]);
+    const minor = parseInt(mainVersionMatch[2]);
+
+    if (major >= 2 || (major === 1 && minor >= 5)) {
+      return { text: 'Data.7z', url: 'https://file.marioforever.net/smwp/Data.7z' };
+    }
+
+    if (major === 1 && minor === 4) {
+      return { text: 'Data.zip', url: 'https://file.marioforever.net/smwp/Data.zip' };
+    }
+
+    if (major === 1 && (minor === 2 || minor === 3)) {
+      return { text: '-' };
+    }
+
+    return { text: '-' };
+  };
+
+  // ============================================================
+  // 版本代号显示逻辑
+  // ============================================================
+  const getVersionCodeDisplay = (version: string, verCode?: number): string => {
+    const versionNum = version.replace(/^v/i, '');
+    const mainVersionMatch = versionNum.match(/^(\d+)\.(\d+)/);
+    if (!mainVersionMatch) return '-';
+
+    const major = parseInt(mainVersionMatch[1]);
+    const minor = parseInt(mainVersionMatch[2]);
+
+    if (major < 1 || (major === 1 && minor <= 1)) {
+      return '-';
+    }
+
+    return verCode ? verCode.toString() : '-';
+  };
+
+  // ============================================================
+  // 渲染版本表格
+  // ============================================================
+  const renderVersionTable = (type: 'release' | 'pre_release') => {
+    const container = document.getElementById('dynamicVersionTable');
+    const section = document.getElementById('versionTableSection');
+    const title = document.getElementById('versionTableTitle');
+
+    if (!container || !section) return;
+
+    // 显示表格区域
+    section.classList.remove('hidden');
+
+    // 更新标题
+    if (title) {
+      const lang = document.documentElement.getAttribute('data-lang') || 'zh';
+      if (type === 'release') {
+        title.innerHTML = lang === 'zh'
+          ? '<span data-lang="zh">全部正式版</span>'
+          : '<span data-lang="en">All Releases</span>';
+      } else {
+        title.innerHTML = lang === 'zh'
+          ? '<span data-lang="zh">全部测试版</span>'
+          : '<span data-lang="en">All Pre-releases</span>';
+      }
+    }
+
+    // 筛选版本
+    const filteredVersions = versionsData.filter(v => v.type === type);
+
+    const lang = document.documentElement.getAttribute('data-lang') || 'zh';
+
+    // 渲染表格
+    const tableHtml = `
+      <table>
+        <thead>
+          <tr>
+            <th>${lang === 'zh' ? '版本号' : 'Version'}</th>
+            <th>${lang === 'zh' ? '版本代号' : 'Code'}</th>
+            <th>${lang === 'zh' ? '发布日期' : 'Date'}</th>
+            <th>${lang === 'zh' ? '游戏本体' : 'Game'}</th>
+            <th>${lang === 'zh' ? '数据包' : 'Data'}</th>
+            <th>${lang === 'zh' ? '更新日志' : 'Changelog'}</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${filteredVersions.map((v, index) => {
+            const changelog = findChangelogForVersion(v.version);
+            const dataPacket = getDataPacketInfo(v.version);
+            const versionCodeDisplay = getVersionCodeDisplay(v.version, v.verCode);
+
+            return `
+              <tr>
+                <td class="font-medium">${v.version}</td>
+                <td><code class="version-code">${versionCodeDisplay}</code></td>
+                <td class="text-gray-600 dark:text-gray-400">${v.date || '-'}</td>
+                <td>
+                  <a href="${v.downloadUrl}" class="table-btn table-btn-primary" target="_blank" rel="noopener noreferrer">
+                    <i class="fas fa-download mr-1"></i>
+                    ${lang === 'zh' ? '下载' : 'Download'}
+                  </a>
+                </td>
+                <td>
+                  ${dataPacket.url
+                    ? `<a href="${dataPacket.url}" class="table-btn table-btn-success" target="_blank" rel="noopener noreferrer"><i class="fas fa-download mr-1"></i>${lang === 'zh' ? '下载' : 'Download'}</a>`
+                    : dataPacket.text
+                  }
+                </td>
+                <td>
+                  ${changelog
+                    ? `<button type="button" class="table-btn table-btn-secondary" data-changelog-index="${changelogEntries.indexOf(changelog)}"><i class="fas fa-file-alt mr-1"></i>${lang === 'zh' ? '查看' : 'View'}</button>`
+                    : '-'
+                  }
+                </td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    `;
+
+    container.innerHTML = tableHtml;
+
+    // 添加更新日志点击事件
+    container.querySelectorAll('[data-changelog-index]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const index = parseInt((e.target as HTMLElement).dataset.changelogIndex || '0');
+        showChangelogModal(changelogEntries[index]);
+      });
+    });
+  };
+
+  // ============================================================
+  // 显示更新日志模态框
+  // ============================================================
+  const showChangelogModal = (entry: ChangelogEntry) => {
+    // 移除已存在的模态框
+    const existingModal = document.querySelector('.changelog-modal');
+    if (existingModal) existingModal.remove();
+
+    const lang = document.documentElement.getAttribute('data-lang') || 'zh';
+
+    const modalHtml = `
+      <div class="changelog-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="changelog-modal-content">
+          <div class="flex items-center justify-between mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
+            <div>
+              <h3 id="modal-title" class="text-xl font-bold text-gray-900 dark:text-gray-100">${entry.version}</h3>
+              ${entry.date ? `<span class="text-sm text-gray-500 dark:text-gray-400">${entry.date}</span>` : ''}
+            </div>
+            <button type="button" class="close-modal p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" aria-label="${lang === 'zh' ? '关闭' : 'Close'}">
+              <i class="fas fa-times text-lg"></i>
+            </button>
+          </div>
+          <div class="changelog-body">
+            ${entry.content}
+          </div>
+        </div>
+      </div>
+    `;
+
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    const modal = document.querySelector('.changelog-modal') as HTMLElement;
+    const closeBtn = modal.querySelector('.close-modal');
+
+    // 显示动画
+    requestAnimationFrame(() => {
+      modal.classList.add('is-visible');
+    });
+
+    // 关闭函数
+    const closeModal = () => {
+      modal.classList.remove('is-visible');
+      setTimeout(() => modal.remove(), 250);
+    };
+
+    // 绑定关闭事件
+    closeBtn?.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // ESC 键关闭
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeModal();
+        document.removeEventListener('keydown', handleEsc);
+      }
+    };
+    document.addEventListener('keydown', handleEsc);
+
+    // 阻止滚动
+    document.body.style.overflow = 'hidden';
+    const observer = new MutationObserver(() => {
+      if (!document.querySelector('.changelog-modal')) {
+        document.body.style.overflow = '';
+        observer.disconnect();
+      }
+    });
+    observer.observe(document.body, { childList: true });
+  };
+
+  // ============================================================
+  // 版本切换按钮事件
+  // ============================================================
+  const initVersionToggle = () => {
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.version-toggle-btn');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const type = btn.dataset.versionType as 'release' | 'pre_release';
+
+        // 如果点击的是当前激活的按钮，则取消选择
+        if (currentFilter === type) {
+          currentFilter = null;
+          btn.dataset.active = 'false';
+          document.getElementById('versionTableSection')?.classList.add('hidden');
+          return;
+        }
+
+        // 更新按钮状态
+        buttons.forEach(b => b.dataset.active = 'false');
+        btn.dataset.active = 'true';
+        currentFilter = type;
+
+        // 渲染表格
+        renderVersionTable(type);
+      });
+    });
+  };
+
+  // ============================================================
+  // 从 Markdown 提取 FAQ 内容
+  // ============================================================
+  const initFaqContent = () => {
+    const source = document.getElementById('markdownSource');
+    if (!source) return;
+
+    const lang = document.documentElement.getAttribute('data-lang') || 'zh';
+    const langContainer = source.querySelector(`[data-lang="${lang}"]`);
+    if (!langContainer) return;
+
+    const allElements = Array.from(langContainer.children);
+    const sections: Record<string, HTMLElement[]> = {};
+    let currentSection = '';
+
+    allElements.forEach(el => {
+      if (el.tagName === 'H2') {
+        currentSection = (el as HTMLElement).textContent?.trim() || '';
+        sections[currentSection] = [];
+      } else if (currentSection) {
+        sections[currentSection].push(el as HTMLElement);
+      }
+    });
+
+    // FAQ
+    const faqContent = document.getElementById('faqContent');
+    if (faqContent) {
+      const faqKey = Object.keys(sections).find(k => k.includes('常见问题') || k.includes('FAQ'));
+      if (faqKey) {
+        faqContent.innerHTML = sections[faqKey].map(el => el.outerHTML).join('');
+      }
+    }
+  };
+
+  // ============================================================
+  // 初始化
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', () => {
+    // 加载版本数据
+    const versionsDataEl = document.getElementById('versionsData');
+    if (versionsDataEl) {
+      try {
+        versionsData = JSON.parse(versionsDataEl.textContent || '[]');
+      } catch (e) {
+        console.error('Failed to parse versions data:', e);
+      }
+    }
+
+    // 解析更新日志
+    parseChangelogFromMarkdown();
+
+    // 初始化
+    initFileSizes();
+    initVersionToggle();
+    initFaqContent();
+  });
+
+  // 监听语言变化
+  window.addEventListener('language-change', () => {
+    parseChangelogFromMarkdown();
+    initFaqContent();
+
+    // 如果有激活的筛选，重新渲染表格
+    if (currentFilter) {
+      renderVersionTable(currentFilter);
+    }
+  });
+</script>
