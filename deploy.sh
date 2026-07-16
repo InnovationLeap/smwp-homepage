@@ -6,7 +6,7 @@ export PATH="$HOME/.bun/bin:$PATH"
 set -e
 
 # 设置工作目录和分支
-WORK_DIR=/data/smwp2-homepage
+WORK_DIR=/data/smwp-homepage
 BRANCH=master # 根据需要修改分支名
 
 # 进入工作目录
