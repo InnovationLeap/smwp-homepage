@@ -535,6 +535,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     padding: 0.75rem 1rem;
     border-bottom: 1px solid #e5e7eb;
     vertical-align: middle;
+    white-space: nowrap;
   }
 
   html.dark #dynamicVersionTable td {
@@ -605,7 +606,6 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     cursor: pointer;
     transition: all 0.2s ease;
     text-decoration: none;
-    white-space: nowrap;
   }
 
   #dynamicVersionTable .table-btn-primary {
@@ -763,10 +763,6 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
      响应式调整
      ============================================================ */
   @media (max-width: 640px) {
-    .download-hero {
-      padding: 1.5rem;
-    }
-
     .download-hero h1 {
       font-size: 1.75rem;
     }
