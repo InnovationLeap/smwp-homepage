@@ -1,10 +1,10 @@
-# AGENTS.md - SMWP 2 Homepage
+# AGENTS.md - SMWP Homepage
 
 本仓库的 AI 编码助手指南。
 
 ## 项目概述
 
-本项目是一个基于 Astro 6 的静态网站，用于展示 SMWP 2。使用 Tailwind CSS v4、MDX 内容、Font Awesome 图标和 TypeScript。包管理器为 **Bun**。支持通过 `data-lang` 属性实现中英双语内容。
+本项目是一个基于 Astro 7 的静态网站，用于展示 SMWP。使用 Tailwind CSS v4、MDX 内容、Font Awesome 图标、Swiper 轮播、YAML 数据文件和 TypeScript。包管理器为 **Bun**。支持通过 `data-lang` 属性实现中英双语内容。
 
 ## 构建与开发命令
 
@@ -23,19 +23,23 @@ bun run deploy     # 通过 deploy.sh 部署 (Linux 服务器, rsync)
 
 ```
 ├── public/
-│   └── images/            # 静态图片 (logo, 图标)
+│   └── images/            # 静态图片 (logo, 截图)
 ├── src/
-│   ├── components/        # Astro 组件 (Navbar.astro, Footer.astro)
+│   ├── components/        # Astro 组件
 │   ├── content/
 │   │   └── pages/         # 按语言分割的 Markdown 内容
 │   │       ├── zh/        # 中文内容 (*.md)
 │   │       └── en/        # 英文内容 (*.md)
+│   ├── data/              # YAML 数据文件 (smwp-versions.yaml)
 │   ├── content.config.ts  # 内容集合 (Zod schema, glob loader)
 │   ├── layouts/           # BaseLayout.astro
-│   ├── pages/             # 基于文件的路由 (index.astro, downloads.astro)
+│   ├── pages/             # 基于文件的路由
 │   └── styles/            # global.css (Tailwind, 主题, 深色模式)
 ├── astro.config.mjs       # Astro + MDX + Tailwind Vite 插件
-└── package.json
+├── bun.lock               # Bun 锁定文件
+├── deploy.sh              # 部署脚本 (rsync)
+├── package.json
+└── tsconfig.json
 ```
 
 ## 代码风格
@@ -46,6 +50,8 @@ bun run deploy     # 通过 deploy.sh 部署 (Linux 服务器, rsync)
 - 仅在 `BaseLayout.astro` 中导入全局样式，不要在每个组件中导入。
 - 使用相对导入 (`../components/Foo.astro`)，不使用路径别名。
 - 保持组件逻辑最小化；优先使用声明式模板。
+- 现有组件：`Navbar.astro`、`Footer.astro`、`ImageCarousel.astro`（Swiper 轮播）、`FeatureCard.astro`、`TableOfContents.astro`、`VersionTable.astro`、`ScrollingBanner.astro`、`VideoEmbed.astro`。
+- 现有页面：`index.astro`、`downloads.astro`、`smwp2.astro`、`v1.7.astro`、`v1.6.astro`、`v1.5.astro`。
 
 ### 国际化 (i18n)
 - 内容集合按语言分割：`src/content/pages/zh/` 和 `src/content/pages/en/`。
@@ -111,15 +117,20 @@ bun run deploy     # 通过 deploy.sh 部署 (Linux 服务器, rsync)
 - 将内容存储在 `src/content/pages/{zh,en}/` 中作为 `.md` 文件。
 - Frontmatter 必须匹配 Zod schema：`title`（必需）、`description`（可选）、`layout`（可选）。
 - 通过 `await render(entry)` 和 `<Content />` 组件渲染内容。
+- 中文内容文件：`index.md`、`downloads.md`、`smwp2.md`、`v1.7.md`、`v1.6.md`、`v1.5.md`。
+- 英文内容文件：`index.md`、`downloads.md`、`smwp2.md`、`v1.7.md`。
+- YAML 数据文件存放在 `src/data/` 中（如 `smwp-versions.yaml`），通过 `js-yaml` 库读取。
 
 ## 主要依赖
 
-- `astro` ^6.4.8 - 静态网站框架
-- `@astrojs/mdx` ^6.0.3 - MDX 集成
-- `tailwindcss` ^4.3.1 - CSS 框架
-- `@tailwindcss/vite` ^4.3.1 - Tailwind Vite 插件
+- `astro` ^7.1.0 - 静态网站框架
+- `@astrojs/mdx` ^7.0.3 - MDX 集成
+- `tailwindcss` ^4.3.3 - CSS 框架
+- `@tailwindcss/vite` ^4.3.3 - Tailwind Vite 插件
 - `@tailwindcss/typography` ^0.5.20 - 文章内容的 Prose 样式
-- `@fortawesome/fontawesome-free` ^7.2.0 - 图标库（通过 CSS 全局加载）
+- `@fortawesome/fontawesome-free` ^7.3.1 - 图标库（通过 CSS 全局加载）
+- `swiper` ^14.0.5 - 轮播组件
+- `js-yaml` ^5.2.1 - YAML 解析
 - `typescript` ^6.0.3
 
 ## 重要说明

@@ -1,8 +1,8 @@
-# SMWP 2 官网
+# SMWP 官网
 
-SMWP 2（Super Mario Worker Project 2）是由 INNOVATION LEAP 开发的全新 Mario Worker，在尽可能兼容 SMWP 1 关卡体验的基础上，为 SMWP 带来更多的可扩展性。
+Super Mario Worker Project（SMWP）是由 INNOVATION LEAP 基于 Mario Worker 1.1 (4.1) 制作，使用 Game Maker 8 开发的一个非官方的 Mario Worker 编辑器。
 
-SMWP 2 官网使用 [bun](https://bun.com/) + [Astro](https://astro.build/) + [Tailwind CSS](https://tailwindcss.com/) 构建。
+SMWP 官网使用 [bun](https://bun.com/) + [Astro](https://astro.build/) + [Tailwind CSS](https://tailwindcss.com/) 构建。
 
 ## 快速开始
 
