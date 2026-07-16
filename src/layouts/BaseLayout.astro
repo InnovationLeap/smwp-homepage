@@ -57,6 +57,22 @@ import '../styles/global.css';
   </head>
   <body class="min-h-screen font-sans flex flex-col">
     <slot />
+
+    <!-- Back to Top Button -->
+    <button
+      id="back-to-top"
+      aria-label="Back to top"
+      class="fixed bottom-6 right-6 z-50 w-10 h-10 flex items-center justify-center
+             rounded-full bg-white dark:bg-gray-800 text-[#008cff] shadow-lg
+             transition-all duration-300 ease-out
+             opacity-0 pointer-events-none
+             hover:bg-[#008cff] hover:text-white
+             dark:hover:bg-[#4da3ff] dark:hover:text-white
+             focus:outline-none focus-visible:ring-2 focus-visible:ring-[#008cff] focus-visible:ring-offset-2
+             dark:focus-visible:ring-offset-gray-900"
+    >
+      <i class="fas fa-arrow-up text-lg"></i>
+    </button>
   </body>
 </html>
 
@@ -128,4 +144,31 @@ import '../styles/global.css';
 
   markExternalLinks();
   document.addEventListener('astro:page-load', markExternalLinks);
+
+  /* Back to Top Button */
+  const backToTopBtn = document.getElementById('back-to-top');
+
+  if (backToTopBtn) {
+    const toggleBackToTop = () => {
+      if (window.scrollY > 300) {
+        backToTopBtn.classList.remove('opacity-0', 'pointer-events-none', 'scale-90');
+        backToTopBtn.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+      } else {
+        backToTopBtn.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+        backToTopBtn.classList.add('opacity-0', 'pointer-events-none', 'scale-90');
+      }
+    };
+
+    window.addEventListener('scroll', toggleBackToTop, { passive: true });
+
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* Check initial scroll position */
+    toggleBackToTop();
+
+    /* Re-check after Astro page transitions */
+    document.addEventListener('astro:page-load', toggleBackToTop);
+  }
 </script>
