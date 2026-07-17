@@ -164,6 +164,11 @@ release:
   - date: 2026-05-24
   - zip_name: smwp-1.7.12.7z
   - ver_code: 1712
+- v1.7.12.1:
+  - date: 2026-07-18
+  - zip_name: smwp-1.7.12.1.7z
+  - ver_code: 1712
+  - lts: true
 
 pre_release:
 - v0.1.0_Alpha:

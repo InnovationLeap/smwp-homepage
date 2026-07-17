@@ -26,17 +26,25 @@ interface VersionData {
   zipName: string;
   verCode?: number;
   type: 'release' | 'pre_release';
+  lts?: boolean;
 }
 
 const yamlPath = join(process.cwd(), 'src/data/smwp-versions.yaml');
 const yamlContent = readFileSync(yamlPath, 'utf-8');
 const yamlData = yaml.load(yamlContent) as {
-  release?: Array<{ [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number }> }>;
+  release?: Array<{ [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number; lts?: boolean }> }>;
   pre_release?: Array<{ [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number }> }>;
 };
 
 // 解析版本信息
-const parseVersionEntry = (item: { [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number }> }, type: 'release' | 'pre_release'): VersionData | null => {
+interface YamlDataEntry {
+  date?: string;
+  zip_name?: string;
+  ver_code?: number;
+  lts?: boolean;
+}
+
+const parseVersionEntry = (item: { [key: string]: Array<{ date?: string; zip_name?: string; ver_code?: number; lts?: boolean }> }, type: 'release' | 'pre_release'): VersionData | null => {
   const versionKey = Object.keys(item)[0];
   const dataArray = item[versionKey];
   if (!dataArray) return null;
@@ -44,14 +52,16 @@ const parseVersionEntry = (item: { [key: string]: Array<{ date?: string; zip_nam
   let date = '';
   let zipName = '';
   let verCode: number | undefined;
+  let lts: boolean | undefined;
 
-  dataArray.forEach((dataItem: any) => {
+  dataArray.forEach((dataItem: YamlDataEntry) => {
     if (dataItem.date) date = dataItem.date;
     if (dataItem.zip_name) zipName = dataItem.zip_name;
     if (dataItem.ver_code) verCode = dataItem.ver_code;
+    if (dataItem.lts) lts = dataItem.lts;
   });
 
-  return { version: versionKey, date, zipName, verCode, type };
+  return { version: versionKey, date, zipName, verCode, type, lts };
 };
 
 // 按日期排序
@@ -73,11 +83,14 @@ const allVersions = [...releases, ...preReleases];
 
 const latestRelease = releases[0];
 const latestPreRelease = preReleases[0];
+const latestLts = releases.find(v => v.lts) || null;
 
 // 构建下载链接
 const DOWNLOAD_BASE = 'https://file.marioforever.net/smwp';
 const latestReleaseUrl = latestRelease ? `${DOWNLOAD_BASE}/${latestRelease.zipName}` : '';
-const latestPreReleaseUrl = latestPreRelease ? `${DOWNLOAD_BASE}/${latestPreRelease.zipName}` : '';
+// Pre-release and LTS URLs are set dynamically via version tabs
+const _latestPreReleaseUrl = latestPreRelease ? `${DOWNLOAD_BASE}/${latestPreRelease.zipName}` : '';
+const _latestLtsUrl = latestLts ? `${DOWNLOAD_BASE}/${latestLts.zipName}` : '';
 const DATA_PACKET_URL = `${DOWNLOAD_BASE}/Data.7z`;
 
 // 将版本数据传递给客户端
@@ -87,6 +100,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   zipName: v.zipName,
   verCode: v.verCode,
   type: v.type,
+  lts: v.lts || false,
   downloadUrl: `${DOWNLOAD_BASE}/${v.zipName}`
 })));
 ---
@@ -98,91 +112,136 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Hero 下载区域 */}
       <section class="download-hero rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-6 py-10 sm:px-10 sm:py-12 shadow-sm mb-8 animate-fade-in">
-        <div class="text-center mb-8">
+        <div class="text-center mb-6">
           <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
             <span data-lang="zh">下载 SMWP</span>
             <span data-lang="en">Download SMWP</span>
           </h1>
-          <p class="text-gray-600 dark:text-gray-400">
-            <span data-lang="zh">最新版本：</span>
-            <span data-lang="en">Latest version: </span>
+
+          {/* 版本信息 - 同时显示正式版和测试版 */}
+          <div class="text-sm text-gray-600 dark:text-gray-400 space-y-1 version-info">
             {latestRelease && (
-              <span class="font-semibold text-[#008cff] dark:text-[#4da3ff;]">{latestRelease.version}</span>
+              <p class="flex flex-wrap items-baseline justify-center">
+                <span class="whitespace-nowrap">
+                  <span data-lang="zh">最新正式版：</span>
+                  <span data-lang="en">Latest stable release:&nbsp;</span>
+                </span>
+                <span class="whitespace-nowrap">
+                  <span class="font-semibold text-[#155dfc] dark:text-[#51a2ff]">{latestRelease.version}</span>
+                  <span class="text-gray-500 dark:text-gray-500 ml-1.5">({latestRelease.date})</span>
+                  <a class="changelog-link ml-1.5 font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors cursor-pointer" data-version={latestRelease.version}>
+                    <span data-lang="zh">更新日志</span>
+                    <span data-lang="en">Changelog</span>
+                  </a>
+                </span>
+              </p>
             )}
-            {latestRelease?.date && (
-              <span class="text-gray-500 dark:text-gray-500 ml-2">({latestRelease.date})</span>
+            {latestLts && (
+              <p class="flex flex-wrap items-baseline justify-center">
+                <span class="whitespace-nowrap">
+                  <span data-lang="zh">长期支持版：</span>
+                  <span data-lang="en">Latest LTS release:&nbsp;</span>
+                </span>
+                <span class="whitespace-nowrap">
+                  <span class="font-semibold text-[#7c3aed] dark:text-[#a78bfa]">{latestLts.version}</span>
+                  <span class="text-gray-500 dark:text-gray-500 ml-1.5">({latestLts.date})</span>
+                  <a class="changelog-link ml-1.5 font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors cursor-pointer" data-version={latestLts.version}>
+                    <span data-lang="zh">更新日志</span>
+                    <span data-lang="en">Changelog</span>
+                  </a>
+                </span>
+              </p>
             )}
-            {latestRelease && (
-              <a id="latestChangelogBtn" data-version={latestRelease.version} class="block sm:inline mt-2 sm:mt-0 sm:ml-3 font-semibold underline-offset-2 transition-colors cursor-pointer">
-                <span data-lang="zh">查看更新日志</span>
-                <span data-lang="en">Changelog</span>
-              </a>
+            {latestPreRelease && (
+              <p class="flex flex-wrap items-baseline justify-center">
+                <span class="whitespace-nowrap">
+                  <span data-lang="zh">最新测试版：</span>
+                  <span data-lang="en">Latest pre-release:&nbsp;</span>
+                </span>
+                <span class="whitespace-nowrap">
+                  <span class="font-semibold text-[#d97706] dark:text-[#fbbf24]">{latestPreRelease.version}</span>
+                  <span class="text-gray-500 dark:text-gray-500 ml-1.5">({latestPreRelease.date})</span>
+                  <a class="changelog-link ml-1.5 font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors cursor-pointer" data-version={latestPreRelease.version}>
+                    <span data-lang="zh">更新日志</span>
+                    <span data-lang="en">Changelog</span>
+                  </a>
+                </span>
+              </p>
             )}
+          </div>
+
+          {/* 切换标签页 */}
+          <div id="versionTabs" class="flex justify-center gap-2 sm:gap-3 mt-6 flex-wrap">
+            <button type="button" class="version-tab active whitespace-nowrap" data-version-type="release">
+              <i class="fas fa-box text-xs mr-1.5"></i>
+              <span data-lang="zh">最新正式版</span>
+              <span data-lang="en">Release</span>
+            </button>
+            {latestLts && (
+              <button type="button" class="version-tab whitespace-nowrap" data-version-type="lts">
+                <i class="fas fa-shield-halved text-xs mr-1.5"></i>
+                <span data-lang="zh">长期支持版</span>
+                <span data-lang="en">LTS</span>
+              </button>
+            )}
+            {latestPreRelease && (
+              <button type="button" class="version-tab whitespace-nowrap" data-version-type="pre_release">
+                <i class="fas fa-flask text-xs mr-1.5"></i>
+                <span data-lang="zh">最新测试版</span>
+                <span data-lang="en">Pre-release</span>
+              </button>
+            )}
+          </div>
+          <p id="heroPreReleaseDisclaimer" class="text-xs text-gray-400 dark:text-gray-500 text-center mt-3 hidden leading-relaxed" data-lang="zh">
+            测试版包含新功能和 Bug 修复，但尚处于开发测试阶段，难免存在不稳定因素。因使用测试版而导致关卡文件损坏或丢失，我们深感抱歉。
           </p>
         </div>
-
         <div class="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
           {/* 程序本体下载按钮 */}
           {latestRelease && (
             <a
+              id="programDownloadBtn"
               href={latestReleaseUrl}
-              class="download-btn group relative flex flex-col items-center justify-center p-6 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border border-blue-500/50 dark:border-blue-400/50 shadow-sm hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-400"
+              class="download-btn group relative flex flex-col items-center justify-center p-6 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border border-blue-500/50 dark:border-blue-400/50 shadow-sm hover:border-blue-500 dark:hover:border-blue-400"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div class="download-btn-icon w-14 h-14 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div class="download-btn-icon w-14 h-14 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 mb-4 group-hover:scale-105 transition-transform duration-300">
                 <i class="fas fa-download text-2xl"></i>
               </div>
-              <div class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+              <div class="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">
                 <span data-lang="zh">程序本体</span>
                 <span data-lang="en">Program</span>
               </div>
-              <div class="file-size text-sm text-gray-500 dark:text-gray-500 opacity-0 transition-opacity duration-300" data-file-url={latestReleaseUrl}></div>
+              <div id="selectedVersionBadge" class="text-sm font-medium text-blue-600 dark:text-blue-400 mb-2">
+                {latestRelease.zipName}
+              </div>
+              <div class="file-size text-sm text-gray-500 dark:text-gray-500 opacity-0 transition-opacity duration-300" id="programFileSize" data-file-url={latestReleaseUrl}></div>
             </a>
           )}
 
           {/* 数据包下载按钮 */}
           <a
+            id="dataPacketDownloadBtn"
             href={DATA_PACKET_URL}
-            class="download-btn group relative flex flex-col items-center justify-center p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-500/50 dark:border-emerald-400/50 shadow-sm hover:shadow-lg hover:border-emerald-500 dark:hover:border-emerald-400"
+            class="download-btn group relative flex flex-col items-center justify-center p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-500/50 dark:border-emerald-400/50 shadow-sm hover:border-emerald-500 dark:hover:border-emerald-400"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div class="download-btn-icon w-14 h-14 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 mb-4 group-hover:scale-110 transition-transform duration-300">
+            <div class="download-btn-icon w-14 h-14 flex items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 mb-4 group-hover:scale-105 transition-transform duration-300">
               <i class="fas fa-database text-2xl"></i>
             </div>
-            <div class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-1">
+            <div class="text-xl font-bold text-gray-700 dark:text-gray-300 mb-2">
               <span data-lang="zh">数据包</span>
               <span data-lang="en">Music Data</span>
             </div>
+            <div id="dataPacketBadge" class="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-2">Data.7z</div>
             <div class="file-size text-sm text-gray-500 dark:text-gray-500 opacity-0 transition-opacity duration-300" data-file-url={DATA_PACKET_URL}></div>
           </a>
         </div>
 
-        {/* 测试版下载 */}
-        {latestPreRelease && (
-          <div class="mt-8 text-center animate-slide-up" style="animation-delay: 0.1s;">
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-3">
-              <span data-lang="zh">需要测试版？</span>
-              <span data-lang="en">Need pre-release?</span>
-            </p>
-            <a
-              href={latestPreReleaseUrl}
-              class="download-beta-btn inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800 hover:shadow-sm hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:border-amber-300 dark:hover:border-amber-700 transition-all duration-300 ease-in-out"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <i class="fas fa-flask"></i>
-              <span>{latestPreRelease.version}</span>
-              {latestPreRelease.date && (
-                <span class="text-xs text-gray-500 dark:text-gray-500">({latestPreRelease.date})</span>
-              )}
-            </a>
-          </div>
-        )}
-
         {/* 其他下载渠道（仅中文版） */}
-        <div data-lang="zh" class="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+        <div data-lang="zh" class="mt-6 pt-6 -mb-2 border-t border-gray-200 dark:border-gray-700">
           <p class="text-sm text-gray-500 dark:text-gray-400 mb-3 text-center">其他下载渠道</p>
           <div class="flex flex-wrap justify-center gap-x-4 gap-y-2">
             <a
@@ -244,11 +303,11 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
             data-active="false"
           >
             <div class="flex items-center gap-2 mb-3">
-              <div class="w-10 h-10 flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform">
+              <div class="version-toggle-icon w-10 h-10 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:scale-105 transition-transform duration-300">
                 <i class="fas fa-box text-xl"></i>
               </div>
-              <span class="text-xl font-bold" data-lang="zh">全部正式版</span>
-              <span class="text-xl font-bold" data-lang="en">All Releases</span>
+              <span class="version-toggle-title text-xl font-bold" data-lang="zh">全部正式版</span>
+              <span class="version-toggle-title text-xl font-bold" data-lang="en">All Releases</span>
             </div>
             <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
               <span data-lang="zh">需要下载 SMWP 的其他正式版本？点击查看正式版本详情。</span>
@@ -264,11 +323,11 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
             data-active="false"
           >
             <div class="flex items-center gap-2 mb-3">
-              <div class="w-10 h-10 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform">
+              <div class="version-toggle-icon w-10 h-10 flex items-center justify-center rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 group-hover:scale-105 transition-transform duration-300">
                 <i class="fas fa-flask text-xl"></i>
               </div>
-              <span class="text-xl font-bold" data-lang="zh">全部测试版</span>
-              <span class="text-xl font-bold" data-lang="en">All Pre-releases</span>
+              <span class="version-toggle-title text-xl font-bold" data-lang="zh">全部测试版</span>
+              <span class="version-toggle-title text-xl font-bold" data-lang="en">All Pre-releases</span>
             </div>
             <p class="text-sm text-gray-500 dark:text-gray-400 text-center">
               <span data-lang="zh">需要下载 SMWP 的测试版本？点击查看全部测试版本详情。</span>
@@ -293,6 +352,29 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
 
       {/* 信息面板区域 */}
       <article class="content-card prose max-w-none rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-5 py-7 sm:px-9 sm:py-9 shadow-sm prose-headings:text-gray-900 prose-p:text-gray-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300 animate-fade-in" style="animation-delay: 0.15s;">
+        {/* 重要提示 */}
+        <details class="info-panel mb-6 border border-red-200 dark:border-red-800/50 rounded-xl overflow-hidden group" open>
+          <summary class="info-summary cursor-pointer bg-red-50 dark:bg-red-900/15 px-5 py-3.5 font-bold text-red-800 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-900/25 transition-colors flex items-center justify-between">
+            <div class="flex items-center gap-2 text-lg">
+              <i class="fas fa-exclamation-circle text-red-500 dark:text-red-400"></i>
+              <span data-lang="zh">重要提示</span>
+              <span data-lang="en">Notice</span>
+            </div>
+            <svg class="info-chevron w-5 h-5 text-red-400 dark:text-red-500 transition-transform duration-300 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </summary>
+          <div class="info-content px-6 py-4 bg-white dark:bg-gray-900 prose-sm border-t border-red-100 dark:border-red-800/30">
+            <div data-lang="zh">
+              <p>针对部分用户反馈的 SMWP v1.7 无法启动问题，<strong>SMWP v1.7.12.1</strong> 已发布。该版本已实现对部分 <strong>Windows 11 24H2/25H2 + 英特尔新平台</strong> 设备的兼容性修复，此前无法启动 SMWP 的部分电脑现已能够正常运行。</p>
+              <p>目前已知问题：<strong>对于此前无法启动 SMWP v1.7、并在升级至 v1.7.12.1 后恢复正常运行的电脑，游戏内字体的锐度可能明显偏高，导致显示观感欠佳</strong>；此前本身能够正常运行 SMWP 的电脑不受此问题影响。</p>
+            </div>
+            <div data-lang="en">
+              <p>For users experiencing issues launching SMWP v1.7, <strong>SMWP v1.7.12.1</strong> has been released with compatibility fixes for some <strong>Windows 11 24H2/25H2 + newer Intel hardware</strong>.</p>
+              <p>Known issue: <strong>On devices that previously couldn't launch SMWP v1.7 but work normally after upgrading to v1.7.12.1, in-game font sharpness may be noticeably lower</strong>; devices that could run SMWP v1.7 normally are not affected.</p>
+            </div>
+          </div>
+        </details>
 
         {/* 用户须知 */}
         <details class="info-panel mb-6 border border-blue-200 dark:border-blue-800/50 rounded-xl overflow-hidden group" open>
@@ -306,36 +388,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
             </svg>
           </summary>
-          <div class="info-content px-6 py-4 bg-white dark:bg-gray-900 prose-sm border-t border-blue-100 dark:border-blue-800/30">
-            <div data-lang="zh">
-              <h3>运行程序前</h3>
-              <ol>
-                <li>Windows 7 用户，请下载 <a href="https://file.marioforever.net/smwp/dotNetFx40_Full_x86_x64.exe" target="_blank" rel="noopener noreferrer">dotNetFx40_Full_x86_x64.exe</a> 以安装 .NET Framework 4。Windows 8/8.1/10/11 系统自带高版本的 .NET Framework，无需额外操作。</li>
-                <li>下载音乐包 <a href={DATA_PACKET_URL} target="_blank" rel="noopener noreferrer">Data.7z</a>，将其解压缩并把其中的 <code>Data</code> 文件夹存放至 SMWP 主程序所在的目录。</li>
-              </ol>
-              <h3>其他说明</h3>
-              <ol class="mb-0">
-                <li>这一系列的更新都基于 Mario Worker 4.1 版本。</li>
-                <li>SMWP 的默认保存格式为 .smwl，该格式不兼容 Mario Worker 4.4 与一期版本的 SMWP。使用此版本的 SMWP 可以读取 .mfl 格式的关卡，但无法保存为 .mfl 格式。</li>
-              </ol>
-            </div>
-            <div data-lang="en">
-              <h3>Before running the program</h3>
-              <ol>
-                <li>Make sure .NET Framework 4.0 or newer is installed on your system. If you're using Windows 7, you will need to manually download and install it. Windows 8 and newer already include newer versions of .NET Framework by default, so no additional action is required.</li>
-                <li>Download <a href={DATA_PACKET_URL} target="_blank" rel="noopener noreferrer">Data.7z</a>, extract it, and place the <code>Data</code> folder into the same directory as the SMWP executable (for example, <code>SuperMarioWorkerProject_v1.x.x.exe</code>). If you already have the Data folder, please ensure it is located in the same directory as the SMWP executable.</li>
-              </ol>
-              <h3>Additional Notes</h3>
-              <ol class="mb-0">
-                <li>All current updates of Super Mario Worker Project v1.x are based on Mario Worker 1.1.</li>
-                <li>SMWP saves levels in the <code>.smwl</code> format by default. This format is not compatible with Mario Worker 1.1 or SMWP v0.x. <br>
-                    Levels saved in this format can be loaded by the current or any newer version of SMWP v1.x. However, if you try to load them with an older version of SMWP v1.x, a warning will appear, and some level elements may be lost. <br>
-                    You can also open <code>.mfl</code> levels created in Mario Worker 1.1, but SMWP cannot save levels in the <code>.mfl</code> format.
-                </li>
-                <li>SMWP is still under active development. If you encounter any issues, please contact INNOVATION LEAP.</li>
-              </ol>
-            </div>
-          </div>
+          <div class="info-content px-6 py-4 bg-white dark:bg-gray-900 prose-sm border-t border-blue-100 dark:border-blue-800/30" id="userGuideContent"></div>
         </details>
 
         {/* 常见问题 */}
@@ -415,12 +468,245 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     transition: all 0.3s ease;
   }
 
+  .download-btn:hover {
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.15);
+  }
+
+  html.dark .download-btn:hover {
+    box-shadow: 0 1px 3px rgba(96, 165, 250, 0.15);
+  }
+
+  /* hover 时文件名颜色加深（图标圆圈背景色保持不变） */
+  .download-btn:hover .download-btn-icon {
+    color: #1d4ed8;
+  }
+
+  html.dark .download-btn:hover .download-btn-icon {
+    color: #93c5fd;
+  }
+
+  .download-btn:hover #selectedVersionBadge {
+    color: #1d4ed8;
+  }
+
+  html.dark .download-btn:hover #selectedVersionBadge {
+    color: #93c5fd;
+  }
+
+  /* 数据包下载按钮 hover 颜色 */
+  #dataPacketDownloadBtn:hover {
+    box-shadow: 0 1px 3px rgba(5, 150, 105, 0.15);
+  }
+
+  html.dark #dataPacketDownloadBtn:hover {
+    box-shadow: 0 1px 3px rgba(52, 211, 153, 0.15);
+  }
+
+  #dataPacketDownloadBtn:hover .download-btn-icon {
+    color: #05855a;
+  }
+
+  html.dark #dataPacketDownloadBtn:hover .download-btn-icon {
+    color: #6ee7b7;
+  }
+
+  #dataPacketDownloadBtn:hover #dataPacketBadge {
+    color: #05855a;
+  }
+
+  html.dark #dataPacketDownloadBtn:hover #dataPacketBadge {
+    color: #6ee7b7;
+  }
+
   .download-btn .file-size:not(:empty) {
     opacity: 1;
   }
 
   .download-beta-btn {
     transition: all 0.3s ease;
+  }
+
+  /* 预发布版下载按钮颜色（amber 覆盖 blue） */
+  .download-btn.btn-prerelease {
+    border-color: rgba(217, 119, 6, 0.5);
+    background: #fffbeb;
+  }
+
+  html.dark .download-btn.btn-prerelease {
+    border-color: rgba(251, 191, 36, 0.3);
+    background: rgba(217, 119, 6, 0.08);
+  }
+
+  .download-btn.btn-prerelease:hover {
+    border-color: #d97706;
+    box-shadow: 0 1px 3px rgba(217, 119, 6, 0.15);
+  }
+
+  html.dark .download-btn.btn-prerelease:hover {
+    border-color: #fbbf24;
+  }
+
+  .download-btn.btn-prerelease:hover .download-btn-icon {
+    color: #b45309;
+  }
+
+  html.dark .download-btn.btn-prerelease:hover .download-btn-icon {
+    color: #fcd34d;
+  }
+
+  .download-btn.btn-prerelease:hover #selectedVersionBadge {
+    color: #b45309;
+  }
+
+  html.dark .download-btn.btn-prerelease:hover #selectedVersionBadge {
+    color: #fcd34d;
+  }
+
+  .download-btn.btn-prerelease .download-btn-icon {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  html.dark .download-btn.btn-prerelease .download-btn-icon {
+    background: rgba(217, 119, 6, 0.2);
+    color: #fbbf24;
+  }
+
+  .download-btn.btn-prerelease #selectedVersionBadge {
+    color: #d97706;
+  }
+
+  html.dark .download-btn.btn-prerelease #selectedVersionBadge {
+    color: #fbbf24;
+  }
+
+  /* LTS 下载按钮颜色（紫色） */
+  .download-btn.btn-lts {
+    border-color: rgba(124, 58, 237, 0.5);
+    background: #f5f3ff;
+  }
+
+  html.dark .download-btn.btn-lts {
+    border-color: rgba(167, 139, 250, 0.3);
+    background: rgba(124, 58, 237, 0.08);
+  }
+
+  .download-btn.btn-lts:hover {
+    border-color: #7c3aed;
+    box-shadow: 0 1px 3px rgba(124, 58, 237, 0.15);
+  }
+
+  html.dark .download-btn.btn-lts:hover {
+    border-color: #a78bfa;
+  }
+
+  .download-btn.btn-lts .download-btn-icon {
+    background: #ede9fe;
+    color: #7c3aed;
+  }
+
+  html.dark .download-btn.btn-lts .download-btn-icon {
+    background: rgba(124, 58, 237, 0.2);
+    color: #a78bfa;
+  }
+
+  .download-btn.btn-lts #selectedVersionBadge {
+    color: #7c3aed;
+  }
+
+  html.dark .download-btn.btn-lts #selectedVersionBadge {
+    color: #a78bfa;
+  }
+
+  .download-btn.btn-lts:hover .download-btn-icon {
+    color: #6d28d9;
+  }
+
+  html.dark .download-btn.btn-lts:hover .download-btn-icon {
+    color: #c4b5fd;
+  }
+
+  .download-btn.btn-lts:hover #selectedVersionBadge {
+    color: #6d28d9;
+  }
+
+  html.dark .download-btn.btn-lts:hover #selectedVersionBadge {
+    color: #c4b5fd;
+  }
+
+  /* ============================================================
+     版本切换标签页样式
+     ============================================================ */
+  .version-tab {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid #e5e7eb;
+    background: white;
+    color: #6b7280;
+  }
+
+  .version-tab:hover:not(.active) {
+    background: #f9fafb;
+    border-color: #d1d5db;
+  }
+
+  .version-tab.active[data-version-type="release"] {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    color: #1e40af;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(59, 130, 246, 0.15);
+  }
+
+  .version-tab.active[data-version-type="lts"] {
+    border-color: #7c3aed;
+    background: #f5f3ff;
+    color: #5b21b6;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(124, 58, 237, 0.15);
+  }
+
+  .version-tab.active[data-version-type="pre_release"] {
+    border-color: #d97706;
+    background: #fffbeb;
+    color: #92400e;
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(217, 119, 6, 0.15);
+  }
+
+  html.dark .version-tab {
+    border-color: #374151;
+    background: #1f2937;
+    color: #9ca3af;
+  }
+
+  html.dark .version-tab:hover:not(.active) {
+    background: #374151;
+    border-color: #4b5563;
+  }
+
+  html.dark .version-tab.active[data-version-type="release"] {
+    border-color: #60a5fa;
+    background: rgba(59, 130, 246, 0.1);
+    color: #93c5fd;
+  }
+
+  html.dark .version-tab.active[data-version-type="lts"] {
+    border-color: #a78bfa;
+    background: rgba(124, 58, 237, 0.1);
+    color: #c4b5fd;
+  }
+
+  html.dark .version-tab.active[data-version-type="pre_release"] {
+    border-color: #fbbf24;
+    background: rgba(217, 119, 6, 0.1);
+    color: #fde68a;
   }
 
   /* ============================================================
@@ -477,18 +763,30 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     cursor: pointer;
   }
 
-  .version-toggle-btn:hover:not([data-active="true"]) {
+  .version-toggle-btn[data-version-type="release"]:hover:not([data-active="true"]) {
     background: #f9fafb;
     border-color: #3b82f6;
-    transform: translateY(-2px);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   }
 
-  .version-toggle-btn[data-active="true"] {
+  .version-toggle-btn[data-version-type="pre_release"]:hover:not([data-active="true"]) {
+    background: #f9fafb;
+    border-color: #d97706;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+
+  .version-toggle-btn[data-active="true"][data-version-type="release"] {
     border-color: #3b82f6;
     background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
     color: #1e40af;
     box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
+  }
+
+  .version-toggle-btn[data-active="true"][data-version-type="pre_release"] {
+    border-color: #d97706;
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    color: #92400e;
+    box-shadow: 0 10px 15px -3px rgba(217, 119, 6, 0.2);
   }
 
   html.dark .version-toggle-btn {
@@ -497,15 +795,43 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     color: #d1d5db;
   }
 
-  html.dark .version-toggle-btn:hover:not([data-active="true"]) {
+  html.dark .version-toggle-btn[data-version-type="release"]:hover:not([data-active="true"]) {
     background: #1f2937;
     border-color: #3b82f6;
   }
 
-  html.dark .version-toggle-btn[data-active="true"] {
-    border-color: #3b82f6;
-    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
-    color: #eff6ff;
+  html.dark .version-toggle-btn[data-version-type="pre_release"]:hover:not([data-active="true"]) {
+    background: #1f2937;
+    border-color: #fbbf24;
+  }
+
+  html.dark .version-toggle-btn[data-active="true"][data-version-type="release"] {
+    border-color: #60a5fa;
+    background: rgba(59, 130, 246, 0.1);
+    color: #93c5fd;
+  }
+
+  html.dark .version-toggle-btn[data-active="true"][data-version-type="pre_release"] {
+    border-color: #fbbf24;
+    background: rgba(217, 119, 6, 0.1);
+    color: #fde68a;
+  }
+
+  /* active 时图标颜色加深 */
+  .version-toggle-btn[data-active="true"][data-version-type="release"] .version-toggle-icon {
+    color: #1e40af;
+  }
+
+  html.dark .version-toggle-btn[data-active="true"][data-version-type="release"] .version-toggle-icon {
+    color: #93c5fd;
+  }
+
+  .version-toggle-btn[data-active="true"][data-version-type="pre_release"] .version-toggle-icon {
+    color: #92400e;
+  }
+
+  html.dark .version-toggle-btn[data-active="true"][data-version-type="pre_release"] .version-toggle-icon {
+    color: #fbbf24;
   }
 
   /* ============================================================
@@ -533,6 +859,10 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     border-bottom: 1px solid #e5e7eb;
     white-space: nowrap;
     vertical-align: middle;
+  }
+
+  #dynamicVersionTable th:first-child {
+    width: 20%;
   }
 
   html.dark #dynamicVersionTable th {
@@ -618,69 +948,113 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   }
 
   #dynamicVersionTable .table-btn-primary {
-    background: #3b82f6;
-    color: white;
+    background: #eff6ff;
+    color: #1e40af;
     border-color: #3b82f6;
   }
 
   #dynamicVersionTable .table-btn-primary:hover {
-    background: #2563eb;
+    background: #dbeafe;
     border-color: #2563eb;
   }
 
   html.dark #dynamicVersionTable .table-btn-primary {
-    background: #3b82f6;
-    color: white;
+    background: rgba(30, 64, 175, 0.15);
+    color: #93c5fd;
     border-color: #3b82f6;
   }
 
   html.dark #dynamicVersionTable .table-btn-primary:hover {
-    background: #2563eb;
-    border-color: #2563eb;
+    background: rgba(30, 64, 175, 0.25);
+    border-color: #60a5fa;
   }
 
   #dynamicVersionTable .table-btn-secondary {
-    background: #f3f4f6;
-    color: #374151;
-    border-color: #e5e7eb;
+    background: #f1f5f9;
+    color: #475569;
+    border-color: #cbd5e1;
   }
 
   #dynamicVersionTable .table-btn-secondary:hover {
-    background: #e5e7eb;
-    border-color: #d1d5db;
+    background: #e2e8f0;
+    border-color: #94a3b8;
   }
 
   html.dark #dynamicVersionTable .table-btn-secondary {
-    background: #374151;
-    color: #d1d5db;
-    border-color: #4b5563;
+    background: rgba(71, 85, 105, 0.2);
+    color: #94a3b8;
+    border-color: rgba(71, 85, 105, 0.3);
   }
 
   html.dark #dynamicVersionTable .table-btn-secondary:hover {
-    background: #4b5563;
-    border-color: #6b7280;
+    background: rgba(71, 85, 105, 0.3);
+    border-color: #64748b;
+  }
+
+  /* 预览版表格下载按钮琥珀色 */
+  #dynamicVersionTable .table-btn-amber {
+    background: #fffbeb;
+    color: #92400e;
+    border-color: #d97706;
+  }
+
+  #dynamicVersionTable .table-btn-amber:hover {
+    background: #fef3c7;
+    border-color: #b45309;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-amber {
+    background: rgba(146, 64, 14, 0.15);
+    color: #fbbf24;
+    border-color: #d97706;
+  }
+
+  html.dark #dynamicVersionTable .table-btn-amber:hover {
+    background: rgba(146, 64, 14, 0.25);
+    border-color: #fbbf24;
   }
 
   #dynamicVersionTable .table-btn-success {
-    background: #22c55e;
-    color: white;
-    border-color: #22c55e;
+    background: #ecfdf5;
+    color: #047857;
+    border-color: #10b981;
   }
 
   #dynamicVersionTable .table-btn-success:hover {
-    background: #16a34a;
-    border-color: #16a34a;
+    background: #d1fae5;
+    border-color: #059669;
   }
 
   html.dark #dynamicVersionTable .table-btn-success {
-    background: #22c55e;
-    color: white;
-    border-color: #22c55e;
+    background: rgba(4, 120, 87, 0.15);
+    color: #34d399;
+    border-color: #10b981;
   }
 
   html.dark #dynamicVersionTable .table-btn-success:hover {
-    background: #16a34a;
-    border-color: #16a34a;
+    background: rgba(4, 120, 87, 0.25);
+    border-color: #34d399;
+  }
+
+  /* 表格 LTS 标记 */
+  #dynamicVersionTable .lts-badge {
+    display: inline-block;
+    margin-left: 6px;
+    padding: 1px 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1.3;
+    border-radius: 4px;
+    background: #ede9fe;
+    color: #7c3aed;
+    border: 1px solid #c4b5fd;
+    vertical-align: middle;
+  }
+
+  html.dark #dynamicVersionTable .lts-badge {
+    background: rgba(124, 58, 237, 0.15);
+    color: #a78bfa;
+    border-color: rgba(124, 58, 237, 0.3);
   }
 
   /* ============================================================
@@ -829,6 +1203,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     zipName: string;
     verCode?: number;
     type: 'release' | 'pre_release';
+    lts?: boolean;
     downloadUrl: string;
   }
 
@@ -844,12 +1219,16 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   let versionsData: VersionInfo[] = [];
   let changelogEntries: ChangelogEntry[] = [];
   let currentFilter: 'release' | 'pre_release' | null = null;
+  let _selectedVersionType: 'release' | 'pre_release' | 'lts' = 'release';
 
   // ============================================================
   // OpenList API 配置（参考 mfdownload-next 项目）
   // ============================================================
   const OPENLIST_BASE_URL = 'https://file.marioforever.net';
-  const fileInfoCache = new Map<string, { data: any; timestamp: number }>();
+  interface FileInfo {
+    size?: number;
+  }
+  const fileInfoCache = new Map<string, { data: FileInfo; timestamp: number }>();
   const CACHE_EXPIRY_MS = 5 * 60 * 1000; // 5 minutes
 
   /**
@@ -894,7 +1273,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   /**
    * 从 OpenList API 获取文件信息（与 mfdownload-next 一致）
    */
-  const getFileInfo = async (path: string): Promise<any | null> => {
+  const getFileInfo = async (path: string): Promise<FileInfo | null> => {
     if (!path) return null;
 
     // 检查缓存
@@ -1027,7 +1406,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   // ============================================================
   const getBaseVersion = (version: string): string => {
     // 移除 v 前缀
-    let v = version.replace(/^v/i, '');
+    const v = version.replace(/^v/i, '');
     // 提取主版本号 (如 1.7.11)
     const match = v.match(/^(\d+(?:\.\d+)*)/);
     return match ? match[1] : v;
@@ -1134,18 +1513,18 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
           </tr>
         </thead>
         <tbody>
-          ${filteredVersions.map((v, index) => {
+          ${filteredVersions.map((v) => {
             const changelog = findChangelogForVersion(v.version);
             const dataPacket = getDataPacketInfo(v.version);
             const versionCodeDisplay = getVersionCodeDisplay(v.version, v.verCode);
 
             return `
               <tr>
-                <td class="font-medium">${v.version}</td>
+                <td class="font-medium">${v.version}${v.lts ? `<span class="lts-badge">${lang === 'zh' ? '长期支持' : 'LTS'}</span>` : ''}</td>
                 <td><code class="version-code">${versionCodeDisplay}</code></td>
                 <td class="text-gray-600 dark:text-gray-400">${v.date || '-'}</td>
                 <td>
-                  <a href="${v.downloadUrl}" class="table-btn table-btn-primary" target="_blank" rel="noopener noreferrer">
+                  <a href="${v.downloadUrl}" class="table-btn ${type === 'pre_release' ? 'table-btn-amber' : 'table-btn-primary'}" target="_blank" rel="noopener noreferrer">
                     <i class="fas fa-download mr-1"></i>
                     ${lang === 'zh' ? '下载' : 'Download'}
                   </a>
@@ -1315,6 +1694,100 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   };
 
   // ============================================================
+  // 从 Markdown 提取用户须知内容
+  // ============================================================
+  const initUserGuideContent = () => {
+    const source = document.getElementById('markdownSource');
+    if (!source) return;
+
+    const lang = document.documentElement.getAttribute('data-lang') || 'zh';
+    const langContainer = source.querySelector(`[data-lang="${lang}"]`);
+    if (!langContainer) return;
+
+    const allElements = Array.from(langContainer.children);
+    const sections: Record<string, HTMLElement[]> = {};
+    let currentSection = '';
+
+    allElements.forEach(el => {
+      if (el.tagName === 'H2') {
+        currentSection = (el as HTMLElement).textContent?.trim() || '';
+        sections[currentSection] = [];
+      } else if (currentSection) {
+        sections[currentSection].push(el as HTMLElement);
+      }
+    });
+
+    // 用户须知 / User Guide
+    const userGuideContent = document.getElementById('userGuideContent');
+    if (userGuideContent) {
+      const userGuideKey = Object.keys(sections).find(k => k.includes('用户须知') || k.includes('User Guide'));
+      if (userGuideKey) {
+        userGuideContent.innerHTML = sections[userGuideKey].map(el => el.outerHTML).join('');
+      }
+    }
+  };
+
+  // ============================================================
+  // 版本标签页切换
+  // ============================================================
+  const getLatestVersionByType = (type: 'release' | 'pre_release' | 'lts'): VersionInfo | undefined => {
+    if (type === 'lts') {
+      return versionsData.find(v => v.lts === true);
+    }
+    return versionsData.find(v => v.type === type);
+  };
+
+  const switchVersionType = (type: 'release' | 'pre_release' | 'lts') => {
+    _selectedVersionType = type;
+
+    // 更新标签页状态
+    document.querySelectorAll('.version-tab').forEach(tab => {
+      tab.classList.toggle('active', (tab as HTMLElement).dataset.versionType === type);
+    });
+
+    // 获取对应版本的下载信息
+    const versionInfo = getLatestVersionByType(type);
+    if (!versionInfo) return;
+
+    // 更新程序本体下载按钮
+    const downloadBtn = document.getElementById('programDownloadBtn') as HTMLAnchorElement;
+    if (downloadBtn) {
+      downloadBtn.href = versionInfo.downloadUrl;
+      downloadBtn.classList.remove('btn-prerelease', 'btn-lts');
+      if (type === 'pre_release') downloadBtn.classList.add('btn-prerelease');
+      if (type === 'lts') downloadBtn.classList.add('btn-lts');
+    }
+
+    // 更新文件名显示
+    const badge = document.getElementById('selectedVersionBadge');
+    if (badge) {
+      badge.textContent = versionInfo.zipName;
+    }
+
+    // 重新获取文件大小
+    const fileSizeEl = document.getElementById('programFileSize');
+    if (fileSizeEl) {
+      fileSizeEl.dataset.fileUrl = versionInfo.downloadUrl;
+      fileSizeEl.textContent = '';
+      fileSizeEl.classList.remove('opacity-100');
+      fileSizeEl.classList.add('opacity-0');
+      getFormattedFileSize(versionInfo.downloadUrl).then(size => {
+        if (size) {
+          fileSizeEl.textContent = size;
+          fileSizeEl.classList.remove('opacity-0');
+          fileSizeEl.classList.add('opacity-100');
+        }
+      });
+    }
+
+    // 控制 Hero 区域测试版提示的显隐
+    const heroDisclaimer = document.getElementById('heroPreReleaseDisclaimer');
+    if (heroDisclaimer) {
+      heroDisclaimer.classList.toggle('hidden', type !== 'pre_release');
+    }
+  };
+
+  // ============================================================
   // 初始化
   // ============================================================
   document.addEventListener('DOMContentLoaded', () => {
@@ -1334,39 +1807,42 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     // 初始化
     initFileSizes();
     initVersionToggle();
+    initUserGuideContent();
     initFaqContent();
 
-    // 最新版本更新日志按钮
-    const latestChangelogBtn = document.getElementById('latestChangelogBtn');
-    if (latestChangelogBtn) {
-      const version = latestChangelogBtn.dataset.version;
-      if (version) {
-        // 点击时实时查找当前语言的更新日志
-        latestChangelogBtn.addEventListener('click', () => {
-          const changelog = findChangelogForVersion(version);
-          if (changelog) showChangelogModal(changelog);
-        });
-        // 初始检查：如果无更新日志则隐藏按钮
-        if (!findChangelogForVersion(version)) {
-          latestChangelogBtn.style.display = 'none';
-        }
-      }
+    // 版本标签页切换（事件委托）
+    const tabsContainer = document.getElementById('versionTabs');
+    if (tabsContainer) {
+      tabsContainer.addEventListener('click', (e) => {
+        const tab = (e.target as HTMLElement).closest('.version-tab') as HTMLElement;
+        if (!tab) return;
+        const type = tab.dataset.versionType as 'release' | 'pre_release' | 'lts';
+        if (type) switchVersionType(type);
+      });
     }
+
+    // 更新日志链接（事件委托）
+    const heroSection = document.querySelector('.download-hero');
+    if (heroSection) {
+      heroSection.addEventListener('click', (e) => {
+        const link = (e.target as HTMLElement).closest('.changelog-link') as HTMLElement;
+        if (!link) return;
+        const version = link.dataset.version;
+        if (!version) return;
+        const changelog = findChangelogForVersion(version);
+        if (changelog) showChangelogModal(changelog);
+      });
+    }
+
+    // 默认选中正式版
+    switchVersionType('release');
   });
 
   // 监听语言变化
   window.addEventListener('language-change', () => {
     parseChangelogFromMarkdown();
+    initUserGuideContent();
     initFaqContent();
-
-    // 更新最新版本更新日志按钮的可见性
-    const btn = document.getElementById('latestChangelogBtn');
-    if (btn) {
-      const version = btn.dataset.version;
-      if (version) {
-        btn.style.display = findChangelogForVersion(version) ? '' : 'none';
-      }
-    }
 
     // 如果有激活的筛选，重新渲染表格
     if (currentFilter) {

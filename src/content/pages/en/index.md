@@ -11,6 +11,7 @@ It enhances and expands upon MW 1.1 by introducing new elements and fixing vario
 
 ## Recent Updates
 
+- `v1.7.12.1` Fixed an issue that prevented SMWP from launching on some newer Intel hardware. (2026-07-18)
 - `v1.7.12` Introduced the Weather System, added a variety of new level customization options, and further improved the editing experience. (2026-05-24)
 - `v1.7.11` Introduced custom music support, added solid-color Blocks, new backgrounds, and new enemies, while delivering numerous bug fixes and quality-of-life improvements based on user feedback. (2025-07-18)
 - `v1.7.10` Significantly improved level performance in SMWP, introduced the Enemy Optimization feature to replace the original Smooth Mode, and fixed various bugs. (2024-10-12)
@@ -20,7 +21,7 @@ It enhances and expands upon MW 1.1 by introducing new elements and fixing vario
 - `v1.7.6` Optimized scenery objects, resulting in smoother performance for levels containing large numbers of scenery objects or Imitators. (2020-07-27)
 - `v1.7.5` Refactored the Accurate Move code, significantly improving editor responsiveness, and fixed several bugs. (2020-07-11)
 - `v1.7.4` Added the Celeste Style Switch option, allowing overlapping transparent Color Blocks to remain non-solid while the player is inside them and restore their normal state once he leaves; also fixed several bugs. (2020-06-26)
-- `v1.7.3` Performance improvements and bug fixes. (2020-06-13)
+- `v1.7.3` Feature improvements and bug fixes. (2020-06-13)
 - `v1.7.2` Added separated Shells, introduced the Mario Forever-style Beetroot additional setting, refined several features introduced in v1.7, and fixed various bugs. (2020-06-03)
 - `v1.7.0` Added a variety of facilities, including Message Block, Switch Blocks, Ice Block, Special Solids, Fluid Controller, Scene Controller, View Controller, and Imitators; introduced the global lava and auto fluid system; and included multiple editor improvements. (2020-05-24)
 

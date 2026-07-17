@@ -4,11 +4,14 @@ description: "SMWP 是由 INNOVATION LEAP 开发的 Mario Worker 编辑器"
 ---
 
 ## 简介
+
 Super Mario Worker Project（SMWP）是由 INNOVATION LEAP 基于 Mario Worker 1.1 (4.1) 制作，使用 Game Maker 8 开发的一个非官方的 Mario Worker 编辑器。
 
 相比原版 Mario Worker，SMWP 添加了大量新素材、新物品，在尽可能保留原版 Mario Worker 体验的同时增加新元素，开发实用功能，修复问题，注重稳定性。
 
 ## 最近更新
+
+- `v1.7.12.1` 修复了某些新硬件无法打开 SMWP 的问题。(2026-07-18)
 - `v1.7.12` 新增了天气系统，增加了丰富关卡功能的可选项，进一步优化了编辑体验。(2026-05-24)
 - `v1.7.11` 带来自定义音乐功能，新增纯色 Block、新背景、新敌人，针对用户反馈进行了多项问题修复与体验优化。(2025-07-18)
 - `v1.7.10` 对 SMWP 的关卡运行效率进行了重大优化，新增了"敌人优化"功能取代原"Smooth 模式"，并修复了若干 Bug。(2024-10-12)
@@ -22,7 +25,6 @@ Super Mario Worker Project（SMWP）是由 INNOVATION LEAP 基于 Mario Worker 1
 - `v1.7.2` 新增龟壳，增设 Mario Forever 式甜菜可选项；优化了部分 v1.7 的新增特性；修复了一些 Bug。(2020-06-03)
 - `v1.7.0` 新增多种设施，包括信息砖、开关砖、冰块、特殊实心、流体控制元件、场景控制元件、镜头控制元件；增加了全局岩浆和自动流体系统；新增模仿者；多项编辑功能优化。(2020-05-24)
 
-更多更新日志请查阅：[**下载页**](/downloads/)
-
 ## 免责声明
+
 马力欧及其版权归属任天堂。Mario Worker、Super Mario Worker Project 以及 INNOVATION LEAP 与任天堂没有任何关联或从属关系。Super Mario Worker Project 是非盈利的同人游戏，INNOVATION LEAP 从中不获取任何收益。

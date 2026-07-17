@@ -7,14 +7,14 @@ description: "Download Super Mario Worker Project"
 ### Before running the program
 
 1. Make sure .NET Framework 4.0 or newer is installed on your system. If you're using Windows 7, you will need to manually download and install it. Windows 8 and newer already include newer versions of .NET Framework by default, so no additional action is required.
-2. Download [Data.7z](https://file.marioforever.net/smwp/Data.7z), extract it, and place the Data folder into the same directory as the SMWP executable (for example, SuperMarioWorkerProject_v1.x.x.exe). If you already have the Data folder, please ensure it is located in the same directory as the SMWP executable.
+2. Download [Data.7z](https://file.marioforever.net/smwp/Data.7z), extract it, and place the `Data` folder into the same directory as the SMWP executable (for example, `SuperMarioWorkerProject_v1.x.x.exe`). If you already have the Data folder, please ensure it is located in the same directory as the SMWP executable.
 
 ### Additional Notes
 
 1. All current updates of Super Mario Worker Project v1.x are based on Mario Worker 1.1.
-2. SMWP saves levels in the .smwl format by default. This format is not compatible with Mario Worker 1.1 or SMWP v0.x.  
+2. SMWP saves levels in the `.smwl` format by default. This format is not compatible with Mario Worker 1.1 or SMWP v0.x.  
 Levels saved in this format can be loaded by the current or any newer version of SMWP v1.x. However, if you try to load them with an older version of SMWP v1.x, a warning will appear, and some level elements may be lost.  
-You can also open .mfl levels created in Mario Worker 1.1, but SMWP cannot save levels in the .mfl format.
+You can also open `.mfl` levels created in Mario Worker 1.1, but SMWP cannot save levels in the `.mfl` format.
 3. SMWP is still under active development. If you encounter any issues, please contact INNOVATION LEAP.
 
 ## FAQ
@@ -40,6 +40,14 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
   - **"a" exe**: The game continues running even when the window loses focus (no auto-pause)
 
 ## Changelog
+### v1.7.12.1 (2026-07-18)
+#### Bug Fixes
+- Fixed an issue where SMWP could not be opened on some new Intel hardware.
+- Reverted the v1.7.12 change that replaced `keyboard_check` with `keyboard_check_direct` in the gameplay input code, as it introduced several gameplay issues.
+- Fixed a 1-pixel position offset affecting down-facing and right-facing Piranha Heads.
+#### Known Issues
+- On devices that previously couldn't launch SMWP v1.7 but work normally after upgrading to v1.7.12.1, in-game font sharpness may be noticeably lower; devices that could run SMWP v1.7 normally are not affected.
+
 ### v1.7.12 (2026-05-24)
 #### Editor
 - The `WORLD` line in the level name can now be customized.

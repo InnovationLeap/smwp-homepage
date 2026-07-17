@@ -198,7 +198,7 @@ const hasToc = zh.length > 0 || en.length > 0;
       const slug = link.getAttribute('data-slug');
       if (!slug) return;
       const container = getVisibleContainer();
-      let target: HTMLElement | null = null;
+      let target: HTMLElement | null;
       try {
         target = container.querySelector<HTMLElement>('#' + CSS.escape(slug));
       } catch {

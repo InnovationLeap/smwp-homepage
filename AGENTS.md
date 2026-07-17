@@ -13,11 +13,11 @@ bun run dev        # 启动开发服务器 (host 0.0.0.0:4321)
 bun run build      # 生产环境构建
 bun run preview    # 本地预览生产构建
 bun run deploy     # 通过 deploy.sh 部署 (Linux 服务器, rsync)
+bun run lint       # 本地 lint 检查
 ```
 
 - 未配置测试框架。除非明确要求，否则不要添加测试。
-- 没有 lint 或 typecheck 命令。TypeScript 由 Astro 内部处理。
-- 要验证更改，运行 `bun run build` 来捕获编译错误。
+- 要验证更改，运行 `bun run lint` 进行检查，必要时再运行 `bun run build` 来捕获编译错误。
 
 ## 项目结构
 

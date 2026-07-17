@@ -11,7 +11,8 @@ const { titleZh, titleEn, descriptionZh, descriptionEn } = Astro.props;
 const SITE_NAME = 'Super Mario Worker Project';
 const TITLE_SUFFIX = ` | ${SITE_NAME}`;
 const fullTitleZh = titleZh === SITE_NAME ? titleZh : `${titleZh}${TITLE_SUFFIX}`;
-const fullTitleEn = titleEn === SITE_NAME ? titleEn : `${titleEn}${TITLE_SUFFIX}`;
+// English title is handled client-side in the <script> block
+const _fullTitleEn = titleEn === SITE_NAME ? titleEn : `${titleEn}${TITLE_SUFFIX}`;
 
 import '../styles/global.css';
 ---

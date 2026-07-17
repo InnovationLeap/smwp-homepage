@@ -24,11 +24,12 @@ interface VersionInfo {
   type: 'release' | 'pre_release';
 }
 
-interface Props {
-  initialFilter?: 'all' | 'release' | 'pre_release';
+// YAML 数据项类型
+interface YamlDataItem {
+  date?: string;
+  zip_name?: string;
+  ver_code?: number;
 }
-
-const { initialFilter = 'all' } = Astro.props;
 
 // 读取并解析 YAML 文件
 let versions: VersionInfo[] = [];
@@ -55,7 +56,7 @@ try {
       let verCode: number | undefined;
 
       if (Array.isArray(versionDataArray)) {
-        versionDataArray.forEach((dataItem: any) => {
+        versionDataArray.forEach((dataItem: YamlDataItem) => {
           if (dataItem.date) date = dataItem.date;
           if (dataItem.zip_name) zipName = dataItem.zip_name;
           if (dataItem.ver_code) verCode = dataItem.ver_code;
@@ -84,7 +85,7 @@ try {
       let verCode: number | undefined;
 
       if (Array.isArray(versionDataArray)) {
-        versionDataArray.forEach((dataItem: any) => {
+        versionDataArray.forEach((dataItem: YamlDataItem) => {
           if (dataItem.date) date = dataItem.date;
           if (dataItem.zip_name) zipName = dataItem.zip_name;
           if (dataItem.ver_code) verCode = dataItem.ver_code;
