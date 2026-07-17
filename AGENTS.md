@@ -51,7 +51,7 @@ bun run deploy     # 通过 deploy.sh 部署 (Linux 服务器, rsync)
 - 使用相对导入 (`../components/Foo.astro`)，不使用路径别名。
 - 保持组件逻辑最小化；优先使用声明式模板。
 - 现有组件：`Navbar.astro`、`Footer.astro`、`ImageCarousel.astro`（Swiper 轮播）、`FeatureCard.astro`、`TableOfContents.astro`、`VersionTable.astro`、`ScrollingBanner.astro`、`VideoEmbed.astro`。
-- 现有页面：`index.astro`、`downloads.astro`、`smwp2.astro`、`v1.7.astro`、`v1.6.astro`、`v1.5.astro`。
+- 现有页面：`index.astro`、`downloads.astro`、`smwp2.astro`、`1.7.astro`、`1.6.astro`、`1.5.astro`。
 
 ### 国际化 (i18n)
 - 内容集合按语言分割：`src/content/pages/zh/` 和 `src/content/pages/en/`。
