@@ -65,18 +65,20 @@ const navItems: NavItem[] = [
   },
 ];
 
-const githubLink = {
-  href: 'https://github.com/InnovationLeap',
-  target: '_blank',
-  rel: 'noopener noreferrer',
-};
-
 interface Props {
   transparentHero?: boolean;
   isSmwp2?: boolean;
 }
 
 const { transparentHero = false, isSmwp2 = false } = Astro.props;
+
+const githubLink = {
+  href: isSmwp2
+    ? 'https://github.com/InnovationLeap/Super-Mario-Worker-Project-2'
+    : 'https://github.com/InnovationLeap',
+  target: '_blank',
+  rel: 'noopener noreferrer',
+};
 
 const currentPath = Astro.url.pathname;
 
