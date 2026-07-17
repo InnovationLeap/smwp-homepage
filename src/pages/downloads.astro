@@ -130,7 +130,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
                   <span class="font-semibold text-[#155dfc] dark:text-[#51a2ff]">{latestRelease.version}</span>
                   <span class="text-gray-500 dark:text-gray-500 ml-1.5">({latestRelease.date})</span>
                   <a class="changelog-link ml-1.5 font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors cursor-pointer" data-version={latestRelease.version}>
-                    <span data-lang="zh">更新日志</span>
+                    <span data-lang="zh">查看更新日志</span>
                     <span data-lang="en">Changelog</span>
                   </a>
                 </span>
@@ -146,7 +146,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
                   <span class="font-semibold text-[#7c3aed] dark:text-[#a78bfa]">{latestLts.version}</span>
                   <span class="text-gray-500 dark:text-gray-500 ml-1.5">({latestLts.date})</span>
                   <a class="changelog-link ml-1.5 font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors cursor-pointer" data-version={latestLts.version}>
-                    <span data-lang="zh">更新日志</span>
+                    <span data-lang="zh">查看更新日志</span>
                     <span data-lang="en">Changelog</span>
                   </a>
                 </span>
@@ -162,7 +162,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
                   <span class="font-semibold text-[#d97706] dark:text-[#fbbf24]">{latestPreRelease.version}</span>
                   <span class="text-gray-500 dark:text-gray-500 ml-1.5">({latestPreRelease.date})</span>
                   <a class="changelog-link ml-1.5 font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors cursor-pointer" data-version={latestPreRelease.version}>
-                    <span data-lang="zh">更新日志</span>
+                    <span data-lang="zh">查看更新日志</span>
                     <span data-lang="en">Changelog</span>
                   </a>
                 </span>
@@ -1424,29 +1424,33 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   // ============================================================
   // 数据包下载链接逻辑
   // ============================================================
-  const getDataPacketInfo = (version: string): { text: string; url?: string } => {
+  const getDataPacketInfo = (version: string): { textZh: string; textEn: string; url?: string } => {
     const versionNum = version.replace(/^v/i, '');
     const mainVersionMatch = versionNum.match(/^(\d+)\.(\d+)/);
     if (!mainVersionMatch) {
-      return { text: '-' };
+      return { textZh: '需原版 MW', textEn: "Requires MW 1.1" };
     }
 
     const major = parseInt(mainVersionMatch[1]);
     const minor = parseInt(mainVersionMatch[2]);
 
+    // v1.5.0 及更新版本
     if (major >= 2 || (major === 1 && minor >= 5)) {
-      return { text: 'Data.7z', url: 'https://file.marioforever.net/smwp/Data.7z' };
+      return { textZh: 'Data.7z', textEn: 'Data.7z', url: 'https://file.marioforever.net/smwp/Data.7z' };
     }
 
+    // v1.4 系列
     if (major === 1 && minor === 4) {
-      return { text: 'Data.zip', url: 'https://file.marioforever.net/smwp/Data.zip' };
+      return { textZh: 'Data.zip', textEn: 'Data.zip', url: 'https://file.marioforever.net/smwp/Data.zip' };
     }
 
+    // v1.2 至 v1.3 系列：已自带
     if (major === 1 && (minor === 2 || minor === 3)) {
-      return { text: '-' };
+      return { textZh: '已自带', textEn: 'Included' };
     }
 
-    return { text: '-' };
+    // 早期版本（v1.2 之前）：需原版 MW
+    return { textZh: '需原版 MW', textEn: "Requires MW 1.1" };
   };
 
   // ============================================================
@@ -1532,7 +1536,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
                 <td>
                   ${dataPacket.url
                     ? `<a href="${dataPacket.url}" class="table-btn table-btn-success" target="_blank" rel="noopener noreferrer"><i class="fas fa-download mr-1"></i>${lang === 'zh' ? '下载' : 'Download'}</a>`
-                    : dataPacket.text
+                    : `<span class="text-gray-600 dark:text-gray-400">${lang === 'zh' ? dataPacket.textZh : dataPacket.textEn}</span>`
                   }
                 </td>
                 <td>
