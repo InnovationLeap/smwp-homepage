@@ -94,7 +94,7 @@ const isNavItemActive = (item: NavItem): boolean => {
 <header class:list={["site-header fixed top-0 left-0 right-0 z-50 border-b", { "has-hero": transparentHero }]}>
   <nav class="nav-grid mx-auto h-16 px-4 md:px-8">
     <!-- Col 1: Logo -->
-    <a href="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+    <a href="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity w-fit">
       <img src={isSmwp2 ? "/images/smwp2-logo.png" : "/images/mworker.png"} alt="SMWP Logo" class="h-8 w-8" />
       <span class="brand-text text-lg font-semibold whitespace-nowrap">{isSmwp2 ? 'SMWP 2' : 'Super Mario Worker Project'}</span>
     </a>
