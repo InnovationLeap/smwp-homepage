@@ -97,7 +97,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   <main class="pt-24 sm:pt-28 pb-12 flex-1 bg-gray-50 dark:bg-gray-950">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Hero 下载区域 */}
-      <section class="download-hero rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-6 py-10 sm:px-10 sm:py-12 shadow-md mb-8 animate-fade-in">
+      <section class="download-hero rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-6 py-10 sm:px-10 sm:py-12 shadow-sm mb-8 animate-fade-in">
         <div class="text-center mb-8">
           <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
             <span data-lang="zh">下载 SMWP</span>
@@ -120,7 +120,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
           {latestRelease && (
             <a
               href={latestReleaseUrl}
-              class="download-btn group relative flex flex-col items-center justify-center p-6 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border-2 border-blue-500/50 dark:border-blue-400/50 shadow-sm hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-400 hover:scale-[1.02]"
+              class="download-btn group relative flex flex-col items-center justify-center p-6 bg-blue-50 dark:bg-blue-900/10 rounded-2xl border border-blue-500/50 dark:border-blue-400/50 shadow-sm hover:shadow-lg hover:border-blue-500 dark:hover:border-blue-400"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -138,7 +138,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
           {/* 数据包下载按钮 */}
           <a
             href={DATA_PACKET_URL}
-            class="download-btn group relative flex flex-col items-center justify-center p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border-2 border-emerald-500/50 dark:border-emerald-400/50 shadow-sm hover:shadow-lg hover:border-emerald-500 dark:hover:border-emerald-400 hover:scale-[1.02]"
+            class="download-btn group relative flex flex-col items-center justify-center p-6 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-500/50 dark:border-emerald-400/50 shadow-sm hover:shadow-lg hover:border-emerald-500 dark:hover:border-emerald-400"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -162,7 +162,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
             </p>
             <a
               href={latestPreReleaseUrl}
-              class="download-btn inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800 hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:scale-[1.02] hover:border-amber-300 dark:hover:border-amber-700 transition-all duration-300 ease-in-out"
+              class="download-beta-btn inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-800 hover:shadow-sm hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:border-amber-300 dark:hover:border-amber-700 transition-all duration-300 ease-in-out"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -233,7 +233,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
           {/* 全部正式版按钮 */}
           <button
             type="button"
-            class="version-toggle-btn group flex flex-col items-center justify-center px-6 py-8 text-base rounded-2xl border-2 transition-all duration-300"
+            class="version-toggle-btn group flex flex-col items-center justify-center px-6 py-8 text-base rounded-2xl border transition-all duration-300 shadow-sm"
             data-version-type="release"
             data-active="false"
           >
@@ -253,7 +253,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
           {/* 全部测试版按钮 */}
           <button
             type="button"
-            class="version-toggle-btn group flex flex-col items-center justify-center px-6 py-8 text-base rounded-2xl border-2 transition-all duration-300"
+            class="version-toggle-btn group flex flex-col items-center justify-center px-6 py-8 text-base rounded-2xl border transition-all duration-300 shadow-sm"
             data-version-type="pre_release"
             data-active="false"
           >
@@ -274,7 +274,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
 
       {/* 动态版本表格区域 */}
       <section id="versionTableSection" class="hidden mb-6 animate-fade-in">
-        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 shadow-md overflow-hidden">
+        <div class="rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 shadow-sm overflow-hidden">
           <div class="px-4 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
             <h2 id="versionTableTitle" class="text-lg font-semibold text-gray-900 dark:text-gray-100">
               <span data-lang="zh">版本列表</span>
@@ -286,7 +286,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
       </section>
 
       {/* 信息面板区域 */}
-      <article class="content-card prose max-w-none rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-5 py-7 sm:px-9 sm:py-9 shadow-md prose-headings:text-gray-900 prose-p:text-gray-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300 animate-fade-in" style="animation-delay: 0.15s;">
+      <article class="content-card prose max-w-none rounded-2xl border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 px-5 py-7 sm:px-9 sm:py-9 shadow-sm prose-headings:text-gray-900 prose-p:text-gray-600 dark:prose-invert dark:prose-headings:text-gray-100 dark:prose-p:text-gray-300 animate-fade-in" style="animation-delay: 0.15s;">
 
         {/* 用户须知 */}
         <details class="info-panel mb-6 border border-blue-200 dark:border-blue-800/50 rounded-xl overflow-hidden group" open>
@@ -413,6 +413,10 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     opacity: 1;
   }
 
+  .download-beta-btn {
+    transition: all 0.3s ease;
+  }
+
   /* ============================================================
      信息面板样式
      ============================================================ */
@@ -465,7 +469,6 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     background: white;
     color: #374151;
     cursor: pointer;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   }
 
   .version-toggle-btn:hover:not([data-active="true"]) {
