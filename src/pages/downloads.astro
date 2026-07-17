@@ -107,10 +107,16 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
             <span data-lang="zh">最新版本：</span>
             <span data-lang="en">Latest version: </span>
             {latestRelease && (
-              <span class="font-semibold text-[#006eff] dark:text-[#30acff]">{latestRelease.version}</span>
+              <span class="font-semibold text-[#008cff] dark:text-[#4da3ff;]">{latestRelease.version}</span>
             )}
             {latestRelease?.date && (
               <span class="text-gray-500 dark:text-gray-500 ml-2">({latestRelease.date})</span>
+            )}
+            {latestRelease && (
+              <a id="latestChangelogBtn" data-version={latestRelease.version} class="block sm:inline mt-2 sm:mt-0 sm:ml-3 font-semibold underline-offset-2 transition-colors cursor-pointer">
+                <span data-lang="zh">查看更新日志</span>
+                <span data-lang="en">Changelog</span>
+              </a>
             )}
           </p>
         </div>
@@ -1165,10 +1171,10 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
 
     container.innerHTML = tableHtml;
 
-    // 添加更新日志点击事件
+    // 添加更新日志点击事件（使用 currentTarget 避免点击子元素时取不到 data 属性）
     container.querySelectorAll('[data-changelog-index]').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const index = parseInt((e.target as HTMLElement).dataset.changelogIndex || '0');
+        const index = parseInt((e.currentTarget as HTMLElement).dataset.changelogIndex || '0');
         showChangelogModal(changelogEntries[index]);
       });
     });
@@ -1329,12 +1335,38 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     initFileSizes();
     initVersionToggle();
     initFaqContent();
+
+    // 最新版本更新日志按钮
+    const latestChangelogBtn = document.getElementById('latestChangelogBtn');
+    if (latestChangelogBtn) {
+      const version = latestChangelogBtn.dataset.version;
+      if (version) {
+        // 点击时实时查找当前语言的更新日志
+        latestChangelogBtn.addEventListener('click', () => {
+          const changelog = findChangelogForVersion(version);
+          if (changelog) showChangelogModal(changelog);
+        });
+        // 初始检查：如果无更新日志则隐藏按钮
+        if (!findChangelogForVersion(version)) {
+          latestChangelogBtn.style.display = 'none';
+        }
+      }
+    }
   });
 
   // 监听语言变化
   window.addEventListener('language-change', () => {
     parseChangelogFromMarkdown();
     initFaqContent();
+
+    // 更新最新版本更新日志按钮的可见性
+    const btn = document.getElementById('latestChangelogBtn');
+    if (btn) {
+      const version = btn.dataset.version;
+      if (version) {
+        btn.style.display = findChangelogForVersion(version) ? '' : 'none';
+      }
+    }
 
     // 如果有激活的筛选，重新渲染表格
     if (currentFilter) {
