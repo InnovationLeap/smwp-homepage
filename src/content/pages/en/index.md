@@ -5,7 +5,7 @@ description: "SMWP is an unofficial Mario level editor developed by INNOVATION L
 
 ## Overview
 
-Super Mario Worker Project (SMWP) is an unofficial Mario level editor based on Softendo's Mario Worker 1.1 (aka Game Maker ver.).
+Super Mario Worker Project (SMWP) is an unofficial Mario level editor based on Softendo's Mario Worker 1.1.
 
 It enhances and expands upon MW 1.1 by introducing new elements and fixing various bugs, while preserving its original physics behavior and level format structure.
 

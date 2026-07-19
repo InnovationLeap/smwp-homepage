@@ -16,7 +16,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "deploy": "bash deploy.sh",
-    "lint": "eslint ."
+    "check": "astro check",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.3",

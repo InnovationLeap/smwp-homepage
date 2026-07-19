@@ -6,8 +6,7 @@ description: "Download Super Mario Worker Project"
 ## User Guide
 ### Before running the program
 
-1. Make sure .NET Framework 4.0 or newer is installed on your system. If you're using Windows 7, you will need to manually download and install it. Windows 8 and newer already include newer versions of .NET Framework by default, so no additional action is required.
-2. Download [Data.7z](https://file.marioforever.net/smwp/Data.7z), extract it, and place the `Data` folder into the same directory as the SMWP executable (for example, `SuperMarioWorkerProject_v1.x.x.exe`). If you already have the Data folder, please ensure it is located in the same directory as the SMWP executable.
+- Download [Data.7z](https://file.marioforever.net/smwp/Data.7z), extract it, and place the `Data` folder into the same directory as the SMWP executable (for example, `SuperMarioWorkerProject_v1.x.x.exe`). If you already have the Data folder, please ensure it is located in the same directory as the SMWP executable.
 
 ### Additional Notes
 
@@ -27,7 +26,7 @@ Its goal is to deliver a refined and expanded Mario Worker 1.1, fixing bugs and 
 - **Q: Is SMWP developed from scratch?**  
 - **A:** No. We obtained the source code of Mario Worker 1.1, the version bundled with Mario Forever 4.1 (which is basically the same as 4.4), and we have been improving it by fixing bugs and adding new features.
 - **Q: I encountered a grey screen when opening a level.**  
-- **A:** Make sure .NET Framework 4.0 or newer is installed on your system.
+- **A:** If you're using SMWP v1.7.12.x or earlier, make sure .NET Framework 4.0 or newer is installed on your system. Windows 8 and newer already include a compatible version by default, while Windows 7 users may need to install it manually. This requirement has been removed starting with SMWP v1.7.13.
 - **Q: You should change the physics to be like Mario Forever.**  
 - **A:** We will NEVER change SMWP's physics, not even in the upcoming SMWP 2, as they have become an essential part of SMWP's identity, design, and the level ecosystem.  
 If you strongly prefer Mario Forever-style physics, we recommend using [Mario Worker Remake](https://www.themariovariable.org/mario-forever/mario-worker-remake/), or following the development of Meteo Dream's [Mario Worker: Community Edition](https://marioforever.space/topic/36/wip-mario-worker-community-edition) (currently in prototype stage), which aim to replicate the Mario Forever experience more closely.

@@ -5,8 +5,7 @@ description: "下载 Super Mario Worker Project"
 
 ## 用户须知
 ### 运行程序前
-1. Windows 7 用户，请下载 **[dotNetFx40_Full_x86_x64.exe](https://file.marioforever.net/smwp/dotNetFx40_Full_x86_x64.exe)** 以安装 .NET Framework 4（如果不安装，将无法正常读取或保存关卡）。Windows 8/8.1/10/11 系统自带高版本的 .NET Framework，无需额外操作。
-2. 下载音乐包 **[Data.7z](https://file.marioforever.net/smwp/Data.7z)**，将其解压缩并把其中的 `Data` 文件夹存放至 SMWP 主程序（如 `SuperMarioWorkerProject_v1.x.x.exe`）所在的目录（默认为 `Super Mario Worker Project` 目录）。如已有音乐包，请确保 `Data` 文件夹存放在 SMWP 主程序所在的目录。
+- 下载音乐包 **[Data.7z](https://file.marioforever.net/smwp/Data.7z)**，将其解压缩并把其中的 `Data` 文件夹存放至 SMWP 主程序（如 `SuperMarioWorkerProject_v1.x.x.exe`）所在的目录（默认为 `Super Mario Worker Project` 目录）。如已有音乐包，请确保 `Data` 文件夹存放在 SMWP 主程序所在的目录。
 ### 其他说明
 1. 这一系列的更新都基于 Mario Worker 4.1 版本。
 2. SMWP 的默认保存格式为 `.smwl`，该格式不兼容 Mario Worker 4.4 与一期版本的 SMWP。使用此版本的 SMWP 可以读取 `.mfl` 格式的关卡，但无法保存为 `.mfl` 格式。
@@ -19,7 +18,7 @@ description: "下载 Super Mario Worker Project"
 - **Q: Super Mario Worker Project 的一期工程与二期工程有什么区别吗？**
 - **A:** 这是 Super Mario Worker Project 的两个开发阶段。第一个开发阶段（一期工程，v0），功能强化阶段。在这个阶段，我们不会添加任何新的素材，而是在原有的基础上修正各种问题，并添加一些实用功能，方便用户创作关卡。这个阶段的 Super Mario Worker Project 理论上是和 Mario Worker 4.4 完全兼容的。第二个开发阶段（二期工程，v1），新素材阶段。到了这个阶段，我们会逐步引入新素材，并且向下兼容 MW 4.4，但 MW 4.4 就无法演绎 SMWP 的新内容了。
 - **Q: 为什么运行关卡时会灰屏？**
-- **A:** 新版 SMWP 使用了新的压缩组件，需要安装 .NET Framework 4 或更高版本。
+- **A:** 对于 SMWP v1.7.12.x 及更早版本，请确认系统已安装 .NET Framework 4 或更高版本。Windows 8/8.1/10/11 已默认包含兼容版本，而 Windows 7 用户需要自行下载安装 [.NET Framework](https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net48)。SMWP v1.7.13 起已不再依赖 .NET Framework，因此无需安装。
 - **Q: 我发现游戏目录中有两个 exe，其中一个的版本号有 a 后缀，这两个 exe 有什么区别？**  
 - **A:** 自 v1.7.12 正式版开始，SMWP 主程序压缩包同时集成标准版和 a 版，两个版本的差异如下：
   - **标准版**：SMWP 窗口未激活时游戏会暂停（失焦暂停）

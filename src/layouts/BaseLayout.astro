@@ -14,6 +14,7 @@ const fullTitleZh = titleZh === SITE_NAME ? titleZh : `${titleZh}${TITLE_SUFFIX}
 // English title is handled client-side in the <script> block
 const _fullTitleEn = titleEn === SITE_NAME ? titleEn : `${titleEn}${TITLE_SUFFIX}`;
 
+import OpenSourceBanner from '../components/OpenSourceBanner.astro';
 import '../styles/global.css';
 ---
 
@@ -57,6 +58,9 @@ import '../styles/global.css';
     <title>{fullTitleZh}</title>
   </head>
   <body class="min-h-screen font-sans flex flex-col">
+    <!-- Open Source Banner - sits at the very top of the page, above the header (scrolls away) -->
+    <OpenSourceBanner id="global-os-banner" class="relative z-[60]" />
+
     <slot />
 
     <!-- Back to Top Button -->
@@ -172,4 +176,36 @@ import '../styles/global.css';
     /* Re-check after Astro page transitions */
     document.addEventListener('astro:page-load', toggleBackToTop);
   }
+
+  /* Position the site header right below the banner.
+     As the user scrolls, the banner scrolls away and the header slides up
+     until it sticks to the top of the viewport.
+     Also keep the mobile menu aligned below the header. */
+  const osBanner = document.getElementById('global-os-banner');
+  const siteHeader = document.querySelector<HTMLElement>('.site-header');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const HEADER_HEIGHT = 64; /* h-16 = 4rem = 64px */
+
+  const updateHeaderOffset = () => {
+    if (!osBanner || !siteHeader) return;
+    const bannerHeight = osBanner.offsetHeight;
+    /* header top = how much of the banner is still visible in the viewport */
+    const offset = Math.max(0, bannerHeight - window.scrollY);
+    siteHeader.style.top = `${offset}px`;
+    /* keep mobile menu right below the header */
+    if (mobileMenu) {
+      mobileMenu.style.top = `${offset + HEADER_HEIGHT}px`;
+    }
+  };
+
+  window.addEventListener('scroll', updateHeaderOffset, { passive: true });
+  window.addEventListener('resize', updateHeaderOffset);
+  window.addEventListener('language-change', () => {
+    /* Re-measure after i18n content changes the banner height */
+    window.setTimeout(updateHeaderOffset, 50);
+  });
+  document.addEventListener('astro:page-load', () => {
+    window.setTimeout(updateHeaderOffset, 50);
+  });
+  updateHeaderOffset();
 </script>
