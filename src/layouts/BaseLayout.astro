@@ -4,9 +4,10 @@ interface Props {
   titleEn: string;
   descriptionZh?: string;
   descriptionEn?: string;
+  showBanner?: boolean;
 }
 
-const { titleZh, titleEn, descriptionZh, descriptionEn } = Astro.props;
+const { titleZh, titleEn, descriptionZh, descriptionEn, showBanner = true } = Astro.props;
 
 const SITE_NAME = 'Super Mario Worker Project';
 const TITLE_SUFFIX = ` | ${SITE_NAME}`;
@@ -58,8 +59,9 @@ import '../styles/global.css';
     <title>{fullTitleZh}</title>
   </head>
   <body class="min-h-screen font-sans flex flex-col">
-    <!-- Open Source Banner - sits at the very top of the page, above the header (scrolls away) -->
-    <OpenSourceBanner id="global-os-banner" class="relative z-[60]" />
+    {showBanner && (
+      <OpenSourceBanner id="global-os-banner" class="relative z-[60]" />
+    )}
 
     <slot />
 
