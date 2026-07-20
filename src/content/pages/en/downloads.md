@@ -69,9 +69,9 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - When playing a single level, the number of lives can now be customized in the options.
 - It is now possible to press multiple keys simultaneously at the very start of a level (note: aerial jump is disabled on frame 1).
 - Added new Additional Settings:
-    - HUD Display
-    - Faster Level Pass
-    - Thwomp Activate Blocks
+  - HUD Display
+  - Faster Level Pass
+  - Thwomp Activate Blocks
 - The Restart Level key can now be customly assigned.
 - Spotlights are no longer rendered when Dark Level is set to 0.
 #### Bug Fixes
@@ -123,15 +123,15 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Reduced lag caused by a large number of Color Blocks while Celeste Style Switch is enabled.
 - Reduced lag in large levels with many active entities (e.g., Goombas, Spinies, Koopas, Mushrooms, etc.).
 - Removed the old "Smooth Mode" toggle that used to be activated with `F11` during gameplay. It is now replaced with a new toggle: pressing `F11` switches Enemy Optimization on or off.
-    - Enemy Optimization refers to the new performance improvements in v1.7.10 that mitigate lag when too many enemies are present. It significantly improves performance in large levels.
-    - However, this optimization may slightly alter enemy behavior when overlapping with solids. If a level relies on such interactions, disable Enemy Optimization for accurate behavior.
-    - v1.7.10 and later have Enemy Optimization enabled by default, while levels from earlier versions have it disabled.
-    - Hold `F1` during gameplay to check whether Enemy Optimization is currently enabled.
+  - Enemy Optimization refers to the new performance improvements in v1.7.10 that mitigate lag when too many enemies are present. It significantly improves performance in large levels.
+  - However, this optimization may slightly alter enemy behavior when overlapping with solids. If a level relies on such interactions, disable Enemy Optimization for accurate behavior.
+  - v1.7.10 and later have Enemy Optimization enabled by default, while levels from earlier versions have it disabled.
+  - Hold `F1` during gameplay to check whether Enemy Optimization is currently enabled.
 #### Bug Fixes
-- Fixed a bug where the special background music "SMG BEACHBOWL GALAXY" would behave erratically after a **Fast Retry** or upon level completion.
+- Fixed a bug where the special background music "SMG BEACHBOWL GALAXY" would behave erratically after a Fast Retry or upon level completion.
 - Fixed a minor issue: when exiting a horizontal passage, Mario's position was offset 16 pixels too far to the right.
-    - Levels created before v1.7.10 are unaffected.
-    - However, if an old level is saved in v1.7.10 or later, this fix will automatically apply, which may affect levels that previously included manual adjustments for this offset.
+  - Levels created before v1.7.10 are unaffected.
+  - However, if an old level is saved in v1.7.10 or later, this fix will automatically apply, which may affect levels that previously included manual adjustments for this offset.
 
 ### v1.7.9 (2022-07-24)
 #### Editor
@@ -143,8 +143,8 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Optimized Imitator-related code to improve performance in levels containing a large number of Imitators.
 #### Bug Fixes
 - Fixed two shell-related bugs:
-    - Stationary Buzzy Beetle shells that haven't been kicked could be killed by another shell.
-    - Stationary shells originating from Koopas would not fall after the Colored Block turning from solid to transparent.
+  - Stationary Buzzy Beetle shells that haven't been kicked could be killed by another shell.
+  - Stationary shells originating from Koopas would not fall after the Colored Block turning from solid to transparent.
 
 ### v1.7.8 (2021-07-11)
 #### Editor

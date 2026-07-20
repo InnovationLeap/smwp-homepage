@@ -9,6 +9,8 @@ import Footer from '../components/Footer.astro';
 
 const entryZh = await getEntry('zh', 'downloads');
 const entryEn = await getEntry('en', 'downloads');
+const entryBetaZh = await getEntry('zh', 'changelog-beta');
+const entryBetaEn = await getEntry('en', 'changelog-beta');
 
 if (!entryZh || !entryEn) {
   throw new Error('Downloads page not found');
@@ -16,6 +18,11 @@ if (!entryZh || !entryEn) {
 
 const { Content: ContentZh } = await render(entryZh);
 const { Content: ContentEn } = await render(entryEn);
+// Beta 更新日志：可选内容，缺失时跳过对应源
+const betaZhRender = entryBetaZh ? await render(entryBetaZh) : null;
+const betaEnRender = entryBetaEn ? await render(entryBetaEn) : null;
+const ContentBetaZh = betaZhRender?.Content;
+const ContentBetaEn = betaEnRender?.Content;
 
 // ============================================================
 // 从 YAML 动态读取版本信息
@@ -68,7 +75,9 @@ const parseVersionEntry = (item: { [key: string]: Array<{ date?: string; zip_nam
 const sortByDate = (a: VersionData, b: VersionData): number => {
   const dateA = a.date ? new Date(a.date).getTime() : 0;
   const dateB = b.date ? new Date(b.date).getTime() : 0;
-  return dateB - dateA;
+  if (dateB !== dateA) return dateB - dateA;
+  // 同日期时按版本号倒序排列（如 v1.7.11b、v1.7.11a、v1.7.11）
+  return b.version.localeCompare(a.version);
 };
 
 // 获取所有版本
@@ -415,6 +424,18 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
             <ContentEn />
           </div>
         </div>
+
+        {/* 隐藏的 Beta 更新日志源（预发布版本优先使用） */}
+        {ContentBetaZh && ContentBetaEn && (
+          <div id="betaMarkdownSource" class="hidden">
+            <div data-lang="zh">
+              <ContentBetaZh />
+            </div>
+            <div data-lang="en">
+              <ContentBetaEn />
+            </div>
+          </div>
+        )}
 
         {/* 版本数据 */}
         <script type="application/json" id="versionsData" set:html={versionsJson} />
@@ -1218,6 +1239,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   // ============================================================
   let versionsData: VersionInfo[] = [];
   let changelogEntries: ChangelogEntry[] = [];
+  let betaChangelogEntries: ChangelogEntry[] = [];
   let currentFilter: 'release' | 'pre_release' | null = null;
   let _selectedVersionType: 'release' | 'pre_release' | 'lts' = 'release';
 
@@ -1362,13 +1384,18 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   // ============================================================
   // 从 Markdown 提取更新日志
   // ============================================================
-  const parseChangelogFromMarkdown = () => {
-    const source = document.getElementById('markdownSource');
-    if (!source) return;
+  // 正则匹配版本号与日期：
+  // - 版本号：v 开头，可包含 -beta5、f2、a 等后缀
+  // - 日期：取最后一组括号内容（跳过 (内测)/(Closed Beta) 等标记）
+  const VERSION_HEADING_REGEX = /(v[\d.]+[a-z0-9-]*)\s*(?:\(([^)]+)\)\s*)*/;
+
+  const parseChangelogFromSource = (sourceId: string): ChangelogEntry[] => {
+    const source = document.getElementById(sourceId);
+    if (!source) return [];
 
     const lang = document.documentElement.getAttribute('data-lang') || 'zh';
     const langContainer = source.querySelector(`[data-lang="${lang}"]`);
-    if (!langContainer) return;
+    if (!langContainer) return [];
 
     const allElements = Array.from(langContainer.children);
     let inChangelogSection = false;
@@ -1388,17 +1415,23 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
       if (elHtml.tagName === 'H3') {
         if (currentEntry) entries.push(currentEntry);
         const text = elHtml.textContent?.trim() || '';
-        const match = text.match(/(v[\d.]+[a-z0-9]*)\s*(?:\(([\d-]+)\))?/);
-        if (match) {
-          currentEntry = { version: match[1], date: match[2] || '', content: '' };
-        }
+        const match = text.match(VERSION_HEADING_REGEX);
+        // 匹配失败时置空，避免后续内容误挂到上一个条目
+        currentEntry = match
+          ? { version: match[1], date: match[2] || '', content: '' }
+          : null;
       } else if (currentEntry) {
         currentEntry.content += elHtml.outerHTML;
       }
     });
 
     if (currentEntry) entries.push(currentEntry);
-    changelogEntries = entries;
+    return entries;
+  };
+
+  const parseChangelogFromMarkdown = () => {
+    changelogEntries = parseChangelogFromSource('markdownSource');
+    betaChangelogEntries = parseChangelogFromSource('betaMarkdownSource');
   };
 
   // ============================================================
@@ -1412,13 +1445,40 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     return match ? match[1] : v;
   };
 
-  const findChangelogForVersion = (version: string): ChangelogEntry | null => {
+  // 规范化版本号，用于匹配 YAML 与 changelog 标题之间的差异：
+  // - v0.1.0_Alpha -> v0.1.0
+  // - v1.7.11-beta1a -> v1.7.11-beta1（去掉 -betaN 后的重发布字母 a/b）
+  // - v1.4.0a -> v1.4.0a（保持不变，其本身在 changelog-beta 中有独立条目）
+  const normalizeVersion = (version: string): string => {
+    let v = version.replace(/_(Alpha|Beta)$/i, '');
+    v = v.replace(/(-beta\d+)[a-z]$/i, '$1');
+    return v;
+  };
+
+  // 在单个数据源中查找匹配的更新日志
+  const findInSource = (entries: ChangelogEntry[], version: string): ChangelogEntry | null => {
+    const normalized = normalizeVersion(version);
+
+    // 1. 精确匹配（规范化后）
+    const entry = entries.find(e => normalizeVersion(e.version) === normalized);
+    if (entry) return entry;
+
+    // 2. 基础版本号匹配（兜底，如 v0.1.0_Alpha -> v0.1.0）
     const baseVersion = getBaseVersion(version);
-    // 查找版本号以 baseVersion 开头的更新日志
-    return changelogEntries.find(entry => {
-      const entryBase = getBaseVersion(entry.version);
-      return entryBase === baseVersion;
-    }) || null;
+    return entries.find(e => getBaseVersion(e.version) === baseVersion) || null;
+  };
+
+  // 预发布版本优先在 beta 更新日志中查找；正式版仅在正式日志中查找
+  const findChangelogForVersion = (version: string, type?: 'release' | 'pre_release'): ChangelogEntry | null => {
+    const sources = type === 'pre_release'
+      ? [betaChangelogEntries, changelogEntries]
+      : [changelogEntries];
+
+    for (const source of sources) {
+      const entry = findInSource(source, version);
+      if (entry) return entry;
+    }
+    return null;
   };
 
   // ============================================================
@@ -1518,7 +1578,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
         </thead>
         <tbody>
           ${filteredVersions.map((v) => {
-            const changelog = findChangelogForVersion(v.version);
+            const changelog = findChangelogForVersion(v.version, v.type);
             const dataPacket = getDataPacketInfo(v.version);
             const versionCodeDisplay = getVersionCodeDisplay(v.version, v.verCode);
 
@@ -1541,7 +1601,7 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
                 </td>
                 <td>
                   ${changelog
-                    ? `<button type="button" class="table-btn table-btn-secondary" data-changelog-index="${changelogEntries.indexOf(changelog)}"><i class="fas fa-file-alt mr-1"></i>${lang === 'zh' ? '查看' : 'View'}</button>`
+                    ? `<button type="button" class="table-btn table-btn-secondary" data-changelog-version="${v.version}" data-changelog-type="${v.type}"><i class="fas fa-file-alt mr-1"></i>${lang === 'zh' ? '查看' : 'View'}</button>`
                     : '-'
                   }
                 </td>
@@ -1555,10 +1615,13 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
     container.innerHTML = tableHtml;
 
     // 添加更新日志点击事件（使用 currentTarget 避免点击子元素时取不到 data 属性）
-    container.querySelectorAll('[data-changelog-index]').forEach(btn => {
+    container.querySelectorAll('[data-changelog-version]').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const index = parseInt((e.currentTarget as HTMLElement).dataset.changelogIndex || '0');
-        showChangelogModal(changelogEntries[index]);
+        const currentTarget = e.currentTarget as HTMLElement;
+        const version = currentTarget.dataset.changelogVersion || '';
+        const type = currentTarget.dataset.changelogType as 'release' | 'pre_release' | undefined;
+        const changelog = findChangelogForVersion(version, type);
+        if (changelog) showChangelogModal(changelog);
       });
     });
   };
@@ -1833,7 +1896,9 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
         if (!link) return;
         const version = link.dataset.version;
         if (!version) return;
-        const changelog = findChangelogForVersion(version);
+        // 查找版本类型，预发布版本优先使用 beta 更新日志
+        const versionInfo = versionsData.find(v => v.version === version);
+        const changelog = findChangelogForVersion(version, versionInfo?.type);
         if (changelog) showChangelogModal(changelog);
       });
     }
