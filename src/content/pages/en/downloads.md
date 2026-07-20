@@ -236,7 +236,12 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Adjusted the vertical moving platform loop mode: it now moves to the opposite side after exceeding the level boundary by 16 pixels, for both upwards and downwards (levels from versions ≤1.7 are unaffected).
 - Fixed a bug where Cyan Switch Block caused vertical moving platforms to misalign.
 
-### v1.7.2 (2020-06-03)
+### v1.7.2_Fix (2020-06-03)
+#### Bug Fixes
+- Fixed missing background music when Bowser's auto-scrolling was triggered.
+- Fixed an issue where camera moved when using Accurate Move with arrow keys in the editor.
+
+### v1.7.2 (2020-06-01)
 #### Editor
 - Some functions in the editor can now be assigned to custom hotkeys.
 - Ice blocks are now semi-transparent in the editor.
@@ -266,8 +271,6 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Fixed a scene detection bug when entering a scene from a passage located just outside the screen while the scene was locked by View Controller.
 - Fixed an issue where temporary file names might display incorrectly.
 - Updated Koopa textures.
-- Fixed missing background music when Bowser's auto-scrolling was triggered.
-- Fixed an issue where camera moved when using Accurate Move with arrow keys in the editor.
 
 ### v1.7.0 (2020-05-24)
 #### Editor
@@ -313,7 +316,11 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 #### Bug Fixes
 - Fixed multiple issues caused by the Bill Blasters offset adjustment introduced in v1.6.2. (2019-06-20)
 
-### v1.6.2 (2019-05-12)
+### v1.6.2_Fix (2019-05-12)
+#### Bug Fixes
+- Fixed an issue where the Roto-Disc Layer setting could fail to load properly if set to "Below", in both the editor and the game. (2019-05-12)
+
+### v1.6.2 (2019-05-01)
 #### In Game
 - Updated the tiles for light purple platforms to be 16 pixels tall. (2019-04-02)
 - Slightly adjusted Buzzy Beetle shells collision detection to prevent wall clipping when close to solid blocks. (2019-04-30)
@@ -322,7 +329,6 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Fixed incorrect color on gray platforms. (2019-04-02)
 - Modified offset for Green Paratroopas. (2019-04-30)
 - Fixed a one-pixel offset issue in Bill Blasters positions during gameplay. (2019-04-30)
-- Fixed an issue where the Roto-Disc Layer setting could fail to load properly if set to "Below", in both the editor and the game. (2019-05-12)
 
 ### v1.6.1 (2019-03-24)
 #### Bug Fixes
@@ -330,7 +336,13 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Fixed inaccuracies in physics (which differs from previous versions) when gravity was set to a very low value. (2019-03-09)
 - Fixed an issue where non-grid-aligned solids could be clipped through. (2019-03-09)
 
-### v1.6.0 (2019-02-19)
+### v1.6.0_Fix (2019-02-19)
+#### Bug Fixes
+- Fixed an issue where new objects failed to display in scenarios. (2019-02-19)
+- Fixed an issue where scenarios could only use default key bindings. (2019-02-19)
+- Fixed random lockups and layer reading errors when loading scenarios (e.g., 20×15 grid freeze). (2019-02-19)
+
+### v1.6.0 (2019-02-18)
 #### Highlights
 - Introduced a custom file compression extension to fix occasional startup errors. (2018-10-05)
 - Added Autoscroll Object (ID: 223). (2019-02-12)
@@ -362,9 +374,6 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Fixed an issue where Blue Flying Cheep Cheeps could be defeated by fireballs or beetroots. (2019-02-14)
 - Fixed an issue where overlapping the starting position and Green Mushroom would incorrectly grant an extra life upon respawning at a Check Point. (2019-02-16)
 - Fixed an issue where Roto-Disc paths and numbers appeared red under certain conditions. (2019-02-17)
-- Fixed an issue where new objects failed to display in scenarios. (2019-02-19)
-- Fixed an issue where scenarios could only use default key bindings. (2019-02-19)
-- Fixed random lockups and layer reading errors when loading scenarios (e.g., 20×15 grid freeze). (2019-02-19)
 #### Other
 - Added an Options page to the title screen, allowing adjustment of the maximum number of temporary files. (2019-02-13)
 - Added an option "Object Offset Correct," defaulting to "No." When enabled, the editor displays objects exactly as they appear in-game. (2019-02-13)
@@ -372,13 +381,24 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Added staff credits. (2019-02-14)
 - Added Smooth Mode toggle to Options. (2019-02-16)
 
-### v1.5.2 (2018-09-02)
+### v1.5.2_Fix2 (2018-09-02)
+#### In Game
+- Adjusted the lava graphics. (2018-09-02)
+#### Bug Fixes
+- Fixed an issue where Jumping Paratroopas could not have their height adjusted after being placed. (2018-08-29)
+- Fixed an issue where Yellow Paratroopas read incorrect parameters when their attributes were modified. (2018-08-29)
+
+### v1.5.2_Fix (2018-08-29)
+#### In Game
+- Adjusted the movement of Jumping Paratroopas. (2018-08-29)
+#### Bug Fixes
+- Fixed an issue where fireballs could not defeat Bowser. (2018-08-29)
+
+### v1.5.2 (2018-08-28)
 #### Editor
 - Added the ability to adjust the jump height of Jumping Paratroopas, with a maximum value of 999. (2018-08-27)
-#### Game
+#### In Game
 - Further adjusted the firing range of Bill Blasters. (2018-08-26)
-- Adjusted the movement of Jumping Paratroopas. (2018-08-29)
-- Adjusted the lava graphics. (2018-09-02)
 #### Bug Fixes
 - Fixed an issue with pressing `Shift` at the center of a Yellow Paratroopas object. (2018-08-20)
 - Fixed incorrect block IDs for inverted purple pipes and right-facing green pipes in the editor. (2018-08-26)
@@ -386,9 +406,6 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Fixed an issue in Camera Mode where Mario would fall vertically without control or be carried away by moving platforms. (2018-08-26)
 - Fixed an issue where fireballs could pass upward through solids. (2018-08-27)
 - Fixed several wall-clipping issues while Modified Movement is enabled. (2018-08-27)
-- Fixed an issue where fireballs could not defeat Bowser. (2018-08-29)
-- Fixed an issue where Jumping Paratroopas could not have their height adjusted after being placed. (2018-08-29)
-- Fixed an issue where Yellow Paratroopas read incorrect parameters when their attributes were modified. (2018-08-29)
 #### Other
 - Replaced SXMS with MaizeMusic. (2018-08-27)
 
@@ -538,6 +555,12 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Rewrote background rendering code. (2018-02-01)
 - Consolidated all background music into the `Data` folder. (2018-02-01)
 
+### v1.3.1_Fix2 (2018-02-05)
+#### In Game
+- Increased Fire Bro.'s attack frequency. (2018-02-02)
+#### Bug Fixes
+- Fixed an issue where Mario couldn't bounce after stomping an enemy while invincible. (2018-02-01)
+
 ### v1.3.1 (2017-10-14)
 #### Bug Fixes
 - Fixed an issue where some passages became disordered in level. (2017-09-03)
@@ -595,7 +618,22 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Fixed coordinate offset issues for certain scenery objects. (2017-07-28)
 - Fixed coordinate offset issues for lava. (2017-07-28)
 
-### v1.2.0 (2017-06-28)
+### v1.2.0_Fix2 (2017-06-28)
+- Fixed seperated 1-UP mushrooms still disappearing off-screen. (2017-06-28)
+- Fixed an error when loading levels. (2017-06-28)
+
+### v1.2.0_Fix (2017-06-27)
+#### Editor
+- Fixed residual images appearing after auto-pair placement. (2017-06-27)
+#### Bug Fixes
+- Fixed a crash when clicking outside the level area (on black regions). (2017-06-27)
+- Fixed the issue where seperated mushrooms could not be collected. (2017-06-27)
+- Fixed an issue where the player couldn't enter passages that overlapped with bricks. (2017-06-27)
+- Fixed a pop-up error occurring after invincibility ended. (2017-06-27)
+- Fixed scenery layer issues. (2017-06-27)
+- Fixed an error when first opening certain levels containing Check Points. (2017-06-27)
+
+### v1.2.0 (2017-06-27)
 #### Editor
 - Added new backgrounds including dusk, desert, darkness, volcano, and forest. (2017-06-17)
 - Added level version check. (2017-06-17)
@@ -617,7 +655,6 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Updated and reformatted scenery assets. (2017-06-25)
 - Added Bill Blaster Base object. (2017-06-25)
 - The auto-pairing feature can now be toggled with `F12`. (2017-06-25)
-- Fixed residual images appearing after auto-pair placement. (2017-06-27)
 #### In Game
 - Improved the animation of breaking bricks. (2017-06-19)
 - Nerfed Stone Spiny: it can now be defeated by hitting bricks or by Starman Mario. (2017-06-20)
@@ -641,14 +678,6 @@ We plan to rebuild the editor from the ground up in the next major version (SMWP
 - Fixed coordinate offsets in animated scenery. (2017-06-25)
 - Fixed residual layer issues for Fire Flowers and Beetroots. (2017-06-26)
 - Fixed background music becoming malfunctioned after invincibility ended. (2017-06-26)
-- Fixed a crash when clicking outside the level area (on black regions). (2017-06-27)
-- Fixed the issue where seperated mushrooms could not be collected. (2017-06-27)
-- Fixed an issue where the player couldn't enter passages that overlapped with bricks. (2017-06-27)
-- Fixed a pop-up error occurring after invincibility ended. (2017-06-27)
-- Fixed scenery layer issues. (2017-06-27)
-- Fixed an error when first opening certain levels containing Check Points. (2017-06-27)
-- Fixed seperated 1-UP mushrooms still disappearing off-screen. (2017-06-28)
-- Fixed an error when loading levels. (2017-06-28)
 
 ### v1.1.0 (2017-06-15)
 #### Editor

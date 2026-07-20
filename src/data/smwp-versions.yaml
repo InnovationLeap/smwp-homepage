@@ -89,7 +89,7 @@ release:
   - zip_name: SuperMarioWorkerProject_v1.6.1.7z
   - ver_code: 1600
 - v1.6.2:
-  - date: 2019-04-30
+  - date: 2019-05-01
   - zip_name: SuperMarioWorkerProject_v1.6.2.7z
   - ver_code: 1600
 - v1.6.2_Fix:
