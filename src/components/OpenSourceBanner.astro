@@ -1,26 +1,37 @@
 ---
 /**
- * OpenSourceBanner — SMWP 开源横幅（极简风格）
+ * OpenSourceBanner - SMWP 开源横幅（极简风格）
  * Links to the SMWP GitHub repository with bilingual copy.
  *
- * @props {string} [id] - Optional id attribute forwarded to the root <a>.
- * @props {string} [class] - Additional CSS classes merged onto the root <a>.
+ * @props {string} [id] - Optional id attribute forwarded to the root <div>.
+ * @props {string} [class] - Additional CSS classes merged onto the root <div>.
  */
 
 const GITHUB_URL = 'https://github.com/InnovationLeap/Super-Mario-Worker-Project-GM82';
+const ANNOUNCEMENT_URL = 'https://www.marioforever.net/thread-3898-1-1.html';
 
 const { id, class: className } = Astro.props;
 const wrapperClass = `text-center text-sm leading-none py-3 px-4 bg-[#008cff]${className ? ` ${className}` : ''}`;
 ---
 
-<div id={id} class={wrapperClass}>
-  <a
-    href={GITHUB_URL}
-    target="_blank"
-    rel="noopener noreferrer"
-    class="inline-block !text-white hover:!text-white/80 no-underline transition-colors duration-200"
-  >
-    <span data-lang="zh">🎉 SMWP 现已开源！查看 GitHub 仓库<span class="external-link-indicator" aria-hidden="true"> ↗</span></span>
-    <span data-lang="en">🎉 SMWP is now open source! View the repository<span class="external-link-indicator" aria-hidden="true"> ↗</span></span>
-  </a>
+<div id={id} class={`${wrapperClass} !text-white`}>
+  <span data-lang="zh">
+    🎉 SMWP 现已开源！<a
+      href={ANNOUNCEMENT_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block !text-white hover:!text-white/80 no-underline transition-colors duration-200 align-baseline">开源公告<span class="external-link-indicator" aria-hidden="true"> ↗</span></a
+    > <a
+      href={GITHUB_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block !text-white hover:!text-white/80 no-underline transition-colors duration-200 align-baseline ml-1">查看 GitHub 仓库<span class="external-link-indicator" aria-hidden="true"> ↗</span></a>
+  </span>
+  <span data-lang="en">
+    🎉 SMWP is now open source! <a
+      href={GITHUB_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block !text-white hover:!text-white/80 no-underline transition-colors duration-200 align-baseline">View the repository<span class="external-link-indicator" aria-hidden="true"> ↗</span></a>
+  </span>
 </div>
