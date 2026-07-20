@@ -171,13 +171,13 @@ release:
   - lts: true
 
 pre_release:
-- v0.1.0_Alpha:
+- v0.1.0:
   - date: 2015-07-18
   - zip_name: SuperMarioWorkerProject_v0.1.0_Alpha.rar
-- v0.3.2_Alpha:
+- v0.3.2:
   - date: 2017-02-09
   - zip_name: SuperMarioWorkerProject_v0.3.2_Alpha.rar
-- v1.0.1_Alpha:
+- v1.0.1:
   - date: 2016-08-24
   - zip_name: SuperMarioWorkerProject_v1.0.1_Alpha.rar
 - v1.4.0a:

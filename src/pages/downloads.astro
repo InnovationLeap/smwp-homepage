@@ -1385,9 +1385,9 @@ const versionsJson = JSON.stringify(allVersions.map(v => ({
   // 从 Markdown 提取更新日志
   // ============================================================
   // 正则匹配版本号与日期：
-  // - 版本号：v 开头，可包含 -beta5、f2、a 等后缀
+  // - 版本号：v 开头，可包含 -beta5、f2、a、_Fix、_Alpha 等后缀
   // - 日期：取最后一组括号内容（跳过 (内测)/(Closed Beta) 等标记）
-  const VERSION_HEADING_REGEX = /(v[\d.]+[a-z0-9-]*)\s*(?:\(([^)]+)\)\s*)*/;
+  const VERSION_HEADING_REGEX = /(v[\d.]+[a-zA-Z0-9_-]*)\s*(?:\(([^)]+)\)\s*)*/;
 
   const parseChangelogFromSource = (sourceId: string): ChangelogEntry[] => {
     const source = document.getElementById(sourceId);
