@@ -52,34 +52,46 @@ html[data-lang="en"] [data-lang="zh"] {
   background-size: auto 100%;
   background-repeat: repeat-x;
   will-change: background-position;
+  /* 每轮滚动距离 = 精确的一个贴图宽度，由 JS 测量后写入，实现无缝循环 */
+  --tile-width: 1600px;
+  --scroll-duration: 160s;
 }
 
 .scrolling-row-1 {
   top: 0;
   background-image: url('/images/bg1.webp');
-  animation: scroll-left 1000s linear infinite;
+  animation-name: scroll-left;
+  animation-duration: var(--scroll-duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .scrolling-row-2 {
   top: 33.333%;
   background-image: url('/images/bg2.webp');
-  animation: scroll-right 1000s linear infinite;
+  animation-name: scroll-right;
+  animation-duration: var(--scroll-duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 .scrolling-row-3 {
   top: 66.666%;
   background-image: url('/images/bg3.webp');
-  animation: scroll-left 1000s linear infinite;
+  animation-name: scroll-left;
+  animation-duration: var(--scroll-duration);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 
 @keyframes scroll-left {
   from { background-position: 0 0; }
-  to { background-position: -10000px 0; }
+  to { background-position: calc(-1 * var(--tile-width)) 0; }
 }
 
 @keyframes scroll-right {
   from { background-position: 0 0; }
-  to { background-position: 10000px 0; }
+  to { background-position: var(--tile-width) 0; }
 }
 
 @media (prefers-reduced-motion: reduce) {

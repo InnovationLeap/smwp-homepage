@@ -19,3 +19,51 @@ const { class: className = "" } = Astro.props;
     <slot />
   </div>
 </section>
+
+<script>
+  // 测量每行背景贴图的实际宽度（随行高/视口变化），将动画每轮距离设为
+  // 精确的一个贴图宽度，从而实现真正的无缝循环，避免位置跳变。
+  const aspectCache = new Map<string, number>();
+
+  const measureRow = (row: HTMLElement) => {
+    const bgImage = getComputedStyle(row).backgroundImage;
+    const match = bgImage.match(/url\(["']?(.+?)["']?\)/);
+    if (!match) return;
+    const url = match[1];
+    const rowHeight = row.getBoundingClientRect().height;
+    if (rowHeight <= 0) return;
+
+    const apply = (aspect: number) => {
+      const tileWidth = Math.round(rowHeight * aspect);
+      // 保持与原实现相近的滚动速度（约 10px/s）
+      const duration = tileWidth / 10;
+      row.style.setProperty('--tile-width', `${tileWidth}px`);
+      row.style.setProperty('--scroll-duration', `${duration}s`);
+    };
+
+    if (aspectCache.has(url)) {
+      apply(aspectCache.get(url)!);
+      return;
+    }
+    const img = new Image();
+    img.onload = () => {
+      const aspect = img.naturalWidth / img.naturalHeight;
+      aspectCache.set(url, aspect);
+      apply(aspect);
+    };
+    img.onerror = () => apply(3200 / 480);
+    img.src = url;
+  };
+
+  const setupSeamlessScroll = () => {
+    document.querySelectorAll<HTMLElement>('.scrolling-row').forEach(measureRow);
+  };
+
+  setupSeamlessScroll();
+  let resizeRaf = 0;
+  window.addEventListener('resize', () => {
+    cancelAnimationFrame(resizeRaf);
+    resizeRaf = requestAnimationFrame(setupSeamlessScroll);
+  }, { passive: true });
+  document.addEventListener('astro:page-load', setupSeamlessScroll);
+</script>
