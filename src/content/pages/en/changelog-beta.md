@@ -4,6 +4,17 @@ title: "Changelog (Beta)"
 
 ## Changelog (Beta)
 
+### v1.7.13-beta1 (2026-07-25)
+#### Core Improvements
+- Upgraded game engine to Game Maker 8.2.
+- Updated FoxWriting DLL, completely fixing the issue where SMWP could not launch on some new Intel hardware.
+- Updated SMWGZip DLL, removing SMWP's dependency on .NET Framework 4.
+- Added an encoding conversion extension, allowing GB2312-encoded text to be converted to UTF-8. Newer versions of SMWP will save levels in UTF-8 encoding by default.
+#### Editor
+- Added an editor zoom feature. When the panel is closed, use `Ctrl + Mouse Wheel` or the `+` / `-` keys to zoom the editor.
+#### Level Features
+- Added petal-patterned Roto-disc.
+
 ### v1.7.12f2 (2026-07-08)
 #### Bug Fixes
 - Fixed an issue where SMWP could not be opened on some new Intel hardware.
