@@ -20,7 +20,7 @@ title: "Changelog (Beta)"
 - Fixed an issue where SMWP could not be opened on some new Intel hardware.
 
 ### v1.7.12f (2026-06-05)
-#### Other
+#### Miscellaneous
 - The `FoxWriting.dll` plugin has been externalized.
 
 ### v1.7.12-beta5 (2026-01-14)
@@ -37,7 +37,7 @@ title: "Changelog (Beta)"
 - Fixed an issue where enabling luminate on Goombas would also force most enemies to have luminate enabled.
 - Fixed a bug where, if the level music was set to No Music, the Starman music would never stop once it started playing.
 - Fixed an issue where Scene Controllers would override the invincibility music before the Starman state expired.
-#### Other
+#### Miscellaneous
 - Updated main menu links: Home now points to the SMWP official website, Help points to SMWP's MF Wiki page, and Upload Download now links to `download.marioforever.net`.
 - Removed Softendo logo from the Title Screen.
 
@@ -90,7 +90,7 @@ title: "Changelog (Beta)"
     - Faster Level Pass
     - Thwomp Activate Blocks
 - The Restart Level key can now be customly assigned.
-#### Other
+#### Miscellaneous
 - Updated INNOVATION LEAP Logo animation.
 
 ### v1.7.11-beta2 (2025-07-09)
@@ -118,7 +118,7 @@ title: "Changelog (Beta)"
 - Fixed a bug where the goal's actual score didn't match the displayed score icon.
 - Fixed a bug where Cheep Cheep corpses were shifted 16 pixels left.
 - Fixed a bug that cause multiple coins, bonuses or scenary to be placed at the same position.
-#### Other
+#### Miscellaneous
 - Added version number to the window title.
 - Removed the update checker. The game now directly shows the INNOVATION LEAP Logo and enters the title screen upon launch.
 
@@ -242,6 +242,40 @@ v1.7.9-beta1
 #### Bug Fixes
 - Fixed an issue where kicked Buzzy Beetle shells always moved left. (2018-01-25)
 - Fixed an issue where Mario couldn't bounce after stomping an enemy while invincible. (2018-02-01)
-#### Other
+#### Miscellaneous
 - Rewrote background rendering code. (2018-02-01)
 - Consolidated all background music into the `Data` folder. (2018-02-01)
+
+### v0.3.2 (Closed Beta) (2017-02-09)
+#### Editor
+- Scenery and passage entrances/exits are now rendered above the block layer. (2016-07-25)
+- Middle mouse button can now be used for object selection. (2016-07-25)
+- Passage entrances are now colored blue and exits red for easier identification. (2016-07-25)
+- In God Mode, press `9` to gain an extra life. (2016-09-05)
+- Passage entrances and exits now have matching pair numbers. (2016-09-07)
+- Pressing `Esc` in the editor now returns to the previous screen. (2016-09-07)
+- Press `F3` / `F4` to test current level in editor; after pressing `Esc` to exit, editing can continue without saving in between. (2017-01-21)
+- Level saving is now separated into Save and Save As. (2017-01-21)
+- Overlapping Roto-Discs now show the number of overlaps at the lower-right corner of centerpoint and can together accurate move; if all overlapping Roto-Discs share the same angular velocity, it is displayed at the upper-left corner of centerpoint; otherwise, it is hidden. (2017-01-26)
+- Added support for holding `Shift` on a Roto-Disc to view and edit its properties. (2017-01-26)
+- Added support for off-screen enemies and off-screen solids. (2017-01-26)
+- Restored compatibility with upward passage entrances from Mario Worker 4.4. (2017-01-26)
+- Passage entrances tweaked (breaks compatibility with previous v0.x versions). (2017-02-07)
+#### In Game
+- Added animation for grass. (2016-07-09)
+- Finished smiling animation for Thwomp. (2016-07-09)
+- Moved certain enemies (Lakitu, Bullet Bill, Spiny Cheep Cheeps, Red Cheep Cheeps, Fireballs, Spiny Eggs) to render above the block layer. (2016-07-25)
+- Bowser's HP is displayed numerically when it exceeds 20. (2016-09-06)
+- Pressing `Esc` during gameplay now asks for confirmation before exiting. (2016-09-07)
+- To prevent soft-locks when loading levels without a player starting position, one will now be automatically created, along with a warning message. (2017-01-21)
+- Added support for external texture packs. (2017-02-07)
+#### Bug Fixes
+- Fixed issue where enemy code contained extra digits. (2016-07-09)
+- Fixed score display layer issue. (2016-07-25)
+- Fixed identical graphics for passage entrances and exits in the editor. (2016-07-25)
+- Fixed graphical glitches in the underground and castle backgrounds for levels heights more than 480px. (2017-01-21)
+- Fixed the issue where Starman BGM would loop infinitely in a Bowser battle. (2017-02-09)
+- Fixed the issue where Spiny Eggs would land and turn into a Spiny with coordinate offset. (2017-02-09)
+- Fixed the issue of key `8` being less responsive in God Mode. (2017-02-09)
+#### Miscellaneous
+- The splash screen can now also be skipped by mouse clicking. (2017-02-09)
