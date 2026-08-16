@@ -11,6 +11,7 @@ It enhances and expands upon MW 1.1 by introducing new elements and fixing vario
 
 ## Recent Updates
 
+- `v1.8.0-beta.1` Added leaf and Raccoon Suit, Petal Roto-Disc, Region Mode, semi-open autoscroll, and an experimental multiplayer editing feature. (2026-08-16)
 - `v1.7.12.2` Added an editor zoom feature; fixed an issue where held keys were being lost at level start or after a death restart. (2026-08-16)
 - `v1.7.12.1` Fixed an issue that prevented SMWP from launching on some newer Intel hardware. (2026-07-18)
 - `v1.7.12` Introduced the Weather System, added a variety of new level customization options, and further improved the editing experience. (2026-05-24)
@@ -20,11 +21,6 @@ It enhances and expands upon MW 1.1 by introducing new elements and fixing vario
 - `v1.7.8` Improved the distinction between Blocks and Imitators, and fixed several bugs introduced in v1.7.7. (2021-07-11)
 - `v1.7.7` Added half-tile (16-pixel) Accurate Move support, allowed switching between Blocks and Imitators in the editor, enhanced Switch Block functionality, introduced Accessibility Mode (Color), added the option to temporarily disable Switch Block sound effects, and fixed several legacy bugs. (2021-05-03)
 - `v1.7.6` Optimized scenery objects, resulting in smoother performance for levels containing large numbers of scenery objects or Imitators. (2020-07-27)
-- `v1.7.5` Refactored the Accurate Move code, significantly improving editor responsiveness, and fixed several bugs. (2020-07-11)
-- `v1.7.4` Added the Celeste Style Switch option, allowing overlapping transparent Color Blocks to remain non-solid while the player is inside them and restore their normal state once he leaves; also fixed several bugs. (2020-06-26)
-- `v1.7.3` Feature improvements and bug fixes. (2020-06-13)
-- `v1.7.2` Added separated Shells, introduced the Mario Forever-style Beetroot additional setting, refined several features introduced in v1.7, and fixed various bugs. (2020-06-03)
-- `v1.7.0` Added a variety of facilities, including Message Block, Switch Blocks, Ice Block, Special Solids, Fluid Controller, Scene Controller, View Controller, and Imitators; introduced the global lava and auto fluid system; and included multiple editor improvements. (2020-05-24)
 
 ## Disclaimer
 
