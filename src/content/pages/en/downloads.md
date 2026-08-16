@@ -12,7 +12,7 @@ description: "Download Super Mario Worker Project"
 
 1. All current updates of Super Mario Worker Project v1.x are based on Mario Worker 1.1.
 2. SMWP saves levels in the `.smwl` format by default. This format is not compatible with Mario Worker 1.1 or SMWP v0.x.  
-Levels saved in this format can be loaded by the current or any newer version of SMWP v1.x. However, if you try to load them with an older version of SMWP v1.x, a warning will appear, and some level elements may be lost.  
+Levels saved in this format can be loaded by the current or any newer version of SMWP v1.x. However, if you try to load them with an older version of SMWP v1.x, a warning will appear, and some level elements may be lost. Levels created with v1.7.13-beta1 or newer may not be compatible with v1.7.12 and earlier versions.  
 You can also open `.mfl` levels created in Mario Worker 1.1, but SMWP cannot save levels in the `.mfl` format.
 3. SMWP is still under active development. If you encounter any issues, please contact INNOVATION LEAP.
 
@@ -26,7 +26,7 @@ Its goal is to deliver a refined and expanded Mario Worker 1.1, fixing bugs and 
 - **Q: Is SMWP developed from scratch?**  
 - **A:** No. We obtained the source code of Mario Worker 1.1, the version bundled with Mario Forever 4.1 (which is basically the same as 4.4), and we have been improving it by fixing bugs and adding new features.
 - **Q: I encountered a grey screen when opening a level.**  
-- **A:** If you're using SMWP v1.7.12.x or earlier, make sure .NET Framework 4.0 or newer is installed on your system. Windows 8 and newer already include a compatible version by default, while Windows 7 users may need to install it manually. This requirement has been removed starting with SMWP v1.7.13.
+- **A:** If you're using SMWP v1.7.12.x or earlier, make sure .NET Framework 4.0 or newer is installed on your system. Windows 8 and newer already include a compatible version by default, while Windows 7 users may need to install it manually. This requirement has been removed starting with SMWP v1.7.13-beta1.
 - **Q: You should change the physics to be like Mario Forever.**  
 - **A:** We will NEVER change SMWP's physics, not even in the upcoming SMWP 2, as they have become an essential part of SMWP's identity, design, and the level ecosystem.  
 If you strongly prefer Mario Forever-style physics, we recommend using [Mario Worker Remake](https://www.themariovariable.org/mario-forever/mario-worker-remake/), or following the development of Meteo Dream's [Mario Worker: Community Edition](https://marioforever.space/topic/36/wip-mario-worker-community-edition) (currently in prototype stage), which aim to replicate the Mario Forever experience more closely.
@@ -34,7 +34,7 @@ If you strongly prefer Mario Forever-style physics, we recommend using [Mario Wo
 - **A:** Super Mario Worker Project is fundamentally different from the Mario Forever fangames. Our current version is still based on the original Mario Worker 1.1 code by Softendo, which was never well-structured or bug-free. Hastily modifying its internal systems, such as physics or object parameters, would easily break compatibility with existing levels.  
 We plan to rebuild the editor from the ground up in the next major version (SMWP 2), completely independent from the original code. Once that happens, adding more advanced features from Mario Forever fangames will become possible.
 - **Q: I noticed there are two executables in the game directory, and one of them has an "a" suffix in its version number. What's the difference between these two executables?**  
-- **A:** Starting from v1.7.12, SMWP now includes both the standard exe and the "a" exe. The difference is:
+- **A:** Some versions of SMWP provide both the standard exe and the "a" exe. The difference is:
   - **Standard exe**: The game pauses when the SMWP window loses focus (auto-pause on focus loss)
   - **"a" exe**: The game continues running even when the window loses focus (no auto-pause)
 
