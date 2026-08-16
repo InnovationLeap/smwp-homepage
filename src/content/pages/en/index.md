@@ -11,6 +11,7 @@ It enhances and expands upon MW 1.1 by introducing new elements and fixing vario
 
 ## Recent Updates
 
+- `v1.7.12.2` Added an editor zoom feature; fixed an issue where held keys were being lost at level start or after a death restart. (2026-08-16)
 - `v1.7.12.1` Fixed an issue that prevented SMWP from launching on some newer Intel hardware. (2026-07-18)
 - `v1.7.12` Introduced the Weather System, added a variety of new level customization options, and further improved the editing experience. (2026-05-24)
 - `v1.7.11` Introduced custom music support, added solid-color Blocks, new backgrounds, and new enemies, while delivering numerous bug fixes and quality-of-life improvements based on user feedback. (2025-07-18)
