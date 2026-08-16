@@ -45,11 +45,25 @@ const { Content: ContentEn, headings: headingsEn } = { Content: ContentZh, headi
 
 <style is:global>
   .version-article img {
-    display: inline-block;
+    display: block;
     max-width: 100%;
     height: auto;
-    margin: 0.5rem 0.25rem;
+    margin: 0.5rem auto;
     border-radius: 0.5rem;
     box-shadow: 0 4px 12px rgba(17, 24, 39, 0.12);
+  }
+
+  /* 连续图片行（多图并排）：以 flex 保持并排居中 */
+  .version-article p:has(> img + img) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .version-article p:has(> img + img) img {
+    flex: 0 0 auto;
+    margin: 0;
   }
 </style>

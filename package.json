@@ -24,6 +24,7 @@
     "@astrojs/mdx": "^7.0.5",
     "@fortawesome/fontawesome-free": "^7.3.1",
     "js-yaml": "^5.2.3",
+    "remark-breaks": "^4.0.0",
     "swiper": "^14.1.0",
     "typescript": "^6.0.3"
   }

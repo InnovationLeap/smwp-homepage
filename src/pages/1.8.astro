@@ -5,11 +5,11 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 
-const entryZh = await getEntry('zh', '17');
-const entryEn = await getEntry('en', '17');
+const entryZh = await getEntry('zh', '18');
+const entryEn = await getEntry('en', '18');
 
 if (!entryZh || !entryEn) {
-  throw new Error('v1.7 page not found');
+  throw new Error('v1.8 page not found');
 }
 
 const { Content: ContentZh, headings: headingsZh } = await render(entryZh);
