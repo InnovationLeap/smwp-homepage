@@ -4,6 +4,25 @@ title: "Changelog (Beta)"
 
 ## Changelog (Beta)
 
+### v1.8.0-beta.1 (2026-08-16)
+#### Editor
+- Added support for using the `PgUp` / `PgDown` keys to jump between the starting position and Check Point.
+- Added support for customizing editor shortcuts in Global Options.
+- Added support for customizing the screenshot shortcut and screenshot save path (the save path must currently be modified manually in `GameSettings.ini`).
+- Added a new global setting option: "Compress file when saving", enabled by default. When disabled, SMWP will skip GZip compression and save level files directly.
+- Added Region Mode, allowing objects within a selected region to be moved or copied as a group.
+- Added multiplayer editing support, allowing up to 8 players to edit the same level simultaneously.
+- Level files from v1.7.12 and earlier versions will automatically generate a backup copy when saved in this version.
+#### Level Features
+- Added semi-open autoscroll object, allowing free vertical camera movement relative to scrolling nodes.
+- Added a new power-up: Leaf (Raccoon Suit).
+- Added new enemies: Upside-down Spiny (Shell type).
+#### Bug Fixes
+- Fixed an issue where Thwomp did not smile when it hits Mario.
+- Fixed a crash when the custom music ID exceeds the music pack list (or the music pack is missing); it now silently skips the track.
+- Fixed an issue where held keys (e.g. directional / run keys) were being lost at level start or after a death restart.
+- Fixed an issue where the player transformation animation was being choppy.
+
 ### v1.7.13-beta1 (2026-07-25)
 #### Core Improvements
 - Upgraded game engine to Game Maker 8.2.
