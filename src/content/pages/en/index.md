@@ -11,6 +11,7 @@ It enhances and expands upon MW 1.1 by introducing new elements and fixing vario
 
 ## Recent Updates
 
+- `v1.8.0-beta.2` Improved the performance of the Weather System, redesigned in-game pause, and fixed several bugs. (2026-09-05)
 - `v1.8.0-beta.1` Added leaf and Raccoon Suit, Petal Roto-Disc, Region Mode, semi-open autoscroll, and an experimental multiplayer editing feature. (2026-08-16)
 - `v1.7.12.2` Added an editor zoom feature; fixed an issue where held keys were being lost at level start or after a death restart. (2026-08-16)
 - `v1.7.12.1` Fixed an issue that prevented SMWP from launching on some newer Intel hardware. (2026-07-18)

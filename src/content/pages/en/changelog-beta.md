@@ -4,6 +4,22 @@ title: "Changelog (Beta)"
 
 ## Changelog (Beta)
 
+### v1.8.0-beta.2 (2026-09-05)
+#### Editor
+- Refactored parts of the editor interface.
+#### Level Features
+- Built-in game pause during gameplay. BGM will pause when the game is paused.
+- When pausing in Play Level or Play Scenario, hold Yes for 1 second to exit the level, preventing accidental touches.
+- Improved the performance of the Weather System.
+#### Bug Fixes
+- Fixed the issue where the Raccoon Suit could not play walking animations underwater.
+- Fixed the issue where the flight sound effect lingered after death while in flight state with the Raccoon Suit.
+- Fixed the issue where Region Mode selection could not directly select pipe exits.
+- Fixed the issue where copied scenery (including imitaters) via Region Mode copy did not show in the editor.
+- Fixed the performance issue where the text drawing extension caused game slowdown in scenes with many texts.
+- Fixed the letter spacing issue of the text drawing extension in compatibility mode.
+- Increased the Raccoon Suit glide animation speed so the full animation can play out.
+
 ### v1.8.0-beta.1 (2026-08-16)
 #### Editor
 - Added support for using the `PgUp` / `PgDown` keys to jump between the starting position and Check Point.
